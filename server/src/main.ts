@@ -1,8 +1,8 @@
 import 'reflect-metadata';
-import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createApp } from './app';
 import { Environment } from './config/environment';
+import { createLogger } from './common/logging/logger';
 
 async function bootstrap() {
   const app = await createApp();
@@ -11,6 +11,6 @@ async function bootstrap() {
 }
 
 void bootstrap().catch(() => {
-  Logger.error('Server startup failed. Check environment configuration and port availability.', 'Bootstrap');
+  createLogger('error').error({ event: 'startup_failed' });
   process.exitCode = 1;
 });

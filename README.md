@@ -6,11 +6,11 @@ Core Shop is being developed as a multi-tenant SaaS platform. One shared backend
 
 ## Project status
 
-**In active development. Server Phase 2 is implemented and verified; owner review is pending.**
+**In active development. Server Phase 3 is implemented and verified; owner review is pending.**
 
 | Component | Current state |
 | --- | --- |
-| Server | NestJS/Fastify API with validated configuration, PostgreSQL/Prisma foundation, health/readiness checks, and development Swagger |
+| Server | NestJS/Fastify API with database foundation, validation, bilingual errors, authorization interfaces, rate limits, audit and durable command/outbox transactions |
 | Mobile | React Native / Expo application workspace; see its source and setup guide for current functionality |
 | Web | Reserved directory; implementation has not started |
 | Database | PostgreSQL/Prisma identity, tenant, permission, branch, and private-file metadata foundation |
@@ -59,7 +59,7 @@ Each application manages its own dependencies and commands. Run setup and develo
 | Web | React and TypeScript | Planned |
 | Database | PostgreSQL and Prisma 7.10.1 | Foundation implemented |
 | Background work | Redis and BullMQ | Planned application integration |
-| File storage | S3-compatible object storage | Planned |
+| File storage | Cloudflare R2 | Selected; API integration planned |
 
 ## Getting started
 
@@ -140,7 +140,9 @@ Keep credentials in ignored environment files or deployment secret configuration
 ## Design documentation
 
 - [Tenant and database design](server/docs/database-design.md)
-- [Private files and onboarding](server/docs/uploads.md)
+- [Private files and onboarding with R2](server/docs/uploads.md)
+- [API and security foundation](server/docs/api-security.md)
+- [Baki / credit ledger design](server/docs/credit-ledger-design.md)
 - [Database setup and verification](server/docs/database-operations.md)
 
 ## Roadmap
@@ -148,8 +150,8 @@ Keep credentials in ignored environment files or deployment secret configuration
 Development proceeds in reviewed phases:
 
 1. **Server foundation** — implemented and verified.
-2. **Database and tenant design** — implemented and verified; owner review pending. Includes PostgreSQL, Prisma, scoped relationships, private-file metadata, and readiness checks.
-3. **API and security foundation** — validation, errors, logging, authorization interfaces, and audit infrastructure.
+2. **Database and tenant design** — accepted. Includes PostgreSQL, Prisma, scoped relationships, private-file metadata, and readiness checks.
+3. **API and security foundation** — implemented and verified; owner review pending. Includes bilingual errors, safe logging, default-deny authorization interfaces, audit and durable command transactions.
 4. **Identity and business access** — authentication, organizations, memberships, and branches.
 5. **Commerce workflows** — catalog, customers, suppliers, inventory, purchasing, sales, and payments.
 6. **Business insights and platform features** — expenses, reports, plans, and entitlements.

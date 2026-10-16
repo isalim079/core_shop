@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { isIP } from 'node:net';
 
 const runtimeMode = z.enum(['development', 'test', 'production']);
 const connectionUrl = (protocols: string[]) => z.union([
@@ -16,6 +17,15 @@ const schema = z.object({
   DATABASE_CONNECT_TIMEOUT_MS: z.coerce.number().int().min(100).max(30_000).default(3000),
   DATABASE_QUERY_TIMEOUT_MS: z.coerce.number().int().min(100).max(30_000).default(5000),
   REDIS_URL: connectionUrl(['redis:', 'rediss:']),
+  LOG_LEVEL: z.enum(['silent', 'fatal', 'error', 'warn', 'info', 'debug']).default('info'),
+  TRUST_PROXY_CIDRS: z.string().default(''),
+  RATE_LIMIT_MAX: z.coerce.number().int().min(1).max(10_000).default(120),
+  RATE_LIMIT_WINDOW_MS: z.coerce.number().int().min(1000).max(3_600_000).default(60_000),
+  STORAGE_PROVIDER: z.literal('cloudflare-r2').default('cloudflare-r2'),
+  R2_ACCOUNT_ID: z.union([z.literal(''), z.string().regex(/^[a-f0-9]{32}$/)]).default(''),
+  R2_BUCKET_NAME: z.union([z.literal(''), z.string().regex(/^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$/)]).default(''),
+  R2_ACCESS_KEY_ID: z.string().max(128).default(''),
+  R2_SECRET_ACCESS_KEY: z.string().max(256).default(''),
 });
 
 export function environmentFiles(mode = process.env.NODE_ENV ?? 'development'): string[] {
@@ -33,6 +43,16 @@ export function validateEnvironment(input: Record<string, unknown>) {
     throw new Error(`Invalid environment configuration: ${fields}`);
   }
   const config = result.data;
+  const proxies = config.TRUST_PROXY_CIDRS.split(',').map((value) => value.trim()).filter(Boolean);
+  for (const proxy of proxies) {
+    const [address, prefix, extra] = proxy.split('/');
+    const version = isIP(address);
+    if (!version || extra !== undefined || (prefix !== undefined && (!/^\d{1,3}$/.test(prefix) || Number(prefix) > (version === 4 ? 32 : 128)))) {
+      throw new Error('Invalid environment configuration: TRUST_PROXY_CIDRS');
+    }
+  }
+  const r2 = [config.R2_ACCOUNT_ID, config.R2_BUCKET_NAME, config.R2_ACCESS_KEY_ID, config.R2_SECRET_ACCESS_KEY];
+  if (r2.some(Boolean) && !r2.every(Boolean)) throw new Error('Invalid environment configuration: R2 settings must be provided together');
   const origins = config.CORS_ORIGINS.split(',').map((value) => value.trim()).filter(Boolean);
   for (const origin of origins) {
     let url: URL;
@@ -44,7 +64,7 @@ export function validateEnvironment(input: Record<string, unknown>) {
       throw new Error('Production CORS_ORIGINS must use HTTPS.');
     }
   }
-  return { ...config, CORS_ORIGINS: origins };
+  return { ...config, CORS_ORIGINS: origins, TRUST_PROXY_CIDRS: proxies };
 }
 
 export type Environment = ReturnType<typeof validateEnvironment>;

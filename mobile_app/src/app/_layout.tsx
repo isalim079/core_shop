@@ -23,13 +23,17 @@ import { AnimatedSplashScreen } from "@/components/layout/AnimatedSplashScreen";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { hydrateAuth, readPersistedAuth, selectIsHydrated } from "@/store/features/auth/auth.slice";
 
+import { StaticDataProvider } from "@/staticData";
+
 SplashScreen.preventAutoHideAsync();
 
 function AppProviders({ children }: { children: React.ReactNode }) {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <KeyboardProvider preload={false}>
-        <Provider store={store}>{children}</Provider>
+        <Provider store={store}>
+          <StaticDataProvider>{children}</StaticDataProvider>
+        </Provider>
       </KeyboardProvider>
     </GestureHandlerRootView>
   );

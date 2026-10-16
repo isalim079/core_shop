@@ -36,9 +36,12 @@ export class DatabaseService implements OnModuleDestroy {
       if (applied.some((row) => row.finished_at === null)) return false;
       if (applied.map((row) => row.migration_name).join(',') !== REQUIRED_MIGRATIONS.join(',')) return false;
       // Probe actual columns so a migration record alone cannot mask missing tables.
-      await this.client.user.findFirst({ select: { id: true, status: true } });
+      await this.client.user.findFirst({ select: { id: true, status: true, preferredLanguage: true } });
       await this.client.organization.findFirst({ select: { id: true, currency: true } });
-      await this.client.storedFile.findFirst({ select: { id: true, purpose: true, status: true } });
+      await this.client.storedFile.findFirst({ select: { id: true, purpose: true, status: true, finalObjectKey: true } });
+      await this.client.commandRecord.findFirst({ select: { id: true, payloadHash: true } });
+      await this.client.auditEvent.findFirst({ select: { id: true, requestId: true } });
+      await this.client.outboxEvent.findFirst({ select: { id: true, status: true } });
       return true;
     } catch {
       return false;

@@ -10,7 +10,7 @@ This versionable file mirrors the server tracker's phase/evidence approach. Docu
 
 **Owner direction, 2026-10-16:** finish static UI/UX before dynamic/server integration. Preserve all existing progress. The original checkpoint, phase table, task ledger and verification history remain below unchanged; this addition takes precedence for the current work order.
 
-Current next task: **M01-UI01-01 — complete route/screen inventory and user journeys**. Existing environment-first next-step text below is historical and deferred, except for fixes necessary to run the static app. Existing M01–M12 task IDs are retained for later integration/hardening; none are automatically completed by this UI track.
+Current next task: **M01-UI02-01 — design system tokens, reusable patterns and static-data foundation**. Existing environment-first next-step text below is historical and deferred, except for fixes necessary to run the static app. Existing M01–M12 task IDs are retained for later integration/hardening; none are automatically completed by this UI track.
 
 Detailed requirements: [UI/UX static implementation plan](mobileUiUxPlan.md). All new phases are nested under the first phase, M01. No UI screen implementation was performed by this planning update.
 
@@ -27,7 +27,7 @@ Detailed requirements: [UI/UX static implementation plan](mobileUiUxPlan.md). Al
 
 | First-phase subphase | Scope | Status |
 | --- | --- | --- |
-| M01-UI01 | UX direction and screen inventory | Not started |
+| M01-UI01 | UX direction and screen inventory | Completed |
 | M01-UI02 | Design system, reusable patterns and static-data foundation | Not started |
 | M01-UI03 | Authentication UI and interactions | Not started |
 | M01-UI04 | Business onboarding and context selection UI | Not started |
@@ -50,10 +50,10 @@ All entries are new planned work; existing completed evidence and original check
 
 #### M01-UI01 — UX direction and screen inventory
 
-- [ ] M01-UI01-01: Inventory every route in mobilePlan.md; map each to a tab/module, role scenario and primary user goal. Record launch and later scope without silently dropping screens.
-- [ ] M01-UI01-02: Document user journeys for auth → business selection → Home → Sell → receipt, and Inventory → product → adjustment; include interruption and recovery.
-- [ ] M01-UI01-03: Record the available UI/UX skill name/source/version and applicable guidance, or its absence. Create a concise design brief, references, terminology and accessibility checklist.
-- [ ] M01-UI01-04: Define information hierarchy, phone wireframes, reusable pattern inventory and motion intent; use existing CS branding and theme as the baseline.
+- [x] M01-UI01-01: Inventory every route in mobilePlan.md; map each to a tab/module, role scenario and primary user goal. Record launch and later scope without silently dropping screens.
+- [x] M01-UI01-02: Document user journeys for auth → business selection → Home → Sell → receipt, and Inventory → product → adjustment; include interruption and recovery.
+- [x] M01-UI01-03: Record the available UI/UX skill name/source/version and applicable guidance, or its absence. Create a concise design brief, references, terminology and accessibility checklist.
+- [x] M01-UI01-04: Define information hierarchy, phone wireframes, reusable pattern inventory and motion intent; use existing CS branding and theme as the baseline.
 
 #### M01-UI02 — Design system, reusable patterns and static-data foundation
 
@@ -182,6 +182,23 @@ For each completed task record: route/screen, fixture preset, reused components/
 Scope: added this first-phase UI/UX track and mobileUiUxPlan.md; added a priority notice to mobilePlan.md. Existing progress entries are retained verbatim. `src/staticData/` is a planned implementation deliverable in UI02, not a directory or fixture implementation claimed by this documentation task.
 
 Validation: original progress and plan content verified unchanged after removing only the added blocks; all 64 new task IDs match across tracker and UI/UX plan; local links and Markdown fences passed. Typecheck passed. Lint passed with 0 errors and 2 existing warnings in `src/hooks/useInfiniteScroll.ts`. No screen, animation or dynamic integration is marked complete by this addition.
+
+### 2026-10-16 — M01-UI01 UX direction, screen inventory & user journeys
+
+State: Verified (Design & Specification)
+Scope and authorization: Phase 1 (M01-UI01-01 through M01-UI01-04) as authorized by user instruction.
+Files created/updated:
+- `readme/mobileUxDirection.md` (Created): Complete 62-route inventory, POS & inventory user journey sequence diagrams with interruption handling, Swiss minimalism design brief, bilingual terminology dictionary, mobile accessibility (WCAG AA) checklist, ASCII phone wireframes, reusable pattern inventory, and motion tokens.
+- `readme/mobileProgress.md` (Updated): M01-UI01 subphase and tasks marked complete; next task set to M01-UI02-01.
+Skills applied:
+- `ui-ux-pro-max`: Design search executed for retail operations; applied Swiss minimalism, neutral slate surfaces (`#FFFFFF`/`#F8FAFC`), emerald primary (`#059669`), WCAG AA contrast standards (Slate-900 on white = 16.1:1).
+- `expo-design-system`: Defined component variant patterns and DRY hierarchy for M01-UI02.
+- `expo-animation`: Native driver and worklet requirements recorded for screen/sheet transitions and reduced-motion fallback.
+Validation:
+- Documentation integrity: Markdown balanced, links validated.
+- `npx expo lint`: 0 errors.
+- `npx tsc --noEmit`: 0 errors.
+Next bounded task: **M01-UI02-01 — design system tokens, reusable patterns and static-data foundation**.
 
 ---
 

@@ -23,6 +23,23 @@ const permissions = {
   FILE_UPLOAD: 'Reserve uploads within an authorized organization',
   FILE_READ: 'Read authorized organization files',
   FILE_DELETE: 'Delete eligible organization files',
+  CUSTOMER_VIEW: 'View customer records',
+  CUSTOMER_CREATE: 'Create customers',
+  CUSTOMER_EDIT: 'Edit customer records',
+  CUSTOMER_DELETE: 'Archive eligible customers',
+  CUSTOMER_LEDGER_VIEW: 'View customer receivable ledgers and statements',
+  CUSTOMER_PAYMENT_CREATE: 'Collect customer payments',
+  SUPPLIER_VIEW: 'View supplier records',
+  SUPPLIER_CREATE: 'Create suppliers',
+  SUPPLIER_EDIT: 'Edit supplier records',
+  SUPPLIER_DELETE: 'Archive eligible suppliers',
+  SUPPLIER_LEDGER_VIEW: 'View supplier payable ledgers and statements',
+  SUPPLIER_PAYMENT_CREATE: 'Record supplier payments',
+  REPORT_RECEIVABLE_VIEW: 'View customer receivable reports',
+  REPORT_PAYABLE_VIEW: 'View supplier payable reports',
+  LEDGER_ADJUSTMENT_CREATE: 'Create approved ledger adjustments',
+  LEDGER_REVERSAL_CREATE: 'Reverse eligible ledger events',
+  PAYMENT_METHOD_MANAGE: 'Manage organization payment methods',
 };
 
 async function seed() {

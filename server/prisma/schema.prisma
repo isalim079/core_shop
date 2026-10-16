@@ -67,11 +67,27 @@ enum PlatformRole {
   ADMIN
 }
 
+enum Language {
+  en
+  bn
+}
+
+enum CommandStatus {
+  PROCESSING
+  COMPLETED
+}
+
+enum OutboxStatus {
+  PENDING
+  DELIVERED
+}
+
 model User {
   id              String     @id @default(uuid()) @db.Uuid
   email           String?    @unique @db.VarChar(254)
   phone           String?    @unique @db.VarChar(20)
   displayName     String     @db.VarChar(120)
+  preferredLanguage Language @default(en)
   passwordHash    String?    @db.VarChar(255)
   status          UserStatus @default(PENDING_VERIFICATION)
   emailVerifiedAt DateTime?  @db.Timestamptz(3)
@@ -85,6 +101,7 @@ model User {
   uploads     StoredFile[]     @relation("FileUploader")
   avatar      UserAvatar?
   grants      PlatformGrant[]
+  auditEvents AuditEvent[]
 
   @@map("users")
 }
@@ -107,6 +124,9 @@ model Organization {
   roles       Role[]
   files       StoredFile[]
   branding    OrganizationBranding?
+  auditEvents AuditEvent[]
+  commands CommandRecord[]
+  outboxEvents OutboxEvent[]
 
   @@map("organizations")
 }
@@ -125,6 +145,8 @@ model Membership {
   user         User             @relation(fields: [userId], references: [id], onDelete: Restrict)
   roles        MembershipRole[]
   branches     BranchGrant[]
+  commands     CommandRecord[]
+  auditEvents  AuditEvent[]
 
   @@unique([organizationId, userId])
   @@unique([organizationId, id])
@@ -143,6 +165,7 @@ model Branch {
 
   organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Restrict)
   grants       BranchGrant[]
+  auditEvents  AuditEvent[]
 
   @@unique([organizationId, code])
   @@unique([organizationId, id])
@@ -243,6 +266,9 @@ model StoredFile {
   uploadedBytes      BigInt?
   actualBytes        BigInt?
   sourceVersion      String?        @db.VarChar(255)
+  sourceEtag         String?        @db.VarChar(128)
+  finalObjectKey     String?        @unique @db.VarChar(512)
+  finalEtag          String?        @db.VarChar(128)
   sha256             String?        @db.Char(64)
   storageVersion     String?        @db.VarChar(255)
   width              Int?
@@ -293,4 +319,71 @@ model OrganizationBranding {
   @@index([logoFileId])
   @@index([coverFileId])
   @@map("organization_branding")
+}
+
+model AuditEvent {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String?  @db.Uuid
+  branchId       String?  @db.Uuid
+  actorId        String?  @db.Uuid
+  requestId      String   @db.Uuid
+  action         String   @db.VarChar(80)
+  entityType     String   @db.VarChar(60)
+  entityId       String?  @db.Uuid
+  metadata       Json
+  createdAt      DateTime @default(now()) @db.Timestamptz(3)
+
+  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  branch Branch? @relation(fields: [organizationId, branchId], references: [organizationId, id], onDelete: Restrict)
+  actor User? @relation(fields: [actorId], references: [id], onDelete: Restrict)
+  membership Membership? @relation(fields: [organizationId, actorId], references: [organizationId, userId], onDelete: Restrict, map: "audit_membership_scope")
+
+  @@index([organizationId, createdAt, id])
+  @@index([actorId, createdAt])
+  @@index([requestId])
+  @@map("audit_events")
+}
+
+model CommandRecord {
+  id             String        @id @default(uuid()) @db.Uuid
+  organizationId String        @db.Uuid
+  actorId        String        @db.Uuid
+  operation      String        @db.VarChar(160)
+  key            String        @db.VarChar(128)
+  payloadHash    String        @db.Char(64)
+  status         CommandStatus @default(PROCESSING)
+  responseStatus Int?           @db.SmallInt
+  result         Json?
+  requestId      String        @db.Uuid
+  createdAt      DateTime      @default(now()) @db.Timestamptz(3)
+  completedAt    DateTime?     @db.Timestamptz(3)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  membership Membership @relation(fields: [organizationId, actorId], references: [organizationId, userId], onDelete: Restrict)
+  outboxEvents OutboxEvent[]
+
+  @@unique([organizationId, actorId, operation, key])
+  @@unique([organizationId, id])
+  @@map("command_records")
+}
+
+model OutboxEvent {
+  id             String       @id @default(uuid()) @db.Uuid
+  organizationId String       @db.Uuid
+  commandId      String       @db.Uuid
+  eventType      String       @db.VarChar(80)
+  payload        Json
+  status         OutboxStatus @default(PENDING)
+  attempts       Int          @default(0)
+  availableAt    DateTime     @default(now()) @db.Timestamptz(3)
+  deliveredAt    DateTime?    @db.Timestamptz(3)
+  createdAt      DateTime     @default(now()) @db.Timestamptz(3)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  command CommandRecord @relation(fields: [organizationId, commandId], references: [organizationId, id], onDelete: Restrict)
+
+  @@unique([commandId, eventType])
+  @@index([status, availableAt, id])
+  @@index([organizationId, createdAt])
+  @@map("outbox_events")
 }

@@ -11,20 +11,22 @@ Created: 2026-10-16. This document records the server phase plan and implementat
 4. A phase is accepted only after review, even when automated checks pass.
 5. Update this file whenever scope or decisions change. Never describe a planned capability as implemented.
 
-Current checkpoint: **Phase 2 implemented and verified. Owner review pending.**
-Next phase: **Phase 3 — shared API and security foundation**, only after Phase 2 acceptance.
+Current checkpoint: **Phase 3 implemented and verified. Owner review pending.**
+Next phase: **Phase 4 — identity, authentication and session lifecycle**, only after Phase 3 acceptance.
+Phase 2 accepted by the owner when authorizing Phase 3 and selecting Cloudflare R2 on 2026-10-16.
 Phase 1 accepted by the owner when authorizing Phase 2 on 2026-10-16.
 
 ## Architectural baseline
 
 - One NestJS API serves web and mobile. Start with a modular monolith, using Fastify.
 - Node.js 24 LTS, strict TypeScript, Yarn Classic to match the existing mobile workflow. The server has its own package manifest and lockfile; no repository restructuring is needed now.
-- PostgreSQL and Prisma are the planned source of truth. Redis and BullMQ come when their features are implemented.
+- PostgreSQL/Prisma are integrated. Cloudflare R2 is the selected private object store; cloud API calls remain in the files phase. Redis/BullMQ and distributed rate limits come with their assigned integrations.
 - Organization is the tenant boundary; branches narrow access within an organization. Never authorize from a client-supplied organization identifier alone.
 - Inventory is an immutable movement ledger plus transactionally maintained balances. Weighted-average costing is the proposed default, and historical sale costs must remain reproducible.
 - Money uses exact decimals. Timestamps are UTC, public IDs are opaque, lists are bounded, and errors expose stable codes plus a request ID.
 - Retry-prone financial commands use idempotency. Mobile synchronization never overrides the server's business invariants.
-- Start business routes at `/api/v1`. `/health` is process liveness only; dependency readiness is a separate later endpoint.
+- Business routes use `/api/v1`. `/health` is process liveness; implemented `/ready` checks database/schema/runtime privileges.
+- Canonical specification v0.2 requires English/Bangla UI/errors/documents and immutable receivable/payable Baki ledgers. See tracked API/security, upload and credit-ledger designs.
 - The complete product document remains authoritative. Unresolved product decisions remain explicit rather than silently invented.
 
 ## Phase overview
@@ -32,8 +34,8 @@ Phase 1 accepted by the owner when authorizing Phase 2 on 2026-10-16.
 | Phase | Deliverable | Status |
 | --- | --- | --- |
 | 1 | Runnable server foundation, environment files, folder structure and tooling | Accepted |
-| 2 | Tenant/permission/domain design and PostgreSQL/Prisma foundation | Verified; owner review pending |
-| 3 | Shared API infrastructure and security foundation | Not started |
+| 2 | Tenant/permission/domain design and PostgreSQL/Prisma foundation | Accepted |
+| 3 | Shared API infrastructure and security foundation | Verified; owner review pending |
 | 4 | Identity, authentication and session lifecycle | Not started |
 | 5 | Organizations, memberships, permissions and branches | Not started |
 | 6 | Catalog and customer/supplier records | Not started |
@@ -220,7 +222,7 @@ Acceptance: schema/tenant design reviewed; migrations apply to an empty local da
 - `yarn test:integration`: 9 real PostgreSQL tests passed against a freshly created disposable database. Includes cross-tenant roles/branches, owner transfer and concurrent last-owner removal, file ownership and lifecycle, forbidden runtime privileges, healthy/unreachable database, failed migration/missing table, and real HTTP readiness. Runner removes only its own database/login.
 - Applied the tested migration to the previously empty local `core_shop` database and seeded permissions. Real HTTP `/health`, `/ready`, `/api-docs`, and `/api-docs-json` all returned 200; verification process stopped.
 - Tracked review documents: `docs/database-design.md`, `docs/uploads.md`, and `docs/database-operations.md`. Root/server READMEs and `.env.example` updated.
-- Owner review pending: tenant/owner semantics, proposed financial precision and rounding, file scope/limits/lifecycle, onboarding design, and RLS staging. Phase 3 has not started.
+- Phase 2 accepted when the owner authorized Phase 3. Financial precision/tax/rounding details remain subject to the assigned feature reviews; Phase 3 supersedes the original S3 version-ID assumption with an R2-compatible final-key model.
 
 ## Phase 3 — shared API and security foundation
 
@@ -234,6 +236,24 @@ Deliverables:
 - Define idempotency storage and command transaction boundaries before financial routes exist.
 
 Acceptance: malformed input is rejected; unknown errors reveal no internals; secrets are scrubbed from logs; request IDs correlate responses and diagnostics; OpenAPI accurately describes implemented endpoints.
+
+### Phase 3 implementation and verification — 2026-10-16
+
+- Read canonical root `readme/project_structure.md` v0.2 and this progress record. Carried English/Bangla, Unicode preservation, Baki account/ledger/allocations/reversals, durable offline commands, bilingual document modes and expanded permissions into tracked implementation/design boundaries.
+- Added strict global DTO validation, bounded pagination/cursors, explicit sort allowlists and typed OpenAPI health/readiness/error schemas. Unknown fields and rejected values are not echoed.
+- Added shared stable error codes and English/Bangla boundary messages, server-generated UUID request IDs, no-store responses and structured allowlisted logs. Unknown exceptions, parser/size failures, 404s and 429s expose no raw internal details. Logging tests caught and fixed Pino's implicit exception-message behavior.
+- Added security headers (production HSTS/CSP, development Swagger-compatible CSP), exact CORS headers/methods, explicit trusted proxy IP/CIDR configuration and bounded per-process IP rate limiting covering unknown routes. Redis-distributed/account-specific limits are not claimed.
+- Added default-deny authentication guard and an IdentityVerifier seam that currently authenticates nobody. No fake token/header login exists. Tenant guard resolves active user/organization/membership, known permissions, roles and allowed branches from PostgreSQL. Request scopes are server-owned/immutable and sensitive transactions revalidate/lock authorization rows.
+- Added an additive migration for user preferred language, append-only tenant-scoped audit evidence, immutable durable command results, and transactional outbox events. Runtime cannot rewrite audit/outbox evidence or permission/platform/migration records.
+- Added serializable command transactions with canonical payload hashes, actor/tenant/operation/key uniqueness, target/branch scope, authorized replay, payload-mismatch conflicts, bounded serialization/deadlock retries and atomic business/audit/outbox/result rollback. Incomplete PROCESSING claims cannot commit. No automatic deduplication TTL is installed.
+- Cloudflare R2 selected. Corrected Phase 2's versioning assumption: reservations retain quarantine keys; verified bytes receive a separate owner/file/hash final key with source/final ETags. No S3 version ID is required. Database guards make finalized identity immutable. Optional grouped R2 settings and safe account-derived endpoint configuration added; no cloud calls, bucket provisioning or upload/download endpoint implemented.
+- Reference seed now upserts 38 permission definitions, including customer/supplier records, ledger/payment access, financial reports, adjustment/reversal and payment methods. It grants no memberships or users.
+- `yarn run check` passed Prisma validation/generation, lint, application/tool typechecks, 20 isolated/HTTP/security tests and build.
+- `yarn test:integration` passed 13 PostgreSQL tests on a fresh disposable database after applying both migrations and seeding twice. Includes real HTTP tenant-guard checks, cross-tenant audit/role/branch boundaries, authorization revocation before replay, concurrent duplicate command serialization, rollback, evidence restrictions and R2 metadata without version IDs. Disposable resources cleaned by the runner.
+- Applied the tested additive migration to the local `core_shop` database, refreshed restricted grants and seeded permissions. Real HTTP `/health`, `/ready`, `/api-docs`, `/api-docs-json` returned 200; Bangla errors/correlation IDs/security headers/OpenAPI schemas verified. Verification server stopped. No production or R2 resources touched.
+- Updated project/server READMEs, canonical R2 provider selection, `.env.example`, local non-secret defaults and tracked guides: `docs/api-security.md`, `docs/credit-ledger-design.md`, `docs/uploads.md`.
+- Remaining boundaries: real credentials/session verification, registration/preferences and tenant business routes await Phases 4/5; finance models/posting await their domain phases; RLS read policies, distributed/account-specific limiting, storage verification and worker delivery require their assigned integration and negative tests. Phase 4 has not started.
+- Owner review pending for Phase 3 contracts, security boundaries and R2 design.
 
 ## Phase 4 — identity and authentication
 
@@ -291,7 +311,7 @@ Acceptance: intermittent connections, replayed requests, stale versions, revoked
 
 ## Phase 13 — files, exports and workers
 
-Deliverables: private S3-compatible storage, scoped file metadata, upload size/type controls, safe short-lived download URLs, CSV/PDF exports and provider-neutral notifications. Introduce Redis/BullMQ, worker lifecycle, bounded retries/backoff, job ownership, failure visibility and idempotency. Queue heavy work and keep customer data out of diagnostic logs.
+Deliverables: private Cloudflare R2 storage through its S3-compatible API, scoped file metadata, upload size/type controls, safe short-lived download URLs, CSV/PDF exports and provider-neutral notifications. Introduce Redis/BullMQ, worker lifecycle, bounded retries/backoff, job ownership, failure visibility and idempotency. Queue heavy work and keep customer data out of diagnostic logs.
 
 Acceptance: unauthorized file/job access fails; URLs expire; exports respect tenant and permission scope; retrying jobs does not duplicate notifications or outputs; queues/dependencies contribute honestly to readiness where required.
 
@@ -379,8 +399,8 @@ Proposed defaults from the source: weighted-average costing, branch-aware stock,
 | Date | Phase | Automated checks | Owner decision |
 | --- | --- | --- | --- |
 | 2026-10-16 | 1 | Lint, typecheck, 8 tests and build passed after config centralization and development Swagger; earlier dev/prod HTTP smoke checks passed. Owner reports `/health` working. | Accepted; owner authorized Phase 2 |
-
-| 2026-10-16 | 2 | Prisma, lint, typecheck, 11 isolated tests, 9 PostgreSQL integration tests, build, local migration/seed, real HTTP health/readiness/Swagger passed | Awaiting owner review |
+| 2026-10-16 | 2 | Prisma, lint, typecheck, 11 isolated tests, 9 PostgreSQL integration tests, build, local migration/seed, real HTTP health/readiness/Swagger passed | Accepted; owner authorized Phase 3 |
+| 2026-10-16 | 3 | Prisma, lint, typechecks, 20 isolated/HTTP tests, 13 PostgreSQL tests, build, local additive migration/seed and real HTTP verification passed | Awaiting owner review |
 
 ## Technical references
 

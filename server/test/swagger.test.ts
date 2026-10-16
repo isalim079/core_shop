@@ -20,9 +20,12 @@ for (const mode of ['development', 'production', 'test']) {
             if (enabled && url === '/api-docs-json') {
               assert.equal(response.json().info.title, 'Core Shop API');
               assert.ok(response.json().paths['/health'].get);
+              assert.equal(response.json().paths['/ready'].get.responses['503'].content['application/json'].schema.$ref, '#/components/schemas/ErrorResponseDto');
             }
             if (enabled && url === '/api-docs') assert.match(response.body, /Swagger UI/);
           }
+          const health = await app.inject({ method: 'GET', url: '/health' });
+          assert.equal(Boolean(health.headers['strict-transport-security']), process.env.NODE_ENV === 'production');
         } finally {
           await app.close();
         }

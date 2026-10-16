@@ -174,7 +174,7 @@ User
 | Database | PostgreSQL | Transactions, constraints, relational reporting and strong data integrity |
 | ORM | Prisma | Typed database access and migration workflow |
 | Cache / queue | Redis + BullMQ | Caching, rate limiting support, background jobs |
-| Storage | S3-compatible object storage | Private product images, exports and documents |
+| Storage | Cloudflare R2 (private S3-compatible API) | Private profile/shop/product images, exports and documents |
 | Reverse proxy | Nginx | TLS termination, routing, rate limiting and security headers |
 | Runtime | Docker | Repeatable deployment and resource control |
 
@@ -825,6 +825,8 @@ Support date/as-of ranges, customer/supplier, authorized branch, method and appl
 Bangla input/search is mandatory across names, categories, brands, addresses, notes and financial references where applicable. Use UTF-8 end to end (PostgreSQL, JSON, SQLite, exports). Preserve original display text; normalized NFC shadow search values may be indexed consistently in both server and SQLite. Do not strip Bangla vowel signs, conjuncts or combining marks as “punctuation.” Validate by character/grapheme-aware UX and bounded storage sizes, not ASCII-only regexes. Start with bounded Unicode substring/prefix matching and measured indexes/trigrams; do not assume an English text-search stemmer handles Bangla. Parameterize queries, escape wildcard patterns where needed and test মোঃ রহিম, ঢাকা ট্রেডার্স and রুপচাঁদা মাছ on both clients and offline caches.
 
 ## File and Image Storage
+
+Cloudflare R2 is the selected provider. R2 does not supply S3 object versioning; use a separate private quarantine key and server-only, content-verified final key. Finalization scans/normalizes bounded source bytes and conditionally creates the final object without overwrite. Signed uploads never target final keys; signed downloads require current application authorization. See the [R2/file design](../server/docs/uploads.md). This provider selection does not claim that cloud API integration or uploads are implemented.
 
 ```text
 Private object storage

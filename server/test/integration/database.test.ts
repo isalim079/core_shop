@@ -7,6 +7,10 @@ import { Pool, PoolClient } from 'pg';
 import { ConfigService } from '@nestjs/config';
 import { validateEnvironment } from '../../src/config/environment';
 import { DatabaseService } from '../../src/database/database.service';
+import { TenantAuthorization } from '../../src/common/guards/tenant-authorization';
+import { AuditService } from '../../src/audit/audit.service';
+import { CommandService } from '../../src/common/commands/command.service';
+import { DomainError } from '../../src/common/errors/domain-error';
 
 const url = process.env.TEST_DATABASE_URL;
 if (!url) throw new Error('TEST_DATABASE_URL must point to a migrated disposable local database.');
@@ -64,8 +68,10 @@ async function file(client: PoolClient, owner: string, uploader: string, purpose
 async function readyFile(client: PoolClient, id: string) {
   await client.query('UPDATE stored_files SET status=\'UPLOADED\' WHERE id=$1', [id]);
   await client.query('UPDATE stored_files SET status=\'QUARANTINED\' WHERE id=$1', [id]);
-  await client.query(`UPDATE stored_files SET status='READY', "scanStatus"='CLEAN', "uploadedBytes"=100,"sourceVersion"='source-version',"actualBytes"=100,
-    "verifiedMimeType"='image/png',sha256=$2,"storageVersion"='test-version',width=10,height=10,"verifiedAt"=now() WHERE id=$1`,
+  await client.query(`UPDATE stored_files SET status='READY', "scanStatus"='CLEAN', "uploadedBytes"=100,"actualBytes"=100,
+    "verifiedMimeType"='image/png',sha256=$2::text,"sourceEtag"='source-etag',"finalEtag"='final-etag',
+    "finalObjectKey"=CASE WHEN "ownerUserId" IS NOT NULL THEN 'users/'||"ownerUserId"::text ELSE 'organizations/'||"organizationId"::text END||'/'||id::text||'/verified/'||$2::text,
+    width=10,height=10,"verifiedAt"=now() WHERE id=$1`,
   [id, 'a'.repeat(64)]);
 }
 
@@ -80,6 +86,8 @@ test('cross-tenant roles and branch grants fail at the database boundary', async
     [a.organization, a.membership, role], '23503');
   await rejectsSql(client, 'INSERT INTO branch_grants ("organizationId","membershipId","branchId") VALUES ($1,$2,$3)',
     [a.organization, a.membership, branch], '23503');
+  await rejectsSql(client, 'INSERT INTO audit_events (id,"organizationId","actorId","requestId",action,"entityType",metadata) VALUES ($1,$2,$3,$4,\'TEST\',\'TEST\',\'{}\')',
+    [randomUUID(), b.organization, a.user, randomUUID()], '23503');
   await client.query('SET CONSTRAINTS ALL IMMEDIATE');
 }));
 
@@ -148,7 +156,7 @@ test('readiness checks runtime privileges, schema history, and disconnected data
   try {
     assert.equal(await database.isReady(), true);
     const { rows } = await pool.query('SELECT count(*)::integer AS count FROM permissions');
-    assert.equal(rows[0].count, 21);
+    assert.equal(rows[0].count, 38);
   } finally { await database.onModuleDestroy(); }
   const offline = new DatabaseService(new ConfigService({ ...config, DATABASE_URL: 'postgresql://unused:unused@127.0.0.1:1/core_shop_test_offline' }));
   try { assert.equal(await offline.isReady(), false); } finally { await offline.onModuleDestroy(); }
@@ -230,3 +238,143 @@ test('HTTP readiness reports a migrated database and rejects incompatible schema
     await database.onModuleDestroy();
   }
 });
+
+async function activeFixture() {
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    const a = await fixture(client);
+    await client.query('UPDATE users SET status=\'ACTIVE\' WHERE id=$1', [a.user]);
+    await client.query('UPDATE organizations SET status=\'ACTIVE\' WHERE id=$1', [a.organization]);
+    await client.query('COMMIT');
+    return a;
+  } catch (error) { await client.query('ROLLBACK'); throw error; } finally { client.release(); }
+}
+
+function services() {
+  const database = new DatabaseService(new ConfigService(validateEnvironment({ NODE_ENV: 'test', DATABASE_URL: url })));
+  const authorization = new TenantAuthorization(database);
+  return { database, authorization, commands: new CommandService(database, authorization, new AuditService()) };
+}
+
+test('durable commands serialize duplicates, reject payload changes, and atomically persist audit/outbox', async () => {
+  const a = await activeFixture();
+  const { database, authorization, commands } = services();
+  try {
+    const scope = await authorization.resolve(a.user, a.organization, undefined, ['CUSTOMER_PAYMENT_CREATE']);
+    const input = { operation: `CUSTOMER_PAYMENT:${randomUUID()}`, key: randomUUID(), requestId: randomUUID(), payload: { amount: '100.00', currency: 'BDT' } };
+    let calls = 0;
+    const handler: Parameters<CommandService['execute']>[2] = async (tx, current, commandId) => {
+      calls++;
+      const branch = await tx.branch.create({ data: { organizationId: current.organizationId, code: 'CMD_' + randomUUID().slice(0, 8).toUpperCase(), name: 'Command effect' } });
+      await commands.enqueue(tx, current, commandId, 'RECEIPT_REQUESTED', { entityId: branch.id, documentLocale: 'bn' });
+      return { statusCode: 201, body: { id: branch.id, balance: '100.00' } };
+    };
+    const results = await Promise.all([commands.execute(scope, input, handler), commands.execute(scope, input, handler)]);
+    assert.deepEqual(results[0].body, results[1].body);
+    assert.equal(results.filter((r) => r.replayed).length, 1);
+    assert.equal(calls, 1);
+    await assert.rejects(commands.execute(scope, { ...input, payload: { amount: '101.00', currency: 'BDT' } }, handler),
+      (e: unknown) => e instanceof DomainError && e.code === 'IDEMPOTENCY_PAYLOAD_MISMATCH');
+    assert.equal(await database.client!.commandRecord.count({ where: { organizationId: a.organization } }), 1);
+    assert.equal(await database.client!.auditEvent.count({ where: { organizationId: a.organization } }), 1);
+    assert.equal(await database.client!.outboxEvent.count({ where: { organizationId: a.organization } }), 1);
+    await assert.rejects(commands.execute({ ...scope }, { ...input, key: randomUUID() }, handler),
+      (e: unknown) => e instanceof DomainError && e.code === 'FORBIDDEN');
+    await pool.query('UPDATE users SET status=\'SUSPENDED\' WHERE id=$1', [a.user]);
+    await assert.rejects(commands.execute(scope, input, handler), (e: unknown) => e instanceof DomainError && e.code === 'FORBIDDEN');
+    await rejectsSqlForPool('UPDATE command_records SET result=\'{}\'::jsonb WHERE "organizationId"=$1', [a.organization], '23514');
+    await rejectsSqlForPool('UPDATE audit_events SET action=\'TAMPERED\' WHERE "organizationId"=$1', [a.organization], '42501');
+    await rejectsSqlForPool('UPDATE outbox_events SET status=\'DELIVERED\' WHERE "organizationId"=$1', [a.organization], '42501');
+  } finally { await database.onModuleDestroy(); }
+});
+
+async function rejectsSqlForPool(sql: string, params: unknown[], code: string) {
+  await assert.rejects(pool.query(sql, params), (e: unknown) => e instanceof Error && 'code' in e && e.code === code);
+}
+
+test('failed commands roll back business effects, command claims, audit and outbox together', async () => {
+  const a = await activeFixture();
+  const { database, authorization, commands } = services();
+  try {
+    const scope = await authorization.resolve(a.user, a.organization, undefined, ['ORG_UPDATE']);
+    const input = { operation: 'TEST_ROLLBACK', key: randomUUID(), requestId: randomUUID(), payload: { amount: '100.00' } };
+    await assert.rejects(commands.execute(scope, input, async (tx, current, commandId) => {
+      const branch = await tx.branch.create({ data: { organizationId: current.organizationId, code: 'ROLLBACK', name: 'Rolled back' } });
+      await commands.enqueue(tx, current, commandId, 'RECEIPT_REQUESTED', { entityId: branch.id });
+      throw new DomainError('PAYMENT_EXCEEDS_OUTSTANDING', 422);
+    }), (e: unknown) => e instanceof DomainError && e.code === 'PAYMENT_EXCEEDS_OUTSTANDING');
+    for (const table of ['branches', 'command_records', 'audit_events', 'outbox_events']) {
+      // Table identifiers are fixed test constants, never request input.
+      const { rows } = await pool.query(`SELECT count(*)::integer AS count FROM ${table} WHERE "organizationId"=$1`, [a.organization]);
+      assert.equal(rows[0].count, 0, table);
+    }
+  } finally { await database.onModuleDestroy(); }
+});
+
+test('authorization scopes current memberships, roles and branch grants without owner tenant bypass', async () => {
+  const a = await activeFixture(); const b = await activeFixture();
+  const staff = randomUUID(); const member = randomUUID(); const role = randomUUID(); const branch = randomUUID();
+  await pool.query('INSERT INTO users (id,email,"displayName",status,"updatedAt") VALUES ($1,$2,\'Staff\',\'ACTIVE\',now())', [staff, `${staff}@example.test`]);
+  await pool.query('INSERT INTO memberships (id,"organizationId","userId","updatedAt") VALUES ($1,$2,$3,now())', [member, a.organization, staff]);
+  await pool.query('INSERT INTO roles (id,"organizationId",code,name,"updatedAt") VALUES ($1,$2,\'CLERK\',\'Clerk\',now())', [role, a.organization]);
+  await pool.query('INSERT INTO role_permissions ("roleId","permissionCode") VALUES ($1,\'CUSTOMER_PAYMENT_CREATE\')', [role]);
+  await pool.query('INSERT INTO membership_roles ("organizationId","membershipId","roleId") VALUES ($1,$2,$3)', [a.organization, member, role]);
+  await pool.query('INSERT INTO branches (id,"organizationId",code,name,"updatedAt") VALUES ($1,$2,\'MAIN\',\'Main\',now())', [branch, a.organization]);
+  const { database, authorization, commands } = services();
+  try {
+    await assert.rejects(authorization.resolve(staff, a.organization, branch, ['CUSTOMER_PAYMENT_CREATE']));
+    await pool.query('INSERT INTO branch_grants ("organizationId","membershipId","branchId") VALUES ($1,$2,$3)', [a.organization, member, branch]);
+    const scope = await authorization.resolve(staff, a.organization, branch, ['CUSTOMER_PAYMENT_CREATE']);
+    assert.deepEqual(scope.branchIds, [branch]);
+    const http = spawnSync(process.execPath, ['-e', `
+      const assert = require('node:assert/strict');
+      const {Controller,Get,Module} = require('@nestjs/common');
+      const {AppModule} = require('./dist/app.module');
+      const {createApp} = require('./dist/app');
+      const {IdentityVerifier,RequirePermissions,RequireBranch} = require('./dist/common/guards/access');
+      class ProtectedController { get() { return {ok:true}; } }
+      Controller('__tenant_test')(ProtectedController);
+      const descriptor=Object.getOwnPropertyDescriptor(ProtectedController.prototype,'get');
+      Get()(ProtectedController.prototype,'get',descriptor);
+      RequirePermissions('CUSTOMER_PAYMENT_CREATE')(ProtectedController.prototype,'get',descriptor);
+      RequireBranch()(ProtectedController.prototype,'get',descriptor);
+      class TestModule {}
+      Module({imports:[AppModule],controllers:[ProtectedController]})(TestModule);
+      (async()=>{
+        const app=await createApp(TestModule);
+        try {
+          app.get(IdentityVerifier).verify=async()=>({userId:process.env.TEST_ACTOR_ID,credentialId:'test-verified-session'});
+          await app.init();
+          const headers={'x-organization-id':process.env.TEST_ORGANIZATION_ID,'x-branch-id':process.env.TEST_BRANCH_ID};
+          assert.equal((await app.inject({method:'GET',url:'/api/v1/__tenant_test',headers})).statusCode,200);
+          assert.equal((await app.inject({method:'GET',url:'/api/v1/__tenant_test',headers:{...headers,'x-organization-id':process.env.TEST_FOREIGN_ID}})).statusCode,403);
+          assert.equal((await app.inject({method:'GET',url:'/api/v1/__tenant_test'})).statusCode,400);
+        } finally { await app.close(); }
+      })().catch(()=>{process.exitCode=1;});
+    `], { encoding: 'utf8', timeout: 15000, env: { ...process.env, NODE_ENV: 'test', DATABASE_URL: url,
+      MIGRATION_DATABASE_URL: '', LOG_LEVEL: 'silent', CORS_ORIGINS: '',
+      TEST_ACTOR_ID: staff, TEST_ORGANIZATION_ID: a.organization, TEST_BRANCH_ID: branch, TEST_FOREIGN_ID: b.organization } });
+    assert.equal(http.status, 0, 'Tenant guard HTTP contract failed.');
+    await assert.rejects(authorization.resolve(a.user, b.organization, undefined, ['ORG_VIEW']));
+    await assert.rejects(authorization.resolve(staff, a.organization, branch, ['REPORT_PROFIT']));
+    await pool.query('DELETE FROM role_permissions WHERE "roleId"=$1', [role]);
+    await assert.rejects(commands.execute(scope, { operation: 'TEST_ACCESS', key: randomUUID(), requestId: randomUUID(), payload: {} },
+      async () => ({ statusCode: 200, body: {} })), (e: unknown) => e instanceof DomainError && e.code === 'FORBIDDEN');
+  } finally { await database.onModuleDestroy(); }
+});
+
+test('R2 finalized identity is immutable without S3 version IDs and incomplete command claims cannot commit', async () => rollbackTest(async (client) => {
+  const a = await fixture(client);
+  const image = await file(client, a.user, a.user, 'USER_AVATAR', true);
+  await readyFile(client, image);
+  const { rows } = await client.query('SELECT "sourceVersion","storageVersion","finalObjectKey" FROM stored_files WHERE id=$1', [image]);
+  assert.equal(rows[0].sourceVersion, null); assert.equal(rows[0].storageVersion, null);
+  assert.ok(rows[0].finalObjectKey.endsWith('/verified/' + 'a'.repeat(64)));
+  await rejectsSql(client, 'UPDATE stored_files SET "finalEtag"=\'tampered\' WHERE id=$1', [image]);
+  await client.query('SAVEPOINT pending_command');
+  await client.query('INSERT INTO command_records (id,"organizationId","actorId",operation,key,"payloadHash","requestId") VALUES ($1,$2,$3,\'PENDING_TEST\',$4,$5,$6)',
+    [randomUUID(), a.organization, a.user, randomUUID(), 'a'.repeat(64), randomUUID()]);
+  await assert.rejects(client.query('SET CONSTRAINTS ALL IMMEDIATE'), (e: unknown) => e instanceof Error && 'code' in e && e.code === '23514');
+  await client.query('ROLLBACK TO SAVEPOINT pending_command');
+}));

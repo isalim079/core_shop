@@ -19,6 +19,8 @@ export const BorderRadius = {
   sm: 8,
   md: 12,
   lg: 16,
+  xl: 20,
+  "2xl": 24,
   full: 9999,
 } as const;
 
@@ -43,4 +45,72 @@ export const FontWeight = {
   medium: "500",
   semibold: "600",
   bold: "700",
+} as const;
+
+export const IconSize = {
+  xs: 14,
+  sm: 18,
+  md: 20,
+  lg: 24,
+  xl: 28,
+  "2xl": 36,
+} as const;
+
+export const HitSlop = {
+  sm: { top: 8, bottom: 8, left: 8, right: 8 },
+  md: { top: 12, bottom: 12, left: 12, right: 12 },
+  lg: { top: 16, bottom: 16, left: 16, right: 16 },
+} as const;
+
+export const MinTouchTarget = 44;
+
+export const Motion = {
+  duration: {
+    instant: 0,
+    fast: 150,
+    normal: 250,
+    slow: 400,
+    modal: 300,
+  },
+  spring: {
+    bouncy: { tension: 65, friction: 6 },
+    gentle: { tension: 40, friction: 7 },
+    stiff: { tension: 120, friction: 14 },
+  },
+  scale: {
+    pressed: 0.97,
+    active: 1.0,
+    hover: 1.02,
+  },
+} as const;
+
+export const Elevation = {
+  none: {
+    shadowColor: "transparent",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0,
+    shadowRadius: 0,
+    elevation: 0,
+  },
+  sm: {
+    shadowColor: "#0F172A",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 1,
+  },
+  md: {
+    shadowColor: "#0F172A",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  lg: {
+    shadowColor: "#0F172A",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.12,
+    shadowRadius: 12,
+    elevation: 6,
+  },
 } as const;

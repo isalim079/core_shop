@@ -28,12 +28,22 @@ export function createUploadMetadata(owner: FileOwner, purpose: UploadPurpose, m
   const policy = FILE_POLICIES[purpose];
   if (!policy || !policy.mimeTypes.includes(mimeType)) throw new Error('Unsupported file type.');
   if (!Number.isSafeInteger(bytes) || bytes < 1 || bytes > policy.maxBytes) throw new Error('Invalid file size.');
+  const fileId = randomUUID();
   return {
-    objectKey: `${userId ? 'users' : 'organizations'}/${id}/${randomUUID()}/original`,
+    id: fileId,
+    objectKey: `${userId ? 'users' : 'organizations'}/${id}/${fileId}/original`,
     expectedBytes: BigInt(bytes),
     declaredMimeType: mimeType,
     purpose,
     // Maximum reservation lifetime; a signed upload URL must be shorter-lived.
     expiresAt: new Date(Date.now() + 60 * 60 * 1000),
   };
+}
+
+export function verifiedObjectKey(owner: FileOwner, fileId: string, sha256: string) {
+  if (Boolean(owner.userId) === Boolean(owner.organizationId)) throw new Error('Exactly one file owner is required.');
+  const ownerId = z.uuid().parse(owner.userId || owner.organizationId);
+  z.uuid().parse(fileId);
+  z.string().regex(/^[a-f0-9]{64}$/).parse(sha256);
+  return `${owner.userId ? 'users' : 'organizations'}/${ownerId}/${fileId}/verified/${sha256}`;
 }

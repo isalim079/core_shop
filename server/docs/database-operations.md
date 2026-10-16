@@ -45,7 +45,7 @@ psql -h 127.0.0.1 -U core_shop -d core_shop -W -v ON_ERROR_STOP=1 -f scripts/dat
 yarn db:seed
 ```
 
-The seed upserts permission definitions only. It is safe to repeat; it creates no users, memberships, platform administrators, passwords, or production example data.
+The seed upserts 38 permission definitions, including the current customer/supplier ledger and payment capabilities. It is safe to repeat; it creates no users, memberships, platform administrators, passwords, or production example data.
 
 `db:migrate` runs `prisma migrate deploy` and applies committed migrations without resetting data. `db:migrate:dev` is for generating reviewed development migrations and may require a separately provisioned shadow database. Never point development migration commands at production. SQL constraints and triggers are part of the initial migration and must be preserved in future diffs.
 
@@ -59,13 +59,13 @@ curl http://localhost:3000/health
 curl -i http://localhost:3000/ready
 ```
 
-Expected readiness response on a migrated database with the restricted login:
+Expected readiness response after both committed migrations on a migrated database with the restricted login:
 
 ```json
 {"status":"ready","service":"core-shop-server"}
 ```
 
-Database downtime, incompatible migration history, missing representative schema, or privileged runtime credentials produce a generic 503. `/health` continues to report process liveness.
+Database downtime, incompatible migration history, missing representative schema, or privileged runtime credentials produce a generic 503 in the shared error envelope, with code `SERVICE_UNAVAILABLE` and request ID. `/health` continues to report process liveness.
 
 The runtime login has no DDL, role-management, or platform-elevation write privileges. It can still read tenant tables because authenticated RLS context has not been implemented; no business-data routes are exposed. See [database design](database-design.md) for the isolation boundary and next-phase obligations.
 

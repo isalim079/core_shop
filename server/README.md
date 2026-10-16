@@ -25,7 +25,7 @@ These capabilities describe the product roadmap. See the current implementation 
 
 ## Current status
 
-**Phase 2: database and tenant foundation implemented; owner review pending.**
+**Phase 3: shared API and security foundation implemented; owner review pending.**
 
 The server currently includes:
 
@@ -37,9 +37,12 @@ The server currently includes:
 - Development-only Swagger UI and OpenAPI documents.
 - The `/api/v1` prefix reserved for business endpoints.
 - Configurable browser CORS origins, shutdown hooks, and a 1 MiB request body limit.
+- Strict DTO validation, bounded pagination, safe English/Bangla errors, request IDs, and structured diagnostics.
+- Default-deny authentication/permission interfaces, database-backed tenant scopes, security headers and IP rate limiting.
+- Durable idempotent command transactions, append-only audit evidence, and an outbox for future post-commit workers.
 - Strict TypeScript, linting, automated tests, and build tooling.
 
-Authentication, registration, tenant-authorized business endpoints, object storage, and upload APIs remain future work. File metadata supports profile photos, shop branding, and future images/attachments; it does not upload or serve file bytes. Redis integration is planned. See [database design](docs/database-design.md) and [private-file design](docs/uploads.md) for implemented boundaries and future business rules.
+Authentication, registration, tenant-authorized business endpoints, Cloudflare R2 API integration, and upload APIs remain future work. File metadata supports profile photos, shop branding, and future images/attachments; it does not upload or serve file bytes. Cloudflare R2 is selected; verified objects use separate immutable keys rather than S3 version IDs. Redis integration is planned. See [database design](docs/database-design.md) and [private-file design](docs/uploads.md) for implemented boundaries and future business rules. The [API/security guide](docs/api-security.md) describes the current request and transaction contracts; the [credit ledger baseline](docs/credit-ledger-design.md) carries the latest Baki requirements.
 
 ## Technology stack
 
@@ -51,6 +54,7 @@ Authentication, registration, tenant-authorized business endpoints, object stora
 | HTTP adapter | Fastify | In use |
 | Configuration validation | Zod | In use |
 | API documentation | Swagger / OpenAPI | Development only |
+| Object storage | Cloudflare R2 | Selected; configuration/model ready, API integration planned |
 | Package manager | Yarn Classic 1.22.22 | In use |
 | Testing | Node.js test runner | In use |
 | Database and ORM | PostgreSQL and Prisma 7.10.1 | Foundation implemented |
@@ -132,6 +136,13 @@ Configuration is loaded and validated through `src/config/`. Application code re
 | `DATABASE_CONNECT_TIMEOUT_MS` | Pool connection timeout | `3000` |
 | `DATABASE_QUERY_TIMEOUT_MS` | PostgreSQL statement timeout | `5000` |
 | `REDIS_URL` | Redis connection URL for future integration | Empty |
+| `LOG_LEVEL` | Structured diagnostic log level | `info` |
+| `TRUST_PROXY_CIDRS` | Exact trusted ingress IP addresses/CIDRs | Empty; forwarded headers ignored |
+| `RATE_LIMIT_MAX` | Requests per IP per process/window | `120` |
+| `RATE_LIMIT_WINDOW_MS` | Rate-limit window in milliseconds | `60000` |
+| `STORAGE_PROVIDER` | Selected object store | `cloudflare-r2` |
+| `R2_ACCOUNT_ID`, `R2_BUCKET_NAME` | Private R2 account/bucket selection | Empty |
+| `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY` | Server-only R2 credentials | Empty |
 
 The example environment file sets `HOST=0.0.0.0` and local browser origins for development. A physical mobile device should connect to the development computer's LAN IP address; `localhost` on the phone refers to the phone itself.
 
@@ -146,6 +157,8 @@ The example environment file sets `HOST=0.0.0.0` and local browser origins for d
 Explicit process environment variables take precedence over file values. `.env.example` is tracked; local and production environment files are ignored by Git. Keep real credentials out of documentation and committed files.
 
 When provided, database URLs must use `postgres://` or `postgresql://`; Redis URLs must use `redis://` or `rediss://`. Reserved characters in URL usernames and passwords must be percent-encoded. `DATABASE_URL` is required when running the application outside tests. Redis can remain empty until its integration is implemented. CLI generation/validation do not require a database connection.
+
+Leave R2 settings empty until bucket integration is configured; if any R2 setting is supplied, supply all four together. These values do not currently make cloud requests. Never enable public bucket access for private attachments. Rate limits are currently per process; distributed and account-specific limits belong to the authentication/deployment work.
 
 CORS entries must be exact HTTP(S) origins without paths or embedded credentials. Production browser origins must use HTTPS. CORS controls browser access and does not provide authentication or authorization.
 
@@ -224,15 +237,15 @@ These are implementation requirements for future modules. The foundation enforce
 Development proceeds one phase at a time, with owner review between phases:
 
 1. Server foundation — implemented and verified.
-2. Tenant and domain design, PostgreSQL, and Prisma foundation — implemented; owner review pending.
-3. Shared API infrastructure and security foundation.
+2. Tenant and domain design, PostgreSQL, and Prisma foundation — accepted.
+3. Shared API infrastructure and security foundation — implemented; owner review pending.
 4. Authentication, organizations, permissions, and branches.
 5. Catalog, customers, suppliers, inventory, purchases, and sales.
 6. Expenses, reporting, subscriptions, and entitlements.
 7. Offline synchronization, files, exports, and background workers.
 8. Platform administration, deployment, and launch verification.
 
-The detailed phase plan is maintained in `readme/serverProgress.md`. The broader product specification lives in the sibling mobile project at `../mobile_app/readme/project_structure.md`. Include these documents when sharing the full project plan.
+The detailed phase plan is maintained in `readme/serverProgress.md`. The canonical product specification lives at `../readme/project_structure.md`. Include these documents when sharing the full project plan.
 
 ## Production entry point
 

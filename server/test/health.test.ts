@@ -16,7 +16,8 @@ test('health is public liveness only; unknown API routes stay unavailable', asyn
     assert.equal((await app.inject({ method: 'GET', url: '/api/v1/products' })).statusCode, 404);
     const readiness = await app.inject({ method: 'GET', url: '/ready' });
     assert.equal(readiness.statusCode, 503);
-    assert.deepEqual(readiness.json(), { status: 'not_ready', service: 'core-shop-server' });
+    assert.equal(readiness.json().error.code, 'SERVICE_UNAVAILABLE');
+    assert.equal(readiness.json().error.requestId, readiness.headers['x-request-id']);
   } finally {
     await app.close();
   }
