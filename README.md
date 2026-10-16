@@ -29,15 +29,18 @@ Core Shop aims to give retailers one place to manage daily operations across the
 | Inventory | Stock ledger, balances, adjustments, transfers, and low-stock visibility |
 | Purchasing | Suppliers, purchase receipts, payments, returns, and payables |
 | Sales | Invoices, discounts, payments, returns, and customer receivables |
-| Finance | Expenses, stock valuation, dashboards, and reproducible profit reports |
+| Finance | Immutable customer receivable/supplier payable ledgers, collections, allocations, reversals, aging, statements, expenses and reproducible profit reports |
+| Localization | Required English/Bangla Web and App UI, per-user language, Unicode search and bilingual receipts/statements |
 | Platform services | Subscription plans, entitlements, notifications, exports, and audit records |
-| Mobile operations | Selected offline sales and inventory workflows with synchronization |
+| Mobile operations | Offline credit sales, practical payment collection, ledger/cache synchronization and visible conflict recovery |
 
 ## Repository structure
 
 ```text
 core_shop/
 ├── README.md       # Project overview
+├── readme/
+│   └── project_structure.md  # Canonical Server / Web / App / Workflow specification
 ├── server/         # Shared backend API
 ├── mobile_app/     # React Native / Expo application
 └── web/            # Reserved web application directory
@@ -124,7 +127,7 @@ These are requirements for future modules, not guarantees provided by the curren
 
 ## Development and verification
 
-Run the backend quality checks from `server/`:
+Run the backend quality checks from `server/` (database generation/validation is now included; consult current environment setup):
 
 ```bash
 yarn run check
@@ -153,4 +156,4 @@ Development proceeds in reviewed phases:
 7. **Extended services** — mobile synchronization, files, exports, workers, and platform administration.
 8. **Launch preparation** — deployment, monitoring, backups, recovery, and operational verification.
 
-Detailed product and engineering notes also exist in local `readme/` directories. Those directories may be ignored by Git and unavailable in fresh clones; the tracked READMEs provide the repository's public-facing setup and status information.
+The source of truth is the [four-section project specification](readme/project_structure.md). Implementation evidence and remaining work live in [server progress](server/readme/serverProgress.md), [mobile plan](mobile_app/readme/mobilePlan.md) and [mobile progress](mobile_app/readme/mobileProgress.md). Documentation directories are eligible for Git tracking; environment files and generated outputs remain ignored.

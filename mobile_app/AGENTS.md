@@ -39,3 +39,18 @@ Docs: https://docs.expo.dev/eas/index.md
 - If `ios/` and `android/` directories do not exist, they are generated (Continuous Native Generation). Never create or edit them by hand — configure native behavior in `app.json` and config plugins.
 - Expo Go only includes its bundled native modules. After adding a library with native code, the app needs a development build: `npx expo run:ios|android` locally, or `eas build --profile development`.
 - Prefer recommended Expo modules over third-party libraries, and check your available skills before adding dependencies. Docs: https://docs.expo.dev/versions/latest/index.md
+
+## Project-local UI/UX skills and design workflow
+
+For mobile UI/UX, screen design, reusable components, navigation, gestures, animation or performance work, read [.agents/README.md](.agents/README.md) and load the relevant project-local skills from `.agents/skills/`. Use the same files from any CLI/model; do not install them globally.
+
+- Visual direction, typography, calm palettes and contrast: `ui-ux-pro-max`.
+- Reusable components/tokens and DRY: `expo-design-system`.
+- Mobile layout and platform behavior: `expo-native-ui` and `expo-ui`.
+- Routes, tabs, stacks and dismissal: `expo-router`.
+- Smooth, interruptible animation/gestures and reduced motion: `expo-animation`.
+- List/render/image performance: `react-native-skills` (skill name `vercel-react-native-skills`).
+
+The user's static-first order and project conventions override generic skill examples: follow `readme/mobileUiUxPlan.md` and `readme/mobileProgress.md`; centralize fixtures under `src/staticData/`, keep route files thin, reuse components/features/hooks, and retain NativeWind 4 and the existing theme. Do not migrate styling/navigation, add libraries, force Expo Go, send external feedback/telemetry, or replace branding just because a skill example suggests it. Verify installed SDK APIs against matching Expo docs.
+
+Aim for calm surfaces, restrained emerald accents, clear hierarchy and accessible text; soothing does not mean faint text. Check actual foreground/background contrast (normal text >=4.5:1; large text and meaningful controls/icons >=3:1), keyboard/safe areas and large text. Respect reduced motion, avoid unnecessary autoplay, and verify smoothness in release-like builds on Android/iOS before claiming it. Skills guide implementation; they do not replace device evidence or certify production readiness.

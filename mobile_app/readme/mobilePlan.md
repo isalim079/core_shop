@@ -4,7 +4,7 @@ Created: 2026-10-16. Scope: Android and iOS phones. Status: proposed roadmap gro
 
 Companion: [live progress tracker](mobileProgress.md). Sources: [product specification](../../readme/project_structure.md), [server tracker](../../server/readme/serverProgress.md), [server guide](../../server/README.md), and `src/`.
 
-`readme/` is ignored by Git. These documents are local working files and will not appear in a fresh clone. Keep a separate backup; change the ignore policy only when requested.
+Documentation is versionable. The canonical four-section specification is now at `../../readme/project_structure.md`; mobile planning/progress stays here. The user requested removing documentation ignore rules.
 
 ## Priority addition — static UI/UX before integration
 
@@ -51,9 +51,9 @@ Deliver a reliable retail operations app: a staff member selects an authorized b
 
 **Milestone B: online retail MVP.** Catalog, contacts, inventory visibility, purchasing, sales/payment/returns, expenses and basic reports integrated with authorized server contracts.
 
-**Milestone C: launchable mobile workflows.** Selected offline sales/cache synchronization, accessibility/performance verification, secure release configuration and both-platform release builds.
+**Milestone C: launchable mobile workflows.** Offline credit sales, practical payment collection, ledger/cache synchronization, accessibility/performance verification, secure release configuration and both-platform release builds.
 
-**Later capabilities:** camera barcode scanning, rich notifications, PDF/export jobs, branch transfers, advanced aging, billing provider integrations and industry packs. Promote an item into launch scope only with a recorded product decision. Basic entitlement enforcement remains part of the foundation even if billing purchase flows are deferred.
+**Later capabilities:** camera barcode scanning, external notification providers, richer export customization beyond core bilingual receipts/statements, branch transfers, advanced aging visualizations beyond core aging, billing provider integrations and industry packs. Promote an item into launch scope only with a recorded product decision. Basic entitlement enforcement remains part of the foundation even if billing purchase flows are deferred.
 
 The broad product specification is a platform roadmap. Full web/admin parity is not required for the first mobile release. Platform operator administration and break-glass support do not belong in the merchant app.
 
@@ -195,9 +195,9 @@ A dedicated activity endpoint is not assumed. If composing authorized feeds init
 | `reports/profit.tsx` | Server-calculated cost/profit; no client-invented margins | Profit-specific permission |
 | `reports/inventory.tsx` | Stock quantity, low stock and permitted valuation | Inventory report |
 | `reports/expenses.tsx` | Category/time summaries | Expense report |
-| `reports/balances.tsx` | Receivable/payable summaries; aging later | Finance permissions |
+| `reports/balances.tsx` | Receivable/payable totals, party outstanding and core aging | Finance permissions |
 
-Reports need explicit business timezone, currency, filter bounds and freshness. Empty results are not evidence of zero profit. Exports are later asynchronous jobs with status/download handling rather than blocking report requests.
+Reports need explicit business timezone, currency, filter bounds and freshness. Empty results are not evidence of zero profit. Core receipt/statement exports are required; large report exports use asynchronous jobs with status/download handling rather than blocking report requests.
 
 ### 5.4 Account, settings and supporting routes
 
@@ -234,7 +234,7 @@ Settings must show actual persisted state. Device-only preferences must be label
 | Catalog | Prevent deleting reference data needed by historical documents; archive where appropriate |
 | Sales policies | Never invent tax rates, negative-stock policy, credit limits or return rules; use server configuration |
 | Appearance | Existing app forces light mode. Keep light-only initially; do not display a dark-mode switch until all surfaces support it |
-| Language and currency | Default to supported business configuration. Externalize strings; do not assume Bangladesh timezone or USD from developer environment/demo UI |
+| Language and currency | English and Bangla required from V1; onboarding/settings switch, per-user persistence and offline bundled catalogs. Currency/timezone remain organization-configured; no hardcoded USD/BDT or timezone |
 | Notifications | Request OS permission only when the feature explains its use; handle denial and provide an OS-settings route |
 | Local data | Clear read caches independently from queued writes; prevent accidental loss of pending financial commands |
 | Subscription | Gating uses entitlements, not hardcoded plan names; server enforces limits; no fake upgrade/payment button |
@@ -301,7 +301,8 @@ Offline capability is planned, not present. Add SQLite and connectivity support 
 | Sale draft | Save locally, restore after process restart, scope to user/business/branch |
 | Sale submission | Queue only under an approved offline-sale policy with server reconciliation; visibly pending |
 | Inventory writes | Online initially; read cached stock. Offline adjustments require a separately approved command contract |
-| Payments/refunds/voids | Online initially; no false confirmation when network state is unknown |
+| Customer/supplier payments | Offline recording for cached parties/open items and active methods where practical; atomic local ledger/payment/queue; pending until server acceptance |
+| Refunds/voids/provider authorization | Online initially; unknown network result is never false confirmation |
 | Admin/team/billing settings | Online only |
 | Reports | Cached snapshot may be shown with scope/time, never disguised as current |
 
@@ -318,6 +319,34 @@ Use bounded exponential backoff with jitter, foreground/reconnect triggers and m
 - Minimize per-item renders, size product thumbnails, bound image caches, cancel stale work and avoid nested same-axis scrolling lists. Profile release builds with representative catalog sizes before choosing new list libraries.
 - Establish measured startup/search/list-scroll and memory baselines on named lower/mid-range Android hardware and a supported iPhone. Record build type, data size and measurement method before setting a performance budget.
 - Business dates use the selected business timezone; UI localizes display. No hardcoded dollar sign, ambiguous date or unlabelled unit.
+
+## Core bilingual and Baki implementation contract — 2026-10-16
+
+This user-authorized scope refines existing phases, not a second mobile architecture. English/Bangla and Baki are required features; implementation remains **Not started** until evidence is recorded. The canonical specification defines account signs, atomic posting, allocation, returns, aging and language rules.
+
+| Phase / existing task | Required additions and acceptance |
+| --- | --- |
+| M01-03 | i18next/react-i18next namespaces `en`/`bn`, labels, validation/error keys, placeholder parity and Bangla-capable fonts; no business logic per language |
+| M03-02 / M09-03 | English / বাংলা selection in onboarding/registration and settings; user-profile locale plus local offline cache/pending preference; restart/account-switch persistence |
+| M04-03 | Existing permission catalog extended with customer/supplier CRUD, ledger/payment and receivable/payable report permissions; denied direct routes and stale permissions tested |
+| M05-03 | Both party lists/profiles: current due/payable, total purchases/paid, Unicode search, date/branch filters, history/returns, ledger and statements; archive referenced parties |
+| M06-03 | Supplier purchase-on-credit posts payable, payment and allocations with stock; supplier payment screen, configurable methods, source-linked returns/reversals |
+| M07-02 / M07-03 | Credit sale requires customer, full sale entry plus separate payment entry; collection/disbursement review, allocations, payment receipt and immutable corrections |
+| M08-01 | Sales/profit/customer due/supplier payable/stock value/expenses KPIs with Bangla labels, scope, freshness and authorized drill-down |
+| M08-03 | Total/party receivables/payables, aging, collection, credit sales, purchase payable and both statements; as-of/date ranges, Unicode and English/Bangla output |
+| M09-03 | User language and document language `en`/`bn`/`en-bn`; configurable payment methods/terms are organization policies, not device preferences |
+| M10-01 | SQLite scoped accounts, accepted/pending entries, open items, payments/allocations, projections, methods, preferences and queue; exact amounts, FK/unique constraints and migrations |
+| M10-02 / M10-03 | Local financial effects and command queued atomically; stable idempotency IDs, dependent-command order, server mapping, one-time reconciliation and visible conflicts; no last-write-wins |
+| M10-04 | Offline partial-credit sale and practical collection, crash/restart/acknowledgement loss/replay/concurrent settlement/tenant-switch checks; pending never counted twice |
+| M11-02 | Core in-app due-today/overdue/long-overdue views available with finance flows; external WhatsApp/SMS/email/payment links remain optional future adapters |
+| M07-03 / M08-03 | Core bilingual invoice/payment receipt/party statement print/export/share; richer optional file integrations stay M11; document mode separate from UI locale |
+| M12-01 | English/Bangla parity, Bangla input/search and conjunct/font/PDF checks on both OSes, exact finance reconciliation and negative permission/idempotency tests |
+
+Extend route registry with `customers/[customerId]/ledger.tsx`, `payment.tsx`, `statement.tsx`, `sales.tsx`, `returns.tsx`; mirror supplier routes using purchase history. Add report routes for receivables, payables, aging, collections, credit sales and purchase payables, and an authorized due-reminder list. Names are proposed Expo Router files; server OpenAPI remains authoritative for API paths. Implement search/filter/date-range and all loading/empty/error/forbidden/pending states on these screens.
+
+Bundle `i18n/en` and `i18n/bn` feature JSON namespaces. Redux coordinates locale/context/UI; RTK Query caches scoped online data and invalidates ledgers, profiles, invoices, dashboard and reports after payments/reversals. SQLite owns durable pending effects. Preserve Bangla UGC across API/storage/search/exports without translating names on locale switches. Parse Bangla digits to canonical decimal input; format display with locale plus configured currency/timezone. Never use floating-point local money or mutate cached party `due_amount` as truth.
+
+Offline collections record reported money movement only. Show last accepted balance plus pending changes and provisional receipt reference. Server can reject stale allocation/overpayment or revoked permissions: preserve evidence, show reconciliation and do not silently erase a payment that may already have occurred. Online provider processing, privileged adjustments, refunds and voids remain online initially. Core reports/receipts/aging cannot be deferred merely because richer M11 integrations are optional.
 
 ## 11. Implementation phases and acceptance criteria
 
@@ -367,11 +396,11 @@ A feature is complete only when its UI and contract states, authorized navigatio
 | D02 | Guest/demo mode | Development fixtures only; no simulated production login |
 | D03 | Registration, invitations and verification order | Follow server identity/membership lifecycle; no mobile-only state machine |
 | D04 | Currency/timezone/tax/rounding/credit rules | Server-owned configuration; exact values confirmed before checkout |
-| D05 | Offline selling and negative stock risk | Bounded approved policy; online payments/refunds initially |
-| D06 | Launch scope: purchasing/admin/reports vs mobile cashier focus | Phased online MVP; later features explicitly excluded per release |
+| D05 | Offline selling and negative stock risk | Bounded offline credit sale and practical cached-account collection policy; refunds/provider processing online initially |
+| D06 | Launch scope: purchasing/admin/reports vs mobile cashier focus | Phased delivery; English/Bangla, credit ledgers, practical offline collection and core receipts/reports remain required scope |
 | D07 | Barcode/notifications/exports/transfers launch priority | Optional M11 slices until selected |
 | D08 | Universal links, support contact and legal URLs | Confirm owned domains and reviewed content before release |
-| D09 | Supported locale, translations and appearance | Light-only initially; externalized strings and business formatting |
+| D09 | Supported locale, translations and appearance | English/Bangla mandatory per user with onboarding/settings and offline catalogs; light-only appearance initially |
 | D10 | Device/session cleanup and pending-sale handling | Preserve recoverable scoped work; no silent queue deletion |
 | D11 | EAS account/project, bundle IDs and release owners | Validate existing `com.coreshop.app`; replace placeholders when authorized |
 | D12 | Backend readiness and contract drift | Read current source/OpenAPI each integration; record version/date |

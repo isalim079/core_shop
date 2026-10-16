@@ -2,7 +2,7 @@
 
 Added: 2026-10-16, following the owner's explicit sequencing correction. This is the current first implementation track, nested under M01. Existing M01–M12 progress and history remain preserved.
 
-Companions: [progress tracker](mobileProgress.md), [broader implementation plan](mobilePlan.md), [product specification](project_structure.md).
+Companions: [progress tracker](mobileProgress.md), [broader implementation plan](mobilePlan.md), [product specification](../../readme/project_structure.md).
 
 ## Priority and completion meaning
 
@@ -280,3 +280,11 @@ A static screen can be marked **UI verified** only with route, fixture/scenario,
 After M01-UI16, retain static screenshots/scenarios as the visual regression baseline. Resume the preserved M01–M12 integration roadmap in dependency order: environment/security/session, organizations/permissions, domain APIs, real sync and production release. UI-complete modules do not need their screens rebuilt; replace adapters and prove real contracts, financial invariants, storage, security and lifecycle behavior.
 
 When the server is incomplete, record the integration dependency and preserve the verified static experience. Never turn missing API responses into a hidden mock success. Release gates in the original progress tracker remain in force; fixture-only success does not satisfy them.
+
+## Project-local UI/UX skills installed — 2026-10-16
+
+The earlier statement that no dedicated UI/UX skill was available is retained as historical evidence. Seven reviewed skills are now installed under `.agents/skills/`: `ui-ux-pro-max`, `expo-design-system`, `expo-native-ui`, `expo-ui`, `expo-router`, `expo-animation`, and `react-native-skills` (Vercel skill name `vercel-react-native-skills`). See [the shared usage guide](../.agents/README.md) and [pinned source manifest](../.agents/skills-lock.json).
+
+Installation is project-local; `.claude/skills`, `.gemini/skills`, and `.agent/skills` point to the same canonical files. `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` direct agents to the shared guidance. NativeWind/theme conventions, static-first order, centralized fixtures, DRY, readable contrast and reduced-motion/device checks take precedence over conflicting generic examples. No screen-design task is marked complete by installing these skills.
+
+Installation verification: all seven skill manifests/file hashes and three project-relative discovery links passed; local design-system, contrast and React Native animation searches returned results. Typecheck passed. Lint passed with the two existing useInfiniteScroll warnings. CLI discovery has not been exercised in every third-party agent; reload sessions or read the shared guide explicitly.

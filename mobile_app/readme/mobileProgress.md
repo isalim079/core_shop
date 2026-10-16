@@ -4,7 +4,7 @@ Created: 2026-10-16. Last audit: 2026-10-16.
 
 Plan: [mobile implementation plan](mobilePlan.md). Product source: [full specification](../../readme/project_structure.md). Server coordination: [server progress](../../server/readme/serverProgress.md).
 
-This local file mirrors the server tracker's phase/evidence approach. `readme/` is ignored by Git; cloning will not restore it. Do not commit or change ignore rules unless requested.
+This versionable file mirrors the server tracker's phase/evidence approach. Documentation ignore rules were removed at the user's request; the canonical specification is in root `readme/`.
 
 ## M01 addition — UI/UX and static design first (current priority)
 
@@ -220,7 +220,7 @@ Server dependency: the inspected server tracker records foundation verification 
 | Home cards/actions | UI only | Placeholder values; action rows are not operational links |
 | Shared Screen/Button/TextField and tokens | Implemented base components | States, large text, insets and both-platform coverage incomplete |
 | Catalog, stock, contacts, sales, purchases, reports | Not started | No business routes/API modules present |
-| Settings, memberships, permissions, entitlements | Not started | No dedicated implementation present |
+| Settings, memberships, permissions, entitlements, English/Bangla | Not started | No dedicated implementation present |
 | Offline SQLite/queue/sync conflict UI | Not started | No installed local database/sync implementation |
 | Release profiles | Partial configuration | `eas.json` and `app.json` contain deployment/submission placeholders |
 
@@ -232,7 +232,7 @@ Server dependency: the inspected server tracker records foundation verification 
 | M02 | Route/tab shell, safe navigation and deep links | Not started; two-tab prototype exists | M01; business fixtures may be development-only |
 | M03 | Real identity and session lifecycle | Not started; forms/client prototype exists | Server auth contract |
 | M04 | Organization/branch context and permissions | Not started | M02–03; server membership/branch contracts |
-| M05 | Catalog, reference data, customers and suppliers | Not started | M04; catalog/contact contracts |
+| M05 | Catalog, reference data, customers and suppliers | Not started | M04; catalog/contact and ledger-summary contracts |
 | M06 | Inventory and purchasing | Not started | M05; stock/purchase/payment contracts |
 | M07 | Sales, payments, returns and reconciliation | Not started | M05–06; sales/payment contracts |
 | M08 | Real dashboard/activity, expenses and reports | Not started | M06–07; report contracts |
@@ -341,7 +341,7 @@ All unchecked tasks below are planned. Existing prototype evidence is recorded a
 | B06 | No business API integration evidence | Track each server contract, not a single blanket backend-ready claim | Open |
 | B07 | EAS/submission placeholders | Prevent verified production release status until configured | Open |
 | B08 | Icon generator expects removed/missing source assets | Audit M01-02 before advertising `generate-icons` as usable | Open |
-| B09 | Local documentation ignored by Git | Keep backup; do not assume other clones/agents receive these files | Known local workflow |
+| B09 | Documentation previously ignored by Git | Ignore rules removed; root specification and app trackers are eligible for commit (no commit made) | Resolved documentation policy |
 
 ## Contract readiness register
 
@@ -352,8 +352,8 @@ Update with actual endpoint/schema/version and verification date. Planned paths 
 | Login/register/me/refresh/logout/recovery | M03 | Not yet recorded | Pending |
 | Organizations/memberships/branches/permissions | M04/M09 | Not yet recorded | Pending |
 | Catalog/reference data/customer/supplier | M05 | Not yet recorded | Pending |
-| Stock/ledger/adjustments/purchases | M06 | Not yet recorded | Pending |
-| Sales/payments/returns/idempotency | M07 | Not yet recorded | Pending |
+| Stock/ledger/adjustments/purchases/supplier payables | M06 | Not yet recorded | Pending |
+| Sales/receivables/payments/allocations/returns/idempotency | M07 | Not yet recorded | Pending |
 | Dashboard/activity/expenses/reports | M08 | Not yet recorded | Pending |
 | Entitlements/settings/sessions | M09 | Not yet recorded | Pending |
 | Sync queue/acknowledgements/conflicts | M10 | Not yet recorded | Pending |
@@ -366,9 +366,9 @@ Decision descriptions and proposed defaults are in `mobilePlan.md`, section 13. 
 | IDs | Topic | Current state |
 | --- | --- | --- |
 | D01–D03 | Tabs, demo policy, registration/verification | Proposed; no implementation acceptance recorded |
-| D04–D05 | Money, taxes, credit and offline sales | Requires server/product agreement before affected work |
+| D04–D05 | Money, taxes, credit and offline sales | English/Bangla and Baki scope confirmed by user; exact financial policy still server-owned |
 | D06–D07 | Mobile launch scope and optional capabilities | Proposed phased scope |
-| D08–D09 | Domains/legal/support/locales/appearance | Confirm before release; current app is light-only |
+| D08–D09 | Domains/legal/support/locales/appearance | English/Bangla confirmed; domains/support and appearance details remain open, current app light-only |
 | D10–D12 | Pending-command cleanup, release ownership, contract drift | Resolve during relevant phase |
 
 ## Verification record
@@ -386,6 +386,35 @@ Changes: created `mobilePlan.md` and `mobileProgress.md`; inspected actual mobil
 | `npx tsc --noEmit` | Passed |
 | Device/API integration tests | Not run; documentation task, no feature completion claimed |
 | Owner acceptance | Not recorded |
+
+## Required scope update — 2026-10-16
+
+State: documentation updated; no new mobile feature implemented. Preserve M01–M12 task IDs and recorded prototype evidence. The expanded task-to-phase contract is in `mobilePlan.md`, “Core bilingual and Baki implementation contract”.
+
+- [ ] M01/M03/M09: English/Bangla translation catalogs, validation/error keys, Bangla fonts, onboarding/settings switching and per-user/local offline persistence.
+- [ ] M05/M06/M07: Complete customer/supplier profiles, ledgers, collections/payments, allocations, histories/returns and statements; configurable methods and immutable reversal flows.
+- [ ] M08: Required dashboard KPIs, total/party outstanding, aging, collection, credit-sales and purchase-payable reports with date/as-of/branch scope.
+- [ ] M07/M08: English, Bangla and bilingual receipt/statement print/export; Unicode UGC preserved.
+- [ ] M08/M11: Core due-today/overdue/X-days/long-overdue UI; future external reminder adapters remain optional.
+- [ ] M10: SQLite ledger/payment/allocation + queue atomicity, practical offline collections, stable commands and posted/pending reconciliation without duplicate financial effects.
+- [ ] M12: Both-language input/search/format/document/device checks and concurrent/replayed payment, reversal, rollback and tenant-isolation acceptance evidence.
+
+Server contract readiness remains Pending for ledger/accounts, payments/allocations/reversals, configurable methods, as-of reports, preferences, document language and offline acknowledgements. The observed Phase 2 server source has tenant/database/private-file foundation; this does not establish business/auth endpoint availability. No ledger/localization integration is verified by this documentation change.
+
+### Documentation update evidence
+
+Moved the existing full specification into `../../readme/project_structure.md`, preserving its architecture under Server/Web/App/Workflow. Updated mobile plan/tracker and server tracker, repaired links and removed documentation ignore rules. Existing runtime work is untouched. Verification on 2026-10-16:
+
+| Check | Result |
+| --- | --- |
+| Canonical specification | Four requested main sections; all 65 baseline subsections retained, plus end-to-end workflows |
+| Documentation integrity | Seven Markdown documents: balanced fences and 26 relative links resolving; move and required feature markers checked |
+| Git visibility | Root specification and mobile/server progress files not ignored; documentation is trackable |
+| `npx expo lint` | Passed, 0 errors; 2 existing warnings in `src/hooks/useInfiniteScroll.ts` (unused disable and effect dependencies) |
+| `npx tsc --noEmit` | Passed |
+| Device/API/database checks | Not run by this documentation task; no new runtime capability or owner acceptance claimed |
+
+The newer static UI-first M01 direction recorded above remains the current work order. Financial/localization requirements apply to its fixture screens and later integration; this update does not restart or replace that track.
 
 ## Implementation-session template
 
@@ -418,3 +447,11 @@ Next bounded task:
 - [ ] Android/iOS physical release-build evidence recorded, including navigation, accessibility, icon and splash.
 - [ ] Server readiness, production HTTPS, configuration, privacy/support and release ownership confirmed.
 - [ ] Owner acceptance recorded for the release; no release is published solely because a checklist exists.
+
+## Project-local UI/UX skills installed — 2026-10-16
+
+The earlier statement that no dedicated UI/UX skill was available is retained as historical evidence. Seven reviewed skills are now installed under `.agents/skills/`: `ui-ux-pro-max`, `expo-design-system`, `expo-native-ui`, `expo-ui`, `expo-router`, `expo-animation`, and `react-native-skills` (Vercel skill name `vercel-react-native-skills`). See [the shared usage guide](../.agents/README.md) and [pinned source manifest](../.agents/skills-lock.json).
+
+Installation is project-local; `.claude/skills`, `.gemini/skills`, and `.agent/skills` point to the same canonical files. `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` direct agents to the shared guidance. NativeWind/theme conventions, static-first order, centralized fixtures, DRY, readable contrast and reduced-motion/device checks take precedence over conflicting generic examples. No screen-design task is marked complete by installing these skills.
+
+Installation verification: all seven skill manifests/file hashes and three project-relative discovery links passed; local design-system, contrast and React Native animation searches returned results. Typecheck passed. Lint passed with the two existing useInfiniteScroll warnings. CLI discovery has not been exercised in every third-party agent; reload sessions or read the shared guide explicitly.

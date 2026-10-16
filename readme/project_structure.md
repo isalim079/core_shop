@@ -1018,6 +1018,10 @@ Release verification includes translation-key/placeholder parity, missing-key ch
 
 Index design must be validated with actual query plans and production-like data. Do not add an index for every column simply because it is searchable; write-heavy workloads pay a cost for every index.
 
+Additional financial indexes:
+
+| Table/domain | Baseline indexes |
+| --- | --- |
 | LedgerAccount | Unique organization + customer/supplier + kind + currency; scoped party FKs |
 | LedgerEntry | Unique account + sequence; organization + account + effective_at + sequence; unique source-event; reversal references |
 | OpenItem | Organization + account + due_date; source-entry uniqueness |

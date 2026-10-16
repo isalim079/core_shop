@@ -57,7 +57,7 @@ Goal: provide an application that starts and can be reviewed before business fun
 - [x] Initialize a separate private server package with NestJS 12 and the Fastify adapter.
 - [x] Configure Node 24, strict TypeScript, Nest build/watch, ESLint, typecheck and test commands.
 - [x] Create `.env.local`, `.env.production`, and a safe, tracked `.env.example`.
-- [x] Ignore local/production environment files, the `readme/` folder, dependencies, build output and logs.
+- [x] Ignore local/production environment files, dependencies, build output and logs.
 - [x] Select local versus production configuration explicitly; never load local credentials during tests or production.
 - [x] Centralize environment loading and validation in `src/config/`; validate runtime mode, host, port, CORS origins and optional PostgreSQL/Redis URLs without exposing values in errors.
 - [x] Provide development-only Swagger UI at `/api-docs`, with JSON at `/api-docs-json`; verify UI, assets and documents are unavailable in production and tests.
@@ -69,9 +69,9 @@ Goal: provide an application that starts and can be reviewed before business fun
 - [x] Finish automated checks and record their results below.
 - [x] Owner reviews and accepts Phase 1; authorized Phase 2.
 
-### What exists now
+### What existed at Phase 1 verification
 
-`HealthModule` is the only feature module registered in the application. The remaining domain folders contain `.gitkeep` placeholders, not business logic. No database connection, Prisma schema, migration, authentication, queue worker, billing provider or deployment is active. `.env.production` is a non-secret template, not evidence of production readiness. `DATABASE_URL` and `REDIS_URL` are validated but unused by the application in this phase. Local PostgreSQL database/user `core_shop` and the existing Redis service were verified separately, and their URLs are saved in ignored `.env.local`. No application database or Redis integration exists yet.
+The following paragraph records the Phase 1 checkpoint; the current Phase 2 source is summarized above. At that checkpoint, `HealthModule` was the only feature module registered in the application. The remaining domain folders contain `.gitkeep` placeholders, not business logic. No database connection, Prisma schema, migration, authentication, queue worker, billing provider or deployment is active. `.env.production` is a non-secret template, not evidence of production readiness. `DATABASE_URL` and `REDIS_URL` are validated but unused by the application in this phase. Local PostgreSQL database/user `core_shop` and the existing Redis service were verified separately, and their URLs are saved in ignored `.env.local`. No application database or Redis integration exists yet.
 
 ### Folder structure
 
@@ -91,7 +91,7 @@ server/
   tsconfig.test.json
   README.md                    # Tracked setup and ownership guide
   readme/
-    serverProgress.md          # This ignored plan and review record
+    serverProgress.md          # Versionable plan and review record
   src/
     main.ts                    # HTTP listener and startup failure boundary
     app.ts                     # Fastify, API prefix, CORS, shutdown
@@ -181,7 +181,7 @@ Verified on 2026-10-16 with Node 24.16.0 / Yarn 1.22.22:
 | Development entry point | Real HTTP `/health` returned 200 on an ephemeral loopback port |
 | Production entry point | Real HTTP `/health` returned 200 on an ephemeral loopback port |
 | Process overrides | HOST/PORT and CORS origins respected in both startup modes |
-| Ignore rules | `.env.local`, `.env.production` and `readme/serverProgress.md` ignored; `.env.example` trackable |
+| Ignore rules (historical) | `.env.local`, `.env.production` and `readme/serverProgress.md` were ignored; `.env.example` trackable. Documentation ignore rule removed in the later requested update. |
 
 Initial smoke-check processes were stopped after verification. A local `core_shop` PostgreSQL database and login were subsequently provisioned with owner authorization; TCP login and transactional table creation were verified. Redis TCP PING was verified. No production service was provisioned. `.env.local` now contains local credentials and is ignored by Git. The filesystem previously reported mode 777 despite `chmod(600)`; owner-only POSIX permissions are not enforced on this mount.
 
@@ -309,9 +309,49 @@ Acceptance: staging deployment and rollback verified; restored data reconciles; 
 
 ## Phase 16 — post-MVP work
 
-Choose one reviewed increment at a time: richer barcode/import flows, advanced reports/aging, serial/batch/expiry industry capabilities, richer offline conflict/device management, integrations or measured scaling work. Do not add microservices or reporting replicas before measured demand justifies them.
+Choose one reviewed increment at a time: richer barcode/import flows, advanced analytics beyond required core aging, serial/batch/expiry industry capabilities, richer offline conflict/device management, integrations or measured scaling work. Do not add microservices or reporting replicas before measured demand justifies them.
 
 Acceptance: each selected increment gets its own scope, migration/API effects, validation and review checkpoint before implementation.
+
+## Bilingual and credit-ledger scope integration — 2026-10-16
+
+State: requirements/design documentation updated; business implementation **Not started**. The existing NestJS/Fastify modular monolith, PostgreSQL/Prisma, Redis/BullMQ, permission catalog and tenant boundaries remain authoritative. No business table/endpoint is claimed from this update.
+
+| Existing phase | Required additions / verification |
+| --- | --- |
+| 2 | Design `LedgerAccount`, immutable `LedgerEntry`, rebuildable `LedgerBalance`, `OpenItem`, `PaymentMethod`, `Payment`, `PaymentAllocation`, non-cash `LedgerSettlement`, durable command/outbox and scoped source FKs. Add `User.preferred_language` en/bn via future reviewed migration; current Prisma User has no locale field. No party due field as truth. |
+| 3 | Stable translated error-key contract and safe parameters, locale boundary, durable financial idempotency/payload hash, atomic posting/audit/outbox convention; no translated domain enums. |
+| 4–5 | Authenticated preference persistence and tenant/branch permission resolution; extend existing permission catalog/seeds, never add a competing ACL system. |
+| 6 | Unicode Bangla names/notes/addresses/categories/brands and parameterized indexed search for both languages; archive referenced parties and methods. |
+| 8 | Supplier purchase full payable + separate payment/allocations + stock/cost atomically; opening balance, purchase returns, adjustments, statements and supplier payment. |
+| 9 | Customer opening balance, full-sale receivable, collections, returns/refunds, adjustments/reversals and statements. Serialize concurrent payments; exact decimals and allocation limits; source-event uniqueness. |
+| 10 | Six dashboard KPIs, total/party receivables/payables, aging, collection, credit sales, purchase payable and statements; timezone/as-of/branch filters, snapshot consistency and English/Bangla output. |
+| 12 | Offline credit sales and practical customer/supplier collection commands; stable IDs, dependency ordering, current permission checks, acknowledgement/replay and visible conflicts. Never overwrite financial history or lose pending money movements. |
+| 13 | Core English/Bangla/bilingual invoice/payment receipt/statement generation, shaping/fonts, private exports, due lists/eligibility and provider-neutral reminder adapters. WhatsApp/SMS/email/payment-link delivery is optional future scope. |
+| 15 | Ledger reconciliation, duplicate/concurrent payments, reversals, historical aging, rollback, Unicode exports and cross-tenant/branch authorization regression gates. |
+
+Permissions to add using the existing global Permission catalog and tenant RolePermission bindings:
+
+```text
+CUSTOMER_VIEW CUSTOMER_CREATE CUSTOMER_EDIT CUSTOMER_DELETE
+CUSTOMER_LEDGER_VIEW CUSTOMER_PAYMENT_CREATE
+SUPPLIER_VIEW SUPPLIER_CREATE SUPPLIER_EDIT SUPPLIER_DELETE
+SUPPLIER_LEDGER_VIEW SUPPLIER_PAYMENT_CREATE
+REPORT_RECEIVABLE_VIEW REPORT_PAYABLE_VIEW
+LEDGER_ADJUSTMENT_CREATE LEDGER_REVERSAL_CREATE PAYMENT_METHOD_MANAGE
+```
+
+These are required design codes, not a claim the current seed already includes them. `EXPORT_DATA` supplements document/report permissions. All lookups, allocations, replay results, workers and downloads enforce authenticated organization and permitted branch context; body/query organization IDs never authorize access. Restrict immutable-table runtime mutations, use linked reversals, and redact payment details from diagnostic logs.
+
+English/Bangla are core V1 requirements. Keep server values/enums and decimal/date serialization canonical; localize errors/document templates at boundaries using versioned keys and explicit supported locale. Receivable/payable calculations never branch by locale. The canonical specification defines signs, settlement allocation, returns/refunds, opening/current/running balances, unknown-due aging and offline reconciliation.
+
+### Documentation verification — 2026-10-16
+
+The four-section specification retains all 65 baseline subsections and adds explicit business workflows. Seven Markdown files passed fence/link checks (26 relative links); the root canonical move and non-ignored documentation status were verified. Mobile `npx expo lint` and `npx tsc --noEmit` passed, with two existing hook warnings. No server runtime code changed and no new server test run is claimed; existing Phase 2 verification evidence remains authoritative for that phase.
+
+### Observed source and limits
+
+Observed `prisma/schema.prisma`, migration `20261016000100_identity_tenant_files`, seed, database service, readiness controller and `docs/database-design.md`. They establish source presence for Phase 2 and describe its existing scope; they do not implement the new finance/locale requirements. Prior Phase 1 command results below remain historical. This documentation session does not change runtime code, schema, migration, seed or the pre-existing uncommitted server work, and does not claim database verification or Phase 2 acceptance.
 
 ## Definition of done for future features
 
