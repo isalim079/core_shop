@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { environmentFiles, validateEnvironment } from './environment';
+import { environmentFiles, validateRuntimeEnvironment } from './environment';
 
 @Module({
   imports: [
@@ -8,7 +8,7 @@ import { environmentFiles, validateEnvironment } from './environment';
       isGlobal: true,
       cache: true,
       envFilePath: environmentFiles(),
-      validate: validateEnvironment,
+      validate: validateRuntimeEnvironment,
     }),
   ],
   exports: [ConfigModule],

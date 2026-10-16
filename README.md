@@ -6,17 +6,17 @@ Core Shop is being developed as a multi-tenant SaaS platform. One shared backend
 
 ## Project status
 
-**In active development. Server Phase 1 is implemented and verified.**
+**In active development. Server Phase 2 is implemented and verified; owner review is pending.**
 
 | Component | Current state |
 | --- | --- |
-| Server | NestJS and Fastify foundation with environment validation, health endpoint, and development Swagger |
+| Server | NestJS/Fastify API with validated configuration, PostgreSQL/Prisma foundation, health/readiness checks, and development Swagger |
 | Mobile | React Native / Expo application workspace; see its source and setup guide for current functionality |
 | Web | Reserved directory; implementation has not started |
-| Database | PostgreSQL is planned as the source of truth; Prisma integration and schema design are next |
+| Database | PostgreSQL/Prisma identity, tenant, permission, branch, and private-file metadata foundation |
 | Background services | Redis and BullMQ integration is planned |
 
-The server currently has no business endpoints, authentication, tenant authorization, or application database connections. Product capabilities below describe the intended platform rather than completed functionality.
+The server has no registration, authentication, tenant-authorized business endpoints, or file upload/download APIs yet. Product capabilities below describe the intended platform rather than completed functionality. Profile images and shop branding have ownership and verification metadata in the database; storage and upload workflows remain future work.
 
 ## Product vision
 
@@ -54,7 +54,7 @@ Each application manages its own dependencies and commands. Run setup and develo
 | API documentation | Swagger / OpenAPI | Development only |
 | Mobile | React Native, Expo, TypeScript | Workspace exists |
 | Web | React and TypeScript | Planned |
-| Database | PostgreSQL and Prisma | Planned application integration |
+| Database | PostgreSQL and Prisma 7.10.1 | Foundation implemented |
 | Background work | Redis and BullMQ | Planned application integration |
 | File storage | S3-compatible object storage | Planned |
 
@@ -74,7 +74,7 @@ cp -n .env.example .env.local
 yarn start:dev
 ```
 
-The copy command preserves an existing `.env.local`. Review that file before starting the server. PostgreSQL and Redis are not required to run the current server foundation.
+The copy command preserves an existing `.env.local`. Before starting, follow the [database setup guide](server/docs/database-operations.md) to provision PostgreSQL, set separate runtime/migration URLs, apply migrations, and seed reference permissions. PostgreSQL is required for readiness; Redis is not used yet.
 
 Verify the API:
 
@@ -93,8 +93,9 @@ Expected response:
 | Swagger UI | [http://localhost:3000/api-docs](http://localhost:3000/api-docs) |
 | OpenAPI JSON | [http://localhost:3000/api-docs-json](http://localhost:3000/api-docs-json) |
 | Process health | [http://localhost:3000/health](http://localhost:3000/health) |
+| Database readiness | [http://localhost:3000/ready](http://localhost:3000/ready) |
 
-Swagger is disabled in production and test modes. `/health` checks process liveness; it does not verify dependencies or business readiness. Future business endpoints will use `/api/v1`.
+Swagger is disabled in production and test modes. `/health` checks process liveness. `/ready` checks database connectivity, restricted runtime privileges, and schema compatibility. Future business endpoints will use `/api/v1`.
 
 For configuration, commands, folder structure, and production-mode startup, see the [server README](server/README.md).
 
@@ -129,16 +130,22 @@ Run the backend quality checks from `server/`:
 yarn run check
 ```
 
-This runs lint, TypeScript checking, automated tests, and the build. Current tests cover environment selection and validation, CORS, health responses, unavailable routes, and Swagger access across runtime modes.
+This validates/generates Prisma, then runs lint, TypeScript checking, automated tests, and the build. Run `yarn test:integration` for migration, seed, ownership, file lifecycle, and readiness tests on a disposable local database. Current tests cover environment selection and validation, CORS, health responses, unavailable routes, and Swagger access across runtime modes.
 
-Keep credentials in ignored environment files or deployment secret configuration. Commit safe examples only. Production deployment, authentication, dependency readiness, monitoring, and backups remain future work.
+Keep credentials in ignored environment files or deployment secret configuration. Commit safe examples only. Production deployment, authentication, storage integration, monitoring, and backups remain future work.
+
+## Design documentation
+
+- [Tenant and database design](server/docs/database-design.md)
+- [Private files and onboarding](server/docs/uploads.md)
+- [Database setup and verification](server/docs/database-operations.md)
 
 ## Roadmap
 
 Development proceeds in reviewed phases:
 
 1. **Server foundation** — implemented and verified.
-2. **Database and tenant design** — PostgreSQL, Prisma, domain relationships, and readiness checks.
+2. **Database and tenant design** — implemented and verified; owner review pending. Includes PostgreSQL, Prisma, scoped relationships, private-file metadata, and readiness checks.
 3. **API and security foundation** — validation, errors, logging, authorization interfaces, and audit infrastructure.
 4. **Identity and business access** — authentication, organizations, memberships, and branches.
 5. **Commerce workflows** — catalog, customers, suppliers, inventory, purchasing, sales, and payments.

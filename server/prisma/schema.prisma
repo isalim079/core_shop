@@ -1,0 +1,296 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "cjs"
+  importFileExtension = ""
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserStatus {
+  PENDING_VERIFICATION
+  ACTIVE
+  SUSPENDED
+  DELETED
+}
+
+enum OrganizationStatus {
+  DRAFT
+  ACTIVE
+  SUSPENDED
+  ARCHIVED
+}
+
+enum MembershipStatus {
+  ACTIVE
+  SUSPENDED
+  REVOKED
+}
+
+enum BranchAccess {
+  ALL
+  SELECTED
+}
+
+enum FilePurpose {
+  USER_AVATAR
+  ORGANIZATION_LOGO
+  ORGANIZATION_COVER
+  PRODUCT_IMAGE
+  SALE_ATTACHMENT
+  PURCHASE_ATTACHMENT
+  DOCUMENT
+}
+
+enum FileStatus {
+  PENDING
+  UPLOADED
+  QUARANTINED
+  READY
+  REJECTED
+  DELETION_PENDING
+  DELETED
+  EXPIRED
+}
+
+enum FileScanStatus {
+  PENDING
+  CLEAN
+  INFECTED
+  ERROR
+}
+
+enum PlatformRole {
+  SUPPORT
+  ADMIN
+}
+
+model User {
+  id              String     @id @default(uuid()) @db.Uuid
+  email           String?    @unique @db.VarChar(254)
+  phone           String?    @unique @db.VarChar(20)
+  displayName     String     @db.VarChar(120)
+  passwordHash    String?    @db.VarChar(255)
+  status          UserStatus @default(PENDING_VERIFICATION)
+  emailVerifiedAt DateTime?  @db.Timestamptz(3)
+  phoneVerifiedAt DateTime?  @db.Timestamptz(3)
+  createdAt       DateTime   @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime   @updatedAt @db.Timestamptz(3)
+  deletedAt       DateTime?  @db.Timestamptz(3)
+
+  memberships Membership[]
+  ownedFiles  StoredFile[]     @relation("PersonalFileOwner")
+  uploads     StoredFile[]     @relation("FileUploader")
+  avatar      UserAvatar?
+  grants      PlatformGrant[]
+
+  @@map("users")
+}
+
+model Organization {
+  id                 String             @id @default(uuid()) @db.Uuid
+  name               String             @db.VarChar(160)
+  status             OrganizationStatus @default(DRAFT)
+  currency           String             @db.Char(3)
+  currencyScale      Int                @default(2) @db.SmallInt
+  timezone           String             @db.VarChar(80)
+  quantityScale      Int                @default(3) @db.SmallInt
+  allowNegativeStock Boolean            @default(false)
+  createdAt          DateTime           @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime           @updatedAt @db.Timestamptz(3)
+  archivedAt         DateTime?          @db.Timestamptz(3)
+
+  memberships Membership[]
+  branches    Branch[]
+  roles       Role[]
+  files       StoredFile[]
+  branding    OrganizationBranding?
+
+  @@map("organizations")
+}
+
+model Membership {
+  id             String           @id @default(uuid()) @db.Uuid
+  organizationId String           @db.Uuid
+  userId         String           @db.Uuid
+  status         MembershipStatus @default(ACTIVE)
+  isOwner        Boolean          @default(false)
+  branchAccess   BranchAccess     @default(SELECTED)
+  createdAt      DateTime         @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime         @updatedAt @db.Timestamptz(3)
+
+  organization Organization     @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  user         User             @relation(fields: [userId], references: [id], onDelete: Restrict)
+  roles        MembershipRole[]
+  branches     BranchGrant[]
+
+  @@unique([organizationId, userId])
+  @@unique([organizationId, id])
+  @@index([userId, status])
+  @@map("memberships")
+}
+
+model Branch {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @db.Uuid
+  code           String   @db.VarChar(32)
+  name           String   @db.VarChar(160)
+  archivedAt     DateTime? @db.Timestamptz(3)
+  createdAt      DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime  @updatedAt @db.Timestamptz(3)
+
+  organization Organization  @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  grants       BranchGrant[]
+
+  @@unique([organizationId, code])
+  @@unique([organizationId, id])
+  @@map("branches")
+}
+
+model Permission {
+  code        String           @id @db.VarChar(80)
+  description String           @db.VarChar(255)
+  roles       RolePermission[]
+
+  @@map("permissions")
+}
+
+model Role {
+  id             String   @id @default(uuid()) @db.Uuid
+  organizationId String   @db.Uuid
+  code           String   @db.VarChar(40)
+  name           String   @db.VarChar(80)
+  createdAt      DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt      DateTime @updatedAt @db.Timestamptz(3)
+
+  organization Organization     @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  permissions  RolePermission[]
+  memberships  MembershipRole[]
+
+  @@unique([organizationId, code])
+  @@unique([organizationId, id])
+  @@map("roles")
+}
+
+model RolePermission {
+  roleId         String @db.Uuid
+  permissionCode String @db.VarChar(80)
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Restrict)
+  permission Permission @relation(fields: [permissionCode], references: [code], onDelete: Restrict)
+
+  @@id([roleId, permissionCode])
+  @@index([permissionCode])
+  @@map("role_permissions")
+}
+
+model MembershipRole {
+  organizationId String @db.Uuid
+  membershipId   String @db.Uuid
+  roleId         String @db.Uuid
+
+  membership Membership @relation(fields: [organizationId, membershipId], references: [organizationId, id], onDelete: Restrict)
+  role       Role       @relation(fields: [organizationId, roleId], references: [organizationId, id], onDelete: Restrict)
+
+  @@id([membershipId, roleId])
+  @@index([organizationId, roleId])
+  @@map("membership_roles")
+}
+
+model BranchGrant {
+  organizationId String @db.Uuid
+  membershipId   String @db.Uuid
+  branchId       String @db.Uuid
+
+  membership Membership @relation(fields: [organizationId, membershipId], references: [organizationId, id], onDelete: Restrict)
+  branch     Branch     @relation(fields: [organizationId, branchId], references: [organizationId, id], onDelete: Restrict)
+
+  @@id([membershipId, branchId])
+  @@index([organizationId, branchId])
+  @@map("branch_grants")
+}
+
+// Global operator permissions confer no organization membership or business-data access.
+model PlatformGrant {
+  userId    String       @db.Uuid
+  role      PlatformRole
+  createdAt DateTime     @default(now()) @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@id([userId, role])
+  @@map("platform_grants")
+}
+
+// Exactly one owner scope is required by a SQL CHECK constraint.
+// Object bytes and expiring signed URLs never live in this table.
+model StoredFile {
+  id                 String         @id @default(uuid()) @db.Uuid
+  organizationId     String?        @db.Uuid
+  ownerUserId        String?        @db.Uuid
+  uploadedByUserId    String         @db.Uuid
+  purpose            FilePurpose
+  status             FileStatus     @default(PENDING)
+  scanStatus         FileScanStatus @default(PENDING)
+  bucket             String         @db.VarChar(63)
+  objectKey          String         @unique @db.VarChar(512)
+  originalName       String         @db.VarChar(255)
+  declaredMimeType   String         @db.VarChar(100)
+  verifiedMimeType   String?        @db.VarChar(100)
+  expectedBytes      BigInt
+  uploadedBytes      BigInt?
+  actualBytes        BigInt?
+  sourceVersion      String?        @db.VarChar(255)
+  sha256             String?        @db.Char(64)
+  storageVersion     String?        @db.VarChar(255)
+  width              Int?
+  height             Int?
+  expiresAt          DateTime       @db.Timestamptz(3)
+  verifiedAt         DateTime?      @db.Timestamptz(3)
+  createdAt          DateTime       @default(now()) @db.Timestamptz(3)
+  updatedAt          DateTime       @updatedAt @db.Timestamptz(3)
+  deletedAt          DateTime?      @db.Timestamptz(3)
+
+  organization Organization? @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  owner        User?         @relation("PersonalFileOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+  uploadedBy   User          @relation("FileUploader", fields: [uploadedByUserId], references: [id], onDelete: Restrict)
+  avatar       UserAvatar[]
+  logos        OrganizationBranding[] @relation("OrganizationLogo")
+  covers       OrganizationBranding[] @relation("OrganizationCover")
+
+  @@unique([ownerUserId, id])
+  @@unique([organizationId, id])
+  @@index([organizationId, purpose, status, createdAt])
+  @@index([ownerUserId, purpose, status])
+  @@index([status, expiresAt])
+  @@index([uploadedByUserId])
+  @@map("stored_files")
+}
+
+model UserAvatar {
+  userId    String   @id @db.Uuid
+  fileId    String   @unique @db.Uuid
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+
+  user User       @relation(fields: [userId], references: [id], onDelete: Restrict)
+  file StoredFile @relation(fields: [userId, fileId], references: [ownerUserId, id], onDelete: Restrict)
+
+  @@map("user_avatars")
+}
+
+model OrganizationBranding {
+  organizationId String   @id @db.Uuid
+  logoFileId     String?  @db.Uuid
+  coverFileId    String?  @db.Uuid
+  updatedAt      DateTime @updatedAt @db.Timestamptz(3)
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  logo StoredFile? @relation("OrganizationLogo", fields: [organizationId, logoFileId], references: [organizationId, id], onDelete: Restrict)
+  cover StoredFile? @relation("OrganizationCover", fields: [organizationId, coverFileId], references: [organizationId, id], onDelete: Restrict)
+
+  @@index([logoFileId])
+  @@index([coverFileId])
+  @@map("organization_branding")
+}

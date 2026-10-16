@@ -11,6 +11,10 @@ const schema = z.object({
   PORT: z.coerce.number().int().min(1).max(65535).default(3000),
   CORS_ORIGINS: z.string().default(''),
   DATABASE_URL: connectionUrl(['postgres:', 'postgresql:']),
+  MIGRATION_DATABASE_URL: connectionUrl(['postgres:', 'postgresql:']),
+  DATABASE_POOL_MAX: z.coerce.number().int().min(1).max(50).default(10),
+  DATABASE_CONNECT_TIMEOUT_MS: z.coerce.number().int().min(100).max(30_000).default(3000),
+  DATABASE_QUERY_TIMEOUT_MS: z.coerce.number().int().min(100).max(30_000).default(5000),
   REDIS_URL: connectionUrl(['redis:', 'rediss:']),
 });
 
@@ -44,3 +48,11 @@ export function validateEnvironment(input: Record<string, unknown>) {
 }
 
 export type Environment = ReturnType<typeof validateEnvironment>;
+
+export function validateRuntimeEnvironment(input: Record<string, unknown>) {
+  const config = validateEnvironment(input);
+  if (config.NODE_ENV !== 'test' && !config.DATABASE_URL) {
+    throw new Error('Invalid environment configuration: DATABASE_URL');
+  }
+  return config;
+}

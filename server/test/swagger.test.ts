@@ -29,7 +29,11 @@ for (const mode of ['development', 'production', 'test']) {
       })().catch(error => { console.error(error); process.exitCode = 1; });
     `], {
       cwd: resolve(__dirname, '../..'),
-      env: { ...process.env, NODE_ENV: mode, HOST: '127.0.0.1', PORT: '3000', CORS_ORIGINS: '' },
+      env: {
+        ...process.env, NODE_ENV: mode, HOST: '127.0.0.1', PORT: '3000', CORS_ORIGINS: '',
+        DATABASE_URL: 'postgresql://unused:unused@127.0.0.1:1/core_shop_test_unreachable',
+        MIGRATION_DATABASE_URL: '', REDIS_URL: '',
+      },
       encoding: 'utf8',
       timeout: 30_000,
     });

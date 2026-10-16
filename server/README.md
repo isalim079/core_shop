@@ -25,19 +25,21 @@ These capabilities describe the product roadmap. See the current implementation 
 
 ## Current status
 
-**Phase 1: server foundation implemented and verified.**
+**Phase 2: database and tenant foundation implemented; owner review pending.**
 
 The server currently includes:
 
 - A NestJS application using the Fastify HTTP adapter.
 - Centralized environment loading and validation in `src/config/`.
-- A public process-liveness endpoint at `GET /health`.
+- A public process-liveness endpoint at `GET /health` and database/schema readiness at `GET /ready`.
+- PostgreSQL/Prisma lifecycle, a versioned migration, and repeatable permission seeding.
+- Identity, tenant, membership, role, branch, and private-file metadata models with database constraints.
 - Development-only Swagger UI and OpenAPI documents.
 - The `/api/v1` prefix reserved for business endpoints.
 - Configurable browser CORS origins, shutdown hooks, and a 1 MiB request body limit.
 - Strict TypeScript, linting, automated tests, and build tooling.
 
-Database integration, Prisma models and migrations, authentication, tenant authorization, and business endpoints are planned. PostgreSQL and Redis connection settings are accepted, but the application does not connect to either service yet. A readiness endpoint is also planned.
+Authentication, registration, tenant-authorized business endpoints, object storage, and upload APIs remain future work. File metadata supports profile photos, shop branding, and future images/attachments; it does not upload or serve file bytes. Redis integration is planned. See [database design](docs/database-design.md) and [private-file design](docs/uploads.md) for implemented boundaries and future business rules.
 
 ## Technology stack
 
@@ -51,7 +53,7 @@ Database integration, Prisma models and migrations, authentication, tenant autho
 | API documentation | Swagger / OpenAPI | Development only |
 | Package manager | Yarn Classic 1.22.22 | In use |
 | Testing | Node.js test runner | In use |
-| Database and ORM | PostgreSQL and Prisma | Planned integration |
+| Database and ORM | PostgreSQL and Prisma 7.10.1 | Foundation implemented |
 | Cache and background jobs | Redis and BullMQ | Planned integration |
 
 ## Getting started
@@ -61,7 +63,7 @@ Database integration, Prisma models and migrations, authentication, tenant autho
 - Node.js 24, matching `.nvmrc`.
 - Yarn Classic 1.22.22.
 
-PostgreSQL and Redis are optional for the current foundation. They will be required as their integrations are implemented.
+PostgreSQL is required for application readiness. Follow the [database setup guide](docs/database-operations.md) to provision separate migration/runtime logins, configure `.env.local`, apply migrations, and seed permissions before starting. Redis is not used yet.
 
 ### Installation
 
@@ -78,7 +80,7 @@ On first setup, create the local environment file if it does not already exist:
 cp -n .env.example .env.local
 ```
 
-Review `.env.local`, then start the development server:
+Complete the [database setup](docs/database-operations.md) and review `.env.local`, then start the development server:
 
 ```bash
 yarn start:dev
@@ -110,6 +112,7 @@ With the server running in development mode:
 | OpenAPI JSON | [http://localhost:3000/api-docs-json](http://localhost:3000/api-docs-json) |
 | OpenAPI YAML | [http://localhost:3000/api-docs-yaml](http://localhost:3000/api-docs-yaml) |
 | Process health | [http://localhost:3000/health](http://localhost:3000/health) |
+| Database readiness | [http://localhost:3000/ready](http://localhost:3000/ready) |
 
 Swagger routes and their assets are disabled in production and test modes. Business routes will use `/api/v1`; `/health` remains outside that prefix.
 
@@ -123,7 +126,11 @@ Configuration is loaded and validated through `src/config/`. Application code re
 | `HOST` | HTTP listener address | `127.0.0.1` |
 | `PORT` | HTTP listener port | `3000` |
 | `CORS_ORIGINS` | Comma-separated list of exact browser origins | Empty; browser cross-origin access disabled |
-| `DATABASE_URL` | PostgreSQL connection URL for future integration | Empty |
+| `DATABASE_URL` | Restricted PostgreSQL runtime connection; required outside tests | Empty |
+| `MIGRATION_DATABASE_URL` | Separate schema-owner URL for CLI migrations and seed | Empty |
+| `DATABASE_POOL_MAX` | Maximum connections per application process | `10` |
+| `DATABASE_CONNECT_TIMEOUT_MS` | Pool connection timeout | `3000` |
+| `DATABASE_QUERY_TIMEOUT_MS` | PostgreSQL statement timeout | `5000` |
 | `REDIS_URL` | Redis connection URL for future integration | Empty |
 
 The example environment file sets `HOST=0.0.0.0` and local browser origins for development. A physical mobile device should connect to the development computer's LAN IP address; `localhost` on the phone refers to the phone itself.
@@ -138,7 +145,7 @@ The example environment file sets `HOST=0.0.0.0` and local browser origins for d
 
 Explicit process environment variables take precedence over file values. `.env.example` is tracked; local and production environment files are ignored by Git. Keep real credentials out of documentation and committed files.
 
-When provided, database URLs must use `postgres://` or `postgresql://`; Redis URLs must use `redis://` or `rediss://`. Reserved characters in URL usernames and passwords must be percent-encoded. Both settings can remain empty until the relevant integration is implemented.
+When provided, database URLs must use `postgres://` or `postgresql://`; Redis URLs must use `redis://` or `rediss://`. Reserved characters in URL usernames and passwords must be percent-encoded. `DATABASE_URL` is required when running the application outside tests. Redis can remain empty until its integration is implemented. CLI generation/validation do not require a database connection.
 
 CORS entries must be exact HTTP(S) origins without paths or embedded credentials. Production browser origins must use HTTPS. CORS controls browser access and does not provide authentication or authorization.
 
@@ -152,7 +159,13 @@ CORS entries must be exact HTTP(S) origins without paths or embedded credentials
 | `yarn typecheck` | Run strict TypeScript checking |
 | `yarn test` | Compile and run automated tests |
 | `yarn build` | Compile the application into `dist/` |
-| `yarn run check` | Run lint, typecheck, tests, and build |
+| `yarn db:generate` | Generate the Prisma client |
+| `yarn db:validate` | Validate the Prisma schema |
+| `yarn db:migrate` | Apply committed migrations |
+| `yarn db:seed` | Upsert reference permissions |
+| `yarn db:status` | Inspect migration status |
+| `yarn test:integration` | Build and test against a disposable local PostgreSQL database |
+| `yarn run check` | Validate/generate Prisma, lint, typecheck, test, and build |
 | `yarn start:prod` | Run compiled output in explicit production mode |
 
 Use `yarn run check` to invoke the project script; Yarn Classic also has a built-in `yarn check` command with a different purpose.
@@ -174,11 +187,13 @@ server/
 │   ├── app.ts              # Application factory and HTTP setup
 │   ├── app.module.ts       # Root module
 │   ├── config/             # Environment loading, validation, and Swagger
-│   ├── health/             # Process-liveness endpoint
+│   ├── health/             # Process liveness and database readiness
+│   ├── files/              # Upload reservation metadata policies
 │   ├── common/             # Shared infrastructure placeholders
-│   ├── database/           # Future database lifecycle and access
+│   ├── database/           # Prisma lifecycle and readiness checks
 │   └── ...                 # Reserved domain module directories
-├── prisma/migrations/      # Reserved for future migrations
+├── prisma/                 # Schema, committed migration, and permission seed
+├── docs/                   # Database, operations, and private-file designs
 ├── test/                   # Foundation tests and reserved integration/e2e folders
 ├── scripts/                # Startup and future maintenance scripts
 ├── infrastructure/         # Reserved deployment configuration
@@ -187,7 +202,7 @@ server/
 └── yarn.lock
 ```
 
-Reserved directories contain placeholders until their assigned features are implemented. There is no Prisma schema or migration yet.
+Remaining domain directories contain placeholders until their assigned features are implemented. Generated Prisma code is ignored by Git and regenerated on installation or through `yarn db:generate`.
 
 ## Architecture and engineering direction
 
@@ -202,14 +217,14 @@ The design baseline for upcoming phases is:
 - **Transaction safety:** related business changes commit together; retry-prone commands use idempotency.
 - **Client consistency:** web and mobile consume shared API contracts while business invariants remain on the server.
 
-These are implementation requirements for future modules. The foundation does not yet enforce tenant or business rules.
+These are implementation requirements for future modules. The foundation enforces scoped relationships, owner retention, and file metadata invariants in PostgreSQL. Authenticated read authorization and full commerce workflows are not implemented yet.
 
 ## Roadmap
 
 Development proceeds one phase at a time, with owner review between phases:
 
 1. Server foundation — implemented and verified.
-2. Tenant and domain design, PostgreSQL, and Prisma foundation.
+2. Tenant and domain design, PostgreSQL, and Prisma foundation — implemented; owner review pending.
 3. Shared API infrastructure and security foundation.
 4. Authentication, organizations, permissions, and branches.
 5. Catalog, customers, suppliers, inventory, purchases, and sales.
@@ -217,7 +232,7 @@ Development proceeds one phase at a time, with owner review between phases:
 7. Offline synchronization, files, exports, and background workers.
 8. Platform administration, deployment, and launch verification.
 
-The detailed local phase plan is maintained in `readme/serverProgress.md`. That directory is intentionally ignored by Git and is absent from fresh clones. The broader product specification lives in the sibling mobile project at `../mobile_app/readme/project_structure.md`.
+The detailed phase plan is maintained in `readme/serverProgress.md`. The broader product specification lives in the sibling mobile project at `../mobile_app/readme/project_structure.md`. Include these documents when sharing the full project plan.
 
 ## Production entry point
 
@@ -230,7 +245,7 @@ yarn start:prod
 
 The startup wrapper selects production mode before loading the application. Supply production configuration through process environment variables or `.env.production`.
 
-This entry point supports local production-mode verification. Deployment infrastructure, authentication, dependency readiness, monitoring, and backup workflows are scheduled for later phases; the current foundation is not ready for production business use.
+This entry point supports local production-mode verification. Deployment infrastructure, authentication, storage integration, monitoring, and backup workflows are scheduled for later phases; the current foundation is not ready for production business use.
 
 ## License
 

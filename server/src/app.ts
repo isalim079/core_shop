@@ -14,7 +14,10 @@ export async function createApp() {
   );
   const config = app.get(ConfigService<Environment, true>);
   app.setGlobalPrefix('api/v1', {
-    exclude: [{ path: 'health', method: RequestMethod.GET }],
+    exclude: [
+      { path: 'health', method: RequestMethod.GET },
+      { path: 'ready', method: RequestMethod.GET },
+    ],
   });
   const origins = config.get('CORS_ORIGINS', { infer: true });
   app.enableCors({ origin: origins.length ? origins : false, credentials: false });

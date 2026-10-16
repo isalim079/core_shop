@@ -1,6 +1,6 @@
 import { strict as assert } from 'node:assert';
 import { test } from 'node:test';
-import { environmentFiles, validateEnvironment } from '../src/config/environment';
+import { environmentFiles, validateEnvironment, validateRuntimeEnvironment } from '../src/config/environment';
 
 test('production and tests cannot fall back to local environment files', () => {
   assert.deepEqual(environmentFiles('development'), ['.env.local']);
@@ -13,6 +13,12 @@ test('configuration rejects invalid ports without exposing their values', () => 
   for (const port of ['secret-value', '0', '65536', '1.5', '']) {
     assert.throws(() => validateEnvironment({ PORT: port }), { message: 'Invalid environment configuration: PORT' });
   }
+});
+
+test('runtime requires database configuration outside isolated tests', () => {
+  assert.throws(() => validateRuntimeEnvironment({ NODE_ENV: 'development' }), { message: 'Invalid environment configuration: DATABASE_URL' });
+  assert.throws(() => validateRuntimeEnvironment({ NODE_ENV: 'production' }), { message: 'Invalid environment configuration: DATABASE_URL' });
+  assert.equal(validateRuntimeEnvironment({ NODE_ENV: 'test' }).DATABASE_URL, '');
 });
 
 test('connection URLs allow empty settings and validate protocols without exposing credentials', () => {

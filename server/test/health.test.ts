@@ -4,6 +4,7 @@ import { test } from 'node:test';
 
 test('health is public liveness only; unknown API routes stay unavailable', async () => {
   process.env.NODE_ENV = 'test';
+  process.env.DATABASE_URL = '';
   // Import after selecting test mode so no real environment file is loaded.
   const { createApp } = await import('../src/app');
   const app = await createApp();
@@ -13,7 +14,9 @@ test('health is public liveness only; unknown API routes stay unavailable', asyn
     assert.equal(response.statusCode, 200);
     assert.deepEqual(response.json(), { status: 'ok', service: 'core-shop-server' });
     assert.equal((await app.inject({ method: 'GET', url: '/api/v1/products' })).statusCode, 404);
-    assert.equal((await app.inject({ method: 'GET', url: '/ready' })).statusCode, 404);
+    const readiness = await app.inject({ method: 'GET', url: '/ready' });
+    assert.equal(readiness.statusCode, 503);
+    assert.deepEqual(readiness.json(), { status: 'not_ready', service: 'core-shop-server' });
   } finally {
     await app.close();
   }
