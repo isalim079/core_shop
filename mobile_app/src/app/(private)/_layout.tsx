@@ -1,5 +1,6 @@
 import { Redirect, Stack } from "expo-router";
 import { useAuth } from "@/hooks/useAuth";
+import { defaultStackScreenOptions } from "@/constants/navigation";
 
 export default function PrivateLayout() {
   const isLoggedIn = useAuth();
@@ -9,6 +10,6 @@ export default function PrivateLayout() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }} />
+    <Stack screenOptions={defaultStackScreenOptions} />
   );
 }

@@ -37,6 +37,8 @@
   },
   "devDependencies": {
     "@types/react": "~19.2.2",
+    "eslint": "^9.0.0",
+    "eslint-config-expo": "~57.0.2",
     "patch-package": "^8.0.1",
     "typescript": "~6.0.3"
   },
@@ -51,7 +53,6 @@
     "generate-icons": "bash ./scripts/generate-app-icons.sh",
     "replace-touchable": "bash ./scripts/replace-touchable-opacity.sh",
     "ios": "expo run:ios",
-    "web": "expo start --web",
     "lint": "expo lint",
     "postinstall": "patch-package"
   },

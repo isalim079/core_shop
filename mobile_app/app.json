@@ -4,11 +4,11 @@
     "slug": "core-shop",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/cs-icon.png",
     "scheme": "coreshop",
     "userInterfaceStyle": "light",
     "splash": {
-      "backgroundColor": "#F0FFF4",
+      "backgroundColor": "#FFFFFF",
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain"
     },
@@ -19,16 +19,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#F0FFF4",
-        "foregroundImage": "./assets/images/android-icon-foreground.png"
+        "backgroundColor": "#059669",
+        "foregroundImage": "./assets/images/cs-icon.png"
       },
       "package": "com.coreshop.app",
       "versionCode": 1,
-      "predictiveBackGestureEnabled": false
-    },
-    "web": {
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "predictiveBackGestureEnabled": true
     },
     "plugins": [
       "expo-router",
@@ -36,7 +32,7 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#F0FFF4",
+          "backgroundColor": "#FFFFFF",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 200
         }
@@ -50,6 +46,10 @@
       "eas": {
         "projectId": "YOUR_EAS_PROJECT_ID"
       }
-    }
+    },
+    "platforms": [
+      "android",
+      "ios"
+    ]
   }
 }

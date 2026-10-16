@@ -25,7 +25,7 @@ module.exports = {
         secondary: "#34D399",
         tint: "#A7F3D0",
         dark: "#1C2D24",
-        surface: "#F0FFF4",
+        surface: "#FFFFFF",
 
         // Text Colors
         "text-primary": "#1C2D24",
@@ -35,10 +35,10 @@ module.exports = {
         "text-on-primary": "#FFFFFF",
 
         // Surface & Border
-        "surface-app": "#F0FFF4",
+        "surface-app": "#FFFFFF",
         "surface-card": "#FFFFFF",
-        "surface-tint": "#D1FAE5",
-        "border-default": "#D1FAE5",
+        "surface-tint": "#F0FDF4",
+        "border-default": "#E5E7EB",
         "border-focus": "#059669",
 
         // Semantic

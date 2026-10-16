@@ -1,8 +1,9 @@
 import "../global.css";
 import React, { useEffect } from "react";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, Appearance } from "react-native";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import * as SystemUI from "expo-system-ui";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
@@ -17,6 +18,7 @@ import {
 } from "@expo-google-fonts/poppins";
 import { store } from "@/store/store";
 import { Colors } from "@/constants/colors";
+import { defaultStackScreenOptions } from "@/constants/navigation";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { hydrateAuth, readPersistedAuth, selectIsHydrated } from "@/store/features/auth/auth.slice";
 
@@ -44,6 +46,11 @@ function RootLayoutNav() {
   });
 
   useEffect(() => {
+    Appearance.setColorScheme?.("light");
+    SystemUI.setBackgroundColorAsync("#FFFFFF").catch(() => {});
+  }, []);
+
+  useEffect(() => {
     let active = true;
     readPersistedAuth().then((session) => {
       if (!active) return;
@@ -62,7 +69,7 @@ function RootLayoutNav() {
 
   if ((!fontsLoaded && !fontError) || !isHydrated) {
     return (
-      <View className="flex-1 items-center justify-center bg-surface-app">
+      <View className="flex-1 items-center justify-center bg-surface-app" style={{ backgroundColor: "#FFFFFF" }}>
         <ActivityIndicator color={Colors.primary} />
       </View>
     );
@@ -71,7 +78,7 @@ function RootLayoutNav() {
   return (
     <>
       <StatusBar style="dark" />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: Colors.surfaceApp } }}>
+      <Stack screenOptions={defaultStackScreenOptions}>
         <Stack.Screen name="index" />
         <Stack.Screen name="(auth)" />
         <Stack.Screen name="(private)" />

@@ -4,7 +4,7 @@ export const Colors = {
   secondary: "#34D399",
   tint: "#A7F3D0",
   dark: "#1C2D24",
-  surface: "#F0FFF4",
+  surface: "#FFFFFF",
 
   textPrimary: "#1C2D24",
   textSecondary: "#4B5563",
@@ -12,10 +12,10 @@ export const Colors = {
   textDisabled: "#D1D5DB",
   textOnPrimary: "#FFFFFF",
 
-  surfaceApp: "#F0FFF4",
+  surfaceApp: "#FFFFFF",
   surfaceCard: "#FFFFFF",
-  surfaceTint: "#D1FAE5",
-  borderDefault: "#D1FAE5",
+  surfaceTint: "#F0FDF4",
+  borderDefault: "#E5E7EB",
   borderFocus: "#059669",
 
   success: "#059669",

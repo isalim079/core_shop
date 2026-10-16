@@ -19,7 +19,7 @@ export function Screen({
   edges = ["top", "left", "right"],
 }: ScreenProps) {
   return (
-    <SafeAreaView edges={edges} className={`flex-1 bg-surface-app ${className ?? ""}`}>
+    <SafeAreaView edges={edges} className={`flex-1 bg-surface-app ${className ?? ""}`} style={{ backgroundColor: "#FFFFFF" }}>
       {keyboard ? (
         <KeyboardAwareScrollView
           bottomOffset={20}

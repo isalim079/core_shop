@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { router } from "expo-router";
 import { APP_NAME } from "@/constants/app";
 import { Screen } from "@/components/layout/Screen";
@@ -13,6 +13,14 @@ export default function RegisterScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const handleGoToLogin = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace("/(auth)/login");
+    }
+  };
+
   const handleRegister = () => {
     if (!name.trim() || !email.trim() || !password.trim()) {
       setError("Please fill in all fields.");
@@ -22,14 +30,23 @@ export default function RegisterScreen() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      router.replace("/(auth)/login");
+      handleGoToLogin();
     }, 800);
   };
 
   return (
     <Screen keyboard edges={["top", "left", "right", "bottom"]}>
       <View className="flex-1 px-xl pb-4xl pt-2xl">
-        <View className="mb-[40px]">
+        <View className="mb-[32px]">
+          <TouchableOpacity
+            onPress={handleGoToLogin}
+            activeOpacity={0.7}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            className="mb-lg h-[40px] w-[40px] items-center justify-center rounded-full bg-surface-tint"
+            accessibilityLabel="Back to sign in"
+          >
+            <Text className="font-poppins-semibold text-[20px] text-primary">‹</Text>
+          </TouchableOpacity>
           <View className="mb-xl h-[56px] w-[56px] items-center justify-center rounded-md bg-primary">
             <Text className="font-poppins-bold text-[24px] text-text-on-primary">C</Text>
           </View>
@@ -64,7 +81,7 @@ export default function RegisterScreen() {
         <Button label="Create account" onPress={handleRegister} loading={loading} />
         <View className="mt-sm flex-row items-center justify-center">
           <Text className="text-body">Already have an account? </Text>
-          <Button label="Sign in" variant="link" onPress={() => router.replace("/(auth)/login")} />
+          <Button label="Sign in" variant="link" onPress={handleGoToLogin} />
         </View>
       </View>
     </Screen>
