@@ -142,7 +142,7 @@ export function AnimatedSplashScreen({
       ]).start(() => {
         onAnimationFinish?.();
       });
-    }, 1200);
+    }, 1800);
 
     return () => clearTimeout(timer);
   }, [isAppReady, exitScale, exitOpacity, onAnimationFinish]);

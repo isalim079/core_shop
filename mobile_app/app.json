@@ -9,7 +9,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "backgroundColor": "#FFFFFF",
-      "image": "./assets/images/splash-icon.png",
+      "image": "./assets/images/cs-icon.png",
       "resizeMode": "contain"
     },
     "ios": {
@@ -33,7 +33,7 @@
         "expo-splash-screen",
         {
           "backgroundColor": "#FFFFFF",
-          "image": "./assets/images/splash-icon.png",
+          "image": "./assets/images/cs-icon.png",
           "imageWidth": 200
         }
       ]
