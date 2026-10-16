@@ -1,0 +1,1915 @@
+diff --git a/node_modules/react-native-keyboard-controller/AGENTS.md b/node_modules/react-native-keyboard-controller/AGENTS.md
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/LICENSE b/node_modules/react-native-keyboard-controller/LICENSE
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/README.md b/node_modules/react-native-keyboard-controller/README.md
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/build.gradle b/node_modules/react-native-keyboard-controller/android/build.gradle
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/gradle.properties b/node_modules/react-native-keyboard-controller/android/gradle.properties
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/react-native-helpers.gradle b/node_modules/react-native-keyboard-controller/android/react-native-helpers.gradle
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/base/java/com/reactnativekeyboardcontroller/KeyboardControllerPackage.kt b/node_modules/react-native-keyboard-controller/android/src/base/java/com/reactnativekeyboardcontroller/KeyboardControllerPackage.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/ClippingScrollViewDecoratorViewManager.kt b/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/ClippingScrollViewDecoratorViewManager.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/KeyboardBackgroundViewManager.kt b/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/KeyboardBackgroundViewManager.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/KeyboardControllerModule.kt b/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/KeyboardControllerModule.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/KeyboardControllerViewManager.kt b/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/KeyboardControllerViewManager.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/KeyboardGestureAreaViewManager.kt b/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/KeyboardGestureAreaViewManager.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/KeyboardToolbarGroupViewManager.kt b/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/KeyboardToolbarGroupViewManager.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/OverKeyboardViewManager.kt b/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/OverKeyboardViewManager.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/StatusBarManagerCompatModule.kt b/node_modules/react-native-keyboard-controller/android/src/fabric/java/com/reactnativekeyboardcontroller/StatusBarManagerCompatModule.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/AndroidManifest.xml b/node_modules/react-native-keyboard-controller/android/src/main/AndroidManifest.xml
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/constants/Keyboard.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/constants/Keyboard.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/constants/UIThread.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/constants/UIThread.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/events/FocusedInputLayoutChangedEvent.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/events/FocusedInputLayoutChangedEvent.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/events/FocusedInputSelectionChangedEvent.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/events/FocusedInputSelectionChangedEvent.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/events/FocusedInputTextChangedEvent.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/events/FocusedInputTextChangedEvent.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/events/KeyboardTransitionEvent.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/events/KeyboardTransitionEvent.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/Context.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/Context.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/EditText.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/EditText.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/Float.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/Float.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/ReactContext.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/ReactContext.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/ScrollView.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/ScrollView.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/ThemedReactContext.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/ThemedReactContext.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/View.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/View.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/ViewGroup.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/ViewGroup.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/WindowInsetsAnimationCompat.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/extensions/WindowInsetsAnimationCompat.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/interactive/InteractiveKeyboardProvider.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/interactive/InteractiveKeyboardProvider.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/interactive/KeyboardAnimationController.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/interactive/KeyboardAnimationController.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/interactive/interpolators/Interpolator.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/interactive/interpolators/Interpolator.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/interactive/interpolators/IosInterpolator.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/interactive/interpolators/IosInterpolator.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/interactive/interpolators/LinearInterpolator.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/interactive/interpolators/LinearInterpolator.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/listeners/FocusedInputObserver.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/listeners/FocusedInputObserver.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/listeners/KeyboardAnimationCallback.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/listeners/KeyboardAnimationCallback.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/listeners/WindowDimensionListener.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/listeners/WindowDimensionListener.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/log/Logger.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/log/Logger.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/managers/ClippingScrollViewDecoratorViewManagerImpl.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/managers/ClippingScrollViewDecoratorViewManagerImpl.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/managers/KeyboardBackgroundViewManagerImpl.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/managers/KeyboardBackgroundViewManagerImpl.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/managers/KeyboardControllerViewManagerImpl.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/managers/KeyboardControllerViewManagerImpl.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/managers/KeyboardGestureAreaViewManagerImpl.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/managers/KeyboardGestureAreaViewManagerImpl.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/managers/KeyboardToolbarGroupViewManagerImpl.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/managers/KeyboardToolbarGroupViewManagerImpl.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/managers/OverKeyboardViewManagerImpl.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/managers/OverKeyboardViewManagerImpl.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/modal/ModalAttachedWatcher.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/modal/ModalAttachedWatcher.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/modules/KeyboardControllerModuleImpl.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/modules/KeyboardControllerModuleImpl.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/modules/statusbar/StatusBarManagerCompatModuleImpl.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/modules/statusbar/StatusBarManagerCompatModuleImpl.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/modules/statusbar/StatusBarModuleProxy.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/modules/statusbar/StatusBarModuleProxy.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/traversal/FocusedInputHolder.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/traversal/FocusedInputHolder.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/traversal/ViewHierarchyNavigator.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/traversal/ViewHierarchyNavigator.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/ClippingScrollViewDecoratorView.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/ClippingScrollViewDecoratorView.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/EdgeToEdgeReactViewGroup.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/EdgeToEdgeReactViewGroup.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/KeyboardGestureAreaReactViewGroup.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/KeyboardGestureAreaReactViewGroup.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/KeyboardToolbarGroupReactViewGroup.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/KeyboardToolbarGroupReactViewGroup.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/background/KeyboardBackgroundViewGroup.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/background/KeyboardBackgroundViewGroup.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/background/Skins.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/background/Skins.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/overlay/JSPointerDispatcherCompat.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/overlay/JSPointerDispatcherCompat.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/overlay/OverKeyboardHostShadowNode.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/overlay/OverKeyboardHostShadowNode.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/overlay/OverKeyboardViewGroup.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/overlay/OverKeyboardViewGroup.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/overlay/RootViewCompat.kt b/node_modules/react-native-keyboard-controller/android/src/main/java/com/reactnativekeyboardcontroller/views/overlay/RootViewCompat.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/jni/CMakeLists.txt b/node_modules/react-native-keyboard-controller/android/src/main/jni/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/jni/RNKC.h b/node_modules/react-native-keyboard-controller/android/src/main/jni/RNKC.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/res/values-v29/colors.xml b/node_modules/react-native-keyboard-controller/android/src/main/res/values-v29/colors.xml
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/res/values-v30/colors.xml b/node_modules/react-native-keyboard-controller/android/src/main/res/values-v30/colors.xml
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/res/values-v33/colors.xml b/node_modules/react-native-keyboard-controller/android/src/main/res/values-v33/colors.xml
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/res/values-v34/colors.xml b/node_modules/react-native-keyboard-controller/android/src/main/res/values-v34/colors.xml
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/res/values-v35/colors.xml b/node_modules/react-native-keyboard-controller/android/src/main/res/values-v35/colors.xml
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/res/values/attrs.xml b/node_modules/react-native-keyboard-controller/android/src/main/res/values/attrs.xml
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/main/res/values/colors.xml b/node_modules/react-native-keyboard-controller/android/src/main/res/values/colors.xml
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/ClippingScrollViewDecoratorViewManager.kt b/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/ClippingScrollViewDecoratorViewManager.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/KeyboardBackgroundViewManager.kt b/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/KeyboardBackgroundViewManager.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/KeyboardControllerModule.kt b/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/KeyboardControllerModule.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/KeyboardControllerViewManager.kt b/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/KeyboardControllerViewManager.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/KeyboardGestureAreaViewManager.kt b/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/KeyboardGestureAreaViewManager.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/KeyboardToolbarGroupViewManager.kt b/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/KeyboardToolbarGroupViewManager.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/OverKeyboardViewManager.kt b/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/OverKeyboardViewManager.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/StatusBarManagerCompatModule.kt b/node_modules/react-native-keyboard-controller/android/src/paper/java/com/reactnativekeyboardcontroller/StatusBarManagerCompatModule.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/android/src/turbo/java/com/reactnativekeyboardcontroller/KeyboardControllerPackage.kt b/node_modules/react-native-keyboard-controller/android/src/turbo/java/com/reactnativekeyboardcontroller/KeyboardControllerPackage.kt
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/app.plugin.js b/node_modules/react-native-keyboard-controller/app.plugin.js
+new file mode 100755
+index 0000000..d050e56
+--- /dev/null
++++ b/node_modules/react-native-keyboard-controller/app.plugin.js
+@@ -0,0 +1 @@
++module.exports = (config) => config;
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCClippingScrollViewDecoratorViewComponentDescriptor.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCClippingScrollViewDecoratorViewComponentDescriptor.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCClippingScrollViewDecoratorViewShadowNode.cpp b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCClippingScrollViewDecoratorViewShadowNode.cpp
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCClippingScrollViewDecoratorViewShadowNode.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCClippingScrollViewDecoratorViewShadowNode.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCClippingScrollViewDecoratorViewState.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCClippingScrollViewDecoratorViewState.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardBackgroundViewComponentDescriptor.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardBackgroundViewComponentDescriptor.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardBackgroundViewShadowNode.cpp b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardBackgroundViewShadowNode.cpp
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardBackgroundViewShadowNode.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardBackgroundViewShadowNode.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardBackgroundViewState.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardBackgroundViewState.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardControllerViewComponentDescriptor.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardControllerViewComponentDescriptor.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardControllerViewShadowNode.cpp b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardControllerViewShadowNode.cpp
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardControllerViewShadowNode.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardControllerViewShadowNode.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardControllerViewState.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardControllerViewState.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardExtenderComponentDescriptor.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardExtenderComponentDescriptor.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardExtenderShadowNode.cpp b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardExtenderShadowNode.cpp
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardExtenderShadowNode.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardExtenderShadowNode.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardExtenderState.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardExtenderState.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardGestureAreaComponentDescriptor.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardGestureAreaComponentDescriptor.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardGestureAreaShadowNode.cpp b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardGestureAreaShadowNode.cpp
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardGestureAreaShadowNode.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardGestureAreaShadowNode.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardGestureAreaState.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardGestureAreaState.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardToolbarGroupViewComponentDescriptor.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardToolbarGroupViewComponentDescriptor.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardToolbarGroupViewShadowNode.cpp b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardToolbarGroupViewShadowNode.cpp
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardToolbarGroupViewShadowNode.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardToolbarGroupViewShadowNode.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardToolbarGroupViewState.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCKeyboardToolbarGroupViewState.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCOverKeyboardViewComponentDescriptor.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCOverKeyboardViewComponentDescriptor.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCOverKeyboardViewShadowNode.cpp b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCOverKeyboardViewShadowNode.cpp
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCOverKeyboardViewShadowNode.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCOverKeyboardViewShadowNode.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCOverKeyboardViewState.cpp b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCOverKeyboardViewState.cpp
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCOverKeyboardViewState.h b/node_modules/react-native-keyboard-controller/common/cpp/react/renderer/components/RNKC/RNKCOverKeyboardViewState.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/.swift-version b/node_modules/react-native-keyboard-controller/ios/.swift-version
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/KeyboardBackdropController.swift b/node_modules/react-native-keyboard-controller/ios/KeyboardBackdropController.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/KeyboardController-Bridging-Header.h b/node_modules/react-native-keyboard-controller/ios/KeyboardController-Bridging-Header.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/KeyboardControllerModule-Header.h b/node_modules/react-native-keyboard-controller/ios/KeyboardControllerModule-Header.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/KeyboardControllerModule.mm b/node_modules/react-native-keyboard-controller/ios/KeyboardControllerModule.mm
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/KeyboardControllerModuleImpl.swift b/node_modules/react-native-keyboard-controller/ios/KeyboardControllerModuleImpl.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/animations/KeyboardAnimation.swift b/node_modules/react-native-keyboard-controller/ios/animations/KeyboardAnimation.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/animations/SpringAnimation.swift b/node_modules/react-native-keyboard-controller/ios/animations/SpringAnimation.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/animations/TimingAnimation.swift b/node_modules/react-native-keyboard-controller/ios/animations/TimingAnimation.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/core/KeyboardControllerConfiguration.swift b/node_modules/react-native-keyboard-controller/ios/core/KeyboardControllerConfiguration.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/core/UIUtils.swift b/node_modules/react-native-keyboard-controller/ios/core/UIUtils.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/delegates/KCTextInputCompositeDelegate.swift b/node_modules/react-native-keyboard-controller/ios/delegates/KCTextInputCompositeDelegate.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/events/FocusedInputLayoutChangedEvent.h b/node_modules/react-native-keyboard-controller/ios/events/FocusedInputLayoutChangedEvent.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/events/FocusedInputLayoutChangedEvent.m b/node_modules/react-native-keyboard-controller/ios/events/FocusedInputLayoutChangedEvent.m
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/events/FocusedInputSelectionChangedEvent.h b/node_modules/react-native-keyboard-controller/ios/events/FocusedInputSelectionChangedEvent.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/events/FocusedInputSelectionChangedEvent.m b/node_modules/react-native-keyboard-controller/ios/events/FocusedInputSelectionChangedEvent.m
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/events/FocusedInputTextChangedEvent.h b/node_modules/react-native-keyboard-controller/ios/events/FocusedInputTextChangedEvent.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/events/FocusedInputTextChangedEvent.m b/node_modules/react-native-keyboard-controller/ios/events/FocusedInputTextChangedEvent.m
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/events/KeyboardEventEmitterPayload.swift b/node_modules/react-native-keyboard-controller/ios/events/KeyboardEventEmitterPayload.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/events/KeyboardMoveEvent.h b/node_modules/react-native-keyboard-controller/ios/events/KeyboardMoveEvent.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/events/KeyboardMoveEvent.m b/node_modules/react-native-keyboard-controller/ios/events/KeyboardMoveEvent.m
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/extensions/CGFloat.swift b/node_modules/react-native-keyboard-controller/ios/extensions/CGFloat.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/extensions/Date.swift b/node_modules/react-native-keyboard-controller/ios/extensions/Date.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/extensions/NSObject.swift b/node_modules/react-native-keyboard-controller/ios/extensions/NSObject.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/extensions/Notification.swift b/node_modules/react-native-keyboard-controller/ios/extensions/Notification.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/extensions/String.swift b/node_modules/react-native-keyboard-controller/ios/extensions/String.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/extensions/UIApplication.swift b/node_modules/react-native-keyboard-controller/ios/extensions/UIApplication.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/extensions/UIKeyboardType.swift b/node_modules/react-native-keyboard-controller/ios/extensions/UIKeyboardType.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/extensions/UIResponder.swift b/node_modules/react-native-keyboard-controller/ios/extensions/UIResponder.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/extensions/UIScrollView.swift b/node_modules/react-native-keyboard-controller/ios/extensions/UIScrollView.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/extensions/UITextInput.swift b/node_modules/react-native-keyboard-controller/ios/extensions/UITextInput.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/extensions/UIView.swift b/node_modules/react-native-keyboard-controller/ios/extensions/UIView.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/extensions/UIWindow.swift b/node_modules/react-native-keyboard-controller/ios/extensions/UIWindow.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/interactive/InvisibleInputAccessoryView.swift b/node_modules/react-native-keyboard-controller/ios/interactive/InvisibleInputAccessoryView.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/interactive/KeyboardAreaExtender.swift b/node_modules/react-native-keyboard-controller/ios/interactive/KeyboardAreaExtender.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/interactive/KeyboardOffsetProvider.swift b/node_modules/react-native-keyboard-controller/ios/interactive/KeyboardOffsetProvider.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/objc/NSObject+SafeKVC.h b/node_modules/react-native-keyboard-controller/ios/objc/NSObject+SafeKVC.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/objc/NSObject+SafeKVC.m b/node_modules/react-native-keyboard-controller/ios/objc/NSObject+SafeKVC.m
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/objc/RCTUIManager+LayoutAnimationManager.h b/node_modules/react-native-keyboard-controller/ios/objc/RCTUIManager+LayoutAnimationManager.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/objc/RCTUIManager+LayoutAnimationManager.m b/node_modules/react-native-keyboard-controller/ios/objc/RCTUIManager+LayoutAnimationManager.m
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/objc/TextInput+DelegateManager.h b/node_modules/react-native-keyboard-controller/ios/objc/TextInput+DelegateManager.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/objc/TextInput+DelegateManager.m b/node_modules/react-native-keyboard-controller/ios/objc/TextInput+DelegateManager.m
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/observers/FocusedInputObserver.swift b/node_modules/react-native-keyboard-controller/ios/observers/FocusedInputObserver.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/observers/movement/KeyboardEventsIgnorer.swift b/node_modules/react-native-keyboard-controller/ios/observers/movement/KeyboardEventsIgnorer.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/observers/movement/KeyboardTrackingView.swift b/node_modules/react-native-keyboard-controller/ios/observers/movement/KeyboardTrackingView.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/observers/movement/KeyboardViewLocator.swift b/node_modules/react-native-keyboard-controller/ios/observers/movement/KeyboardViewLocator.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/observers/movement/observer/KeyboardMovementObserver+Animation.swift b/node_modules/react-native-keyboard-controller/ios/observers/movement/observer/KeyboardMovementObserver+Animation.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/observers/movement/observer/KeyboardMovementObserver+Interactive.swift b/node_modules/react-native-keyboard-controller/ios/observers/movement/observer/KeyboardMovementObserver+Interactive.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/observers/movement/observer/KeyboardMovementObserver+Lifecycle.swift b/node_modules/react-native-keyboard-controller/ios/observers/movement/observer/KeyboardMovementObserver+Lifecycle.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/observers/movement/observer/KeyboardMovementObserver+Listeners.swift b/node_modules/react-native-keyboard-controller/ios/observers/movement/observer/KeyboardMovementObserver+Listeners.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/observers/movement/observer/KeyboardMovementObserver+Watcher.swift b/node_modules/react-native-keyboard-controller/ios/observers/movement/observer/KeyboardMovementObserver+Watcher.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/observers/movement/observer/KeyboardMovementObserver.swift b/node_modules/react-native-keyboard-controller/ios/observers/movement/observer/KeyboardMovementObserver.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/protocols/TextInput.swift b/node_modules/react-native-keyboard-controller/ios/protocols/TextInput.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/swizzling/UIResponderSwizzle.swift b/node_modules/react-native-keyboard-controller/ios/swizzling/UIResponderSwizzle.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/traversal/FocusedInputHolder.swift b/node_modules/react-native-keyboard-controller/ios/traversal/FocusedInputHolder.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/traversal/KeyboardView.swift b/node_modules/react-native-keyboard-controller/ios/traversal/KeyboardView.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/traversal/ViewHierarchyNavigator.swift b/node_modules/react-native-keyboard-controller/ios/traversal/ViewHierarchyNavigator.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/ClippingScrollViewDecoratorViewManager.h b/node_modules/react-native-keyboard-controller/ios/views/ClippingScrollViewDecoratorViewManager.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/ClippingScrollViewDecoratorViewManager.mm b/node_modules/react-native-keyboard-controller/ios/views/ClippingScrollViewDecoratorViewManager.mm
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/KeyboardBackgroundViewManager.h b/node_modules/react-native-keyboard-controller/ios/views/KeyboardBackgroundViewManager.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/KeyboardBackgroundViewManager.mm b/node_modules/react-native-keyboard-controller/ios/views/KeyboardBackgroundViewManager.mm
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/KeyboardControllerView.h b/node_modules/react-native-keyboard-controller/ios/views/KeyboardControllerView.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/KeyboardControllerView.mm b/node_modules/react-native-keyboard-controller/ios/views/KeyboardControllerView.mm
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/KeyboardControllerViewManager.mm b/node_modules/react-native-keyboard-controller/ios/views/KeyboardControllerViewManager.mm
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/KeyboardControllerViewManager.swift b/node_modules/react-native-keyboard-controller/ios/views/KeyboardControllerViewManager.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/KeyboardExtenderContainerView.swift b/node_modules/react-native-keyboard-controller/ios/views/KeyboardExtenderContainerView.swift
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/KeyboardExtenderManager.h b/node_modules/react-native-keyboard-controller/ios/views/KeyboardExtenderManager.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/KeyboardExtenderManager.mm b/node_modules/react-native-keyboard-controller/ios/views/KeyboardExtenderManager.mm
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/KeyboardGestureAreaManager.h b/node_modules/react-native-keyboard-controller/ios/views/KeyboardGestureAreaManager.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/KeyboardGestureAreaManager.mm b/node_modules/react-native-keyboard-controller/ios/views/KeyboardGestureAreaManager.mm
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/KeyboardToolbarGroupViewManager.h b/node_modules/react-native-keyboard-controller/ios/views/KeyboardToolbarGroupViewManager.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/KeyboardToolbarGroupViewManager.mm b/node_modules/react-native-keyboard-controller/ios/views/KeyboardToolbarGroupViewManager.mm
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/OverKeyboardViewManager.h b/node_modules/react-native-keyboard-controller/ios/views/OverKeyboardViewManager.h
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/ios/views/OverKeyboardViewManager.mm b/node_modules/react-native-keyboard-controller/ios/views/OverKeyboardViewManager.mm
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/jest/index.js b/node_modules/react-native-keyboard-controller/jest/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/animated.js b/node_modules/react-native-keyboard-controller/lib/commonjs/animated.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/animated.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/animated.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/architecture.js b/node_modules/react-native-keyboard-controller/lib/commonjs/architecture.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/architecture.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/architecture.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/bindings.js b/node_modules/react-native-keyboard-controller/lib/commonjs/bindings.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/bindings.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/bindings.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/bindings.native.js b/node_modules/react-native-keyboard-controller/lib/commonjs/bindings.native.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/bindings.native.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/bindings.native.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/compat.js b/node_modules/react-native-keyboard-controller/lib/commonjs/compat.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/compat.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/compat.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAvoidingView/hooks.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAvoidingView/hooks.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAvoidingView/hooks.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAvoidingView/hooks.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAvoidingView/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAvoidingView/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAvoidingView/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAvoidingView/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/types.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/types.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/types.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/types.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/useSmoothKeyboardHandler.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/useSmoothKeyboardHandler.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/useSmoothKeyboardHandler.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/useSmoothKeyboardHandler.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/utils.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/utils.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/utils.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardAwareScrollView/utils.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/hooks.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/hooks.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/hooks.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/hooks.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/types.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/types.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/types.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/types.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/helpers.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/helpers.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/helpers.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/helpers.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/index.ios.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/index.ios.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/index.ios.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/index.ios.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/types.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/types.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/types.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useChatKeyboard/types.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useEndVisible.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useEndVisible.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useEndVisible.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useEndVisible.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useExtraContentPadding/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useExtraContentPadding/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useExtraContentPadding/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useExtraContentPadding/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useFrozenPadding/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useFrozenPadding/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useFrozenPadding/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardChatScrollView/useFrozenPadding/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardEffects/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardEffects/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardEffects/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardEffects/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardStickyView/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardStickyView/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardStickyView/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardStickyView/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/Arrow.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/Arrow.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/Arrow.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/Arrow.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/Button.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/Button.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/Button.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/Button.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/colors.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/colors.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/colors.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/colors.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/colors.native.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/colors.native.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/colors.native.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/colors.native.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Background.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Background.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Background.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Background.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Content.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Content.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Content.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Content.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Done.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Done.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Done.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Done.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Next.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Next.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Next.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Next.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Prev.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Prev.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Prev.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/Prev.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/types.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/types.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/types.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/components/types.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/context.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/context.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/context.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/compound/context.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/constants.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/constants.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/constants.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/constants.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/types.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/types.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/types.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/KeyboardToolbar/types.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/ScrollViewWithBottomPadding/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/ScrollViewWithBottomPadding/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/ScrollViewWithBottomPadding/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/ScrollViewWithBottomPadding/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/ScrollViewWithBottomPadding/styles.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/ScrollViewWithBottomPadding/styles.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/ScrollViewWithBottomPadding/styles.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/ScrollViewWithBottomPadding/styles.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/hooks/useCombinedRef.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/hooks/useCombinedRef.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/hooks/useCombinedRef.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/hooks/useCombinedRef.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/hooks/useScrollState.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/hooks/useScrollState.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/hooks/useScrollState.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/hooks/useScrollState.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/utils/safeScrollTo.js b/node_modules/react-native-keyboard-controller/lib/commonjs/components/utils/safeScrollTo.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/components/utils/safeScrollTo.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/components/utils/safeScrollTo.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/constants.js b/node_modules/react-native-keyboard-controller/lib/commonjs/constants.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/constants.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/constants.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/context.js b/node_modules/react-native-keyboard-controller/lib/commonjs/context.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/context.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/context.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/hooks/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/hooks/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/hooks/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/hooks/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/hooks/useKeyboardState/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/hooks/useKeyboardState/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/hooks/useKeyboardState/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/hooks/useKeyboardState/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/hooks/useWindowDimensions/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/hooks/useWindowDimensions/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/hooks/useWindowDimensions/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/hooks/useWindowDimensions/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/internal.js b/node_modules/react-native-keyboard-controller/lib/commonjs/internal.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/internal.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/internal.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/module.js b/node_modules/react-native-keyboard-controller/lib/commonjs/module.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/module.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/module.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/reanimated.js b/node_modules/react-native-keyboard-controller/lib/commonjs/reanimated.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/reanimated.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/reanimated.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/reanimated.native.js b/node_modules/react-native-keyboard-controller/lib/commonjs/reanimated.native.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/reanimated.native.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/reanimated.native.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/ClippingScrollViewDecoratorViewNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/ClippingScrollViewDecoratorViewNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/ClippingScrollViewDecoratorViewNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/ClippingScrollViewDecoratorViewNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardBackgroundViewNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardBackgroundViewNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardBackgroundViewNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardBackgroundViewNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardControllerViewNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardControllerViewNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardControllerViewNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardControllerViewNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardExtenderNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardExtenderNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardExtenderNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardExtenderNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardGestureAreaNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardGestureAreaNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardGestureAreaNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardGestureAreaNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardToolbarGroupViewNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardToolbarGroupViewNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardToolbarGroupViewNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/KeyboardToolbarGroupViewNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/NativeKeyboardController.js b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/NativeKeyboardController.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/NativeKeyboardController.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/NativeKeyboardController.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/NativeStatusBarManagerCompat.js b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/NativeStatusBarManagerCompat.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/NativeStatusBarManagerCompat.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/NativeStatusBarManagerCompat.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/OverKeyboardViewNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/OverKeyboardViewNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/specs/OverKeyboardViewNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/specs/OverKeyboardViewNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/types/hooks.js b/node_modules/react-native-keyboard-controller/lib/commonjs/types/hooks.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/types/hooks.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/types/hooks.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/types/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/types/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/types/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/types/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/types/internal.js b/node_modules/react-native-keyboard-controller/lib/commonjs/types/internal.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/types/internal.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/types/internal.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/types/module.js b/node_modules/react-native-keyboard-controller/lib/commonjs/types/module.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/types/module.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/types/module.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/types/provider.js b/node_modules/react-native-keyboard-controller/lib/commonjs/types/provider.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/types/provider.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/types/provider.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/types/views.js b/node_modules/react-native-keyboard-controller/lib/commonjs/types/views.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/types/views.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/types/views.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/utils/findNodeHandle/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/utils/findNodeHandle/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/utils/findNodeHandle/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/utils/findNodeHandle/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/utils/findNodeHandle/index.native.js b/node_modules/react-native-keyboard-controller/lib/commonjs/utils/findNodeHandle/index.native.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/utils/findNodeHandle/index.native.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/utils/findNodeHandle/index.native.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/views/KeyboardExtender/index.ios.js b/node_modules/react-native-keyboard-controller/lib/commonjs/views/KeyboardExtender/index.ios.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/views/KeyboardExtender/index.ios.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/views/KeyboardExtender/index.ios.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/views/KeyboardExtender/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/views/KeyboardExtender/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/views/KeyboardExtender/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/views/KeyboardExtender/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/views/OverKeyboardView/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/views/OverKeyboardView/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/views/OverKeyboardView/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/views/OverKeyboardView/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/views/index.js b/node_modules/react-native-keyboard-controller/lib/commonjs/views/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/commonjs/views/index.js.map b/node_modules/react-native-keyboard-controller/lib/commonjs/views/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/animated.js b/node_modules/react-native-keyboard-controller/lib/module/animated.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/animated.js.map b/node_modules/react-native-keyboard-controller/lib/module/animated.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/architecture.js b/node_modules/react-native-keyboard-controller/lib/module/architecture.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/architecture.js.map b/node_modules/react-native-keyboard-controller/lib/module/architecture.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/bindings.js b/node_modules/react-native-keyboard-controller/lib/module/bindings.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/bindings.js.map b/node_modules/react-native-keyboard-controller/lib/module/bindings.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/bindings.native.js b/node_modules/react-native-keyboard-controller/lib/module/bindings.native.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/bindings.native.js.map b/node_modules/react-native-keyboard-controller/lib/module/bindings.native.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/compat.js b/node_modules/react-native-keyboard-controller/lib/module/compat.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/compat.js.map b/node_modules/react-native-keyboard-controller/lib/module/compat.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAvoidingView/hooks.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAvoidingView/hooks.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAvoidingView/hooks.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAvoidingView/hooks.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAvoidingView/index.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAvoidingView/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAvoidingView/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAvoidingView/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/index.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/types.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/types.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/types.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/types.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/useSmoothKeyboardHandler.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/useSmoothKeyboardHandler.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/useSmoothKeyboardHandler.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/useSmoothKeyboardHandler.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/utils.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/utils.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/utils.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardAwareScrollView/utils.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/hooks.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/hooks.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/hooks.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/hooks.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/index.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/types.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/types.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/types.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/types.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/helpers.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/helpers.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/helpers.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/helpers.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/index.ios.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/index.ios.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/index.ios.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/index.ios.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/index.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/types.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/types.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/types.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useChatKeyboard/types.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useEndVisible.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useEndVisible.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useEndVisible.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useEndVisible.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useExtraContentPadding/index.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useExtraContentPadding/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useExtraContentPadding/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useExtraContentPadding/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useFrozenPadding/index.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useFrozenPadding/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useFrozenPadding/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardChatScrollView/useFrozenPadding/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardEffects/index.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardEffects/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardEffects/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardEffects/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardStickyView/index.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardStickyView/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardStickyView/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardStickyView/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/Arrow.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/Arrow.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/Arrow.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/Arrow.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/Button.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/Button.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/Button.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/Button.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/colors.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/colors.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/colors.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/colors.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/colors.native.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/colors.native.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/colors.native.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/colors.native.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Background.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Background.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Background.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Background.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Content.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Content.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Content.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Content.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Done.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Done.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Done.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Done.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Next.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Next.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Next.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Next.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Prev.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Prev.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Prev.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/Prev.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/index.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/types.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/types.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/types.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/components/types.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/context.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/context.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/context.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/compound/context.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/constants.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/constants.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/constants.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/constants.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/index.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/types.js b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/types.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/types.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/KeyboardToolbar/types.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/ScrollViewWithBottomPadding/index.js b/node_modules/react-native-keyboard-controller/lib/module/components/ScrollViewWithBottomPadding/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/ScrollViewWithBottomPadding/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/ScrollViewWithBottomPadding/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/ScrollViewWithBottomPadding/styles.js b/node_modules/react-native-keyboard-controller/lib/module/components/ScrollViewWithBottomPadding/styles.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/ScrollViewWithBottomPadding/styles.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/ScrollViewWithBottomPadding/styles.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/hooks/useCombinedRef.js b/node_modules/react-native-keyboard-controller/lib/module/components/hooks/useCombinedRef.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/hooks/useCombinedRef.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/hooks/useCombinedRef.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/hooks/useScrollState.js b/node_modules/react-native-keyboard-controller/lib/module/components/hooks/useScrollState.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/hooks/useScrollState.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/hooks/useScrollState.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/index.js b/node_modules/react-native-keyboard-controller/lib/module/components/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/utils/safeScrollTo.js b/node_modules/react-native-keyboard-controller/lib/module/components/utils/safeScrollTo.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/components/utils/safeScrollTo.js.map b/node_modules/react-native-keyboard-controller/lib/module/components/utils/safeScrollTo.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/constants.js b/node_modules/react-native-keyboard-controller/lib/module/constants.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/constants.js.map b/node_modules/react-native-keyboard-controller/lib/module/constants.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/context.js b/node_modules/react-native-keyboard-controller/lib/module/context.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/context.js.map b/node_modules/react-native-keyboard-controller/lib/module/context.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/hooks/index.js b/node_modules/react-native-keyboard-controller/lib/module/hooks/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/hooks/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/hooks/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/hooks/useKeyboardState/index.js b/node_modules/react-native-keyboard-controller/lib/module/hooks/useKeyboardState/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/hooks/useKeyboardState/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/hooks/useKeyboardState/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/hooks/useWindowDimensions/index.js b/node_modules/react-native-keyboard-controller/lib/module/hooks/useWindowDimensions/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/hooks/useWindowDimensions/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/hooks/useWindowDimensions/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/index.js b/node_modules/react-native-keyboard-controller/lib/module/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/internal.js b/node_modules/react-native-keyboard-controller/lib/module/internal.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/internal.js.map b/node_modules/react-native-keyboard-controller/lib/module/internal.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/module.js b/node_modules/react-native-keyboard-controller/lib/module/module.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/module.js.map b/node_modules/react-native-keyboard-controller/lib/module/module.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/reanimated.js b/node_modules/react-native-keyboard-controller/lib/module/reanimated.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/reanimated.js.map b/node_modules/react-native-keyboard-controller/lib/module/reanimated.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/reanimated.native.js b/node_modules/react-native-keyboard-controller/lib/module/reanimated.native.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/reanimated.native.js.map b/node_modules/react-native-keyboard-controller/lib/module/reanimated.native.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/ClippingScrollViewDecoratorViewNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/module/specs/ClippingScrollViewDecoratorViewNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/ClippingScrollViewDecoratorViewNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/module/specs/ClippingScrollViewDecoratorViewNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardBackgroundViewNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardBackgroundViewNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardBackgroundViewNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardBackgroundViewNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardControllerViewNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardControllerViewNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardControllerViewNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardControllerViewNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardExtenderNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardExtenderNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardExtenderNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardExtenderNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardGestureAreaNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardGestureAreaNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardGestureAreaNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardGestureAreaNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardToolbarGroupViewNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardToolbarGroupViewNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardToolbarGroupViewNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/module/specs/KeyboardToolbarGroupViewNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/NativeKeyboardController.js b/node_modules/react-native-keyboard-controller/lib/module/specs/NativeKeyboardController.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/NativeKeyboardController.js.map b/node_modules/react-native-keyboard-controller/lib/module/specs/NativeKeyboardController.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/NativeStatusBarManagerCompat.js b/node_modules/react-native-keyboard-controller/lib/module/specs/NativeStatusBarManagerCompat.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/NativeStatusBarManagerCompat.js.map b/node_modules/react-native-keyboard-controller/lib/module/specs/NativeStatusBarManagerCompat.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/OverKeyboardViewNativeComponent.js b/node_modules/react-native-keyboard-controller/lib/module/specs/OverKeyboardViewNativeComponent.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/specs/OverKeyboardViewNativeComponent.js.map b/node_modules/react-native-keyboard-controller/lib/module/specs/OverKeyboardViewNativeComponent.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/types/hooks.js b/node_modules/react-native-keyboard-controller/lib/module/types/hooks.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/types/hooks.js.map b/node_modules/react-native-keyboard-controller/lib/module/types/hooks.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/types/index.js b/node_modules/react-native-keyboard-controller/lib/module/types/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/types/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/types/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/types/internal.js b/node_modules/react-native-keyboard-controller/lib/module/types/internal.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/types/internal.js.map b/node_modules/react-native-keyboard-controller/lib/module/types/internal.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/types/module.js b/node_modules/react-native-keyboard-controller/lib/module/types/module.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/types/module.js.map b/node_modules/react-native-keyboard-controller/lib/module/types/module.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/types/provider.js b/node_modules/react-native-keyboard-controller/lib/module/types/provider.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/types/provider.js.map b/node_modules/react-native-keyboard-controller/lib/module/types/provider.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/types/views.js b/node_modules/react-native-keyboard-controller/lib/module/types/views.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/types/views.js.map b/node_modules/react-native-keyboard-controller/lib/module/types/views.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/utils/findNodeHandle/index.js b/node_modules/react-native-keyboard-controller/lib/module/utils/findNodeHandle/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/utils/findNodeHandle/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/utils/findNodeHandle/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/utils/findNodeHandle/index.native.js b/node_modules/react-native-keyboard-controller/lib/module/utils/findNodeHandle/index.native.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/utils/findNodeHandle/index.native.js.map b/node_modules/react-native-keyboard-controller/lib/module/utils/findNodeHandle/index.native.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/views/KeyboardExtender/index.ios.js b/node_modules/react-native-keyboard-controller/lib/module/views/KeyboardExtender/index.ios.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/views/KeyboardExtender/index.ios.js.map b/node_modules/react-native-keyboard-controller/lib/module/views/KeyboardExtender/index.ios.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/views/KeyboardExtender/index.js b/node_modules/react-native-keyboard-controller/lib/module/views/KeyboardExtender/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/views/KeyboardExtender/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/views/KeyboardExtender/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/views/OverKeyboardView/index.js b/node_modules/react-native-keyboard-controller/lib/module/views/OverKeyboardView/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/views/OverKeyboardView/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/views/OverKeyboardView/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/views/index.js b/node_modules/react-native-keyboard-controller/lib/module/views/index.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/module/views/index.js.map b/node_modules/react-native-keyboard-controller/lib/module/views/index.js.map
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/animated.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/animated.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/architecture.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/architecture.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/bindings.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/bindings.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/bindings.native.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/bindings.native.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/compat.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/compat.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardAvoidingView/hooks.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardAvoidingView/hooks.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardAvoidingView/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardAvoidingView/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardAwareScrollView/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardAwareScrollView/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardAwareScrollView/types.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardAwareScrollView/types.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardAwareScrollView/useSmoothKeyboardHandler.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardAwareScrollView/useSmoothKeyboardHandler.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardAwareScrollView/utils.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardAwareScrollView/utils.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/hooks.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/hooks.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/types.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/types.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useChatKeyboard/helpers.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useChatKeyboard/helpers.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useChatKeyboard/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useChatKeyboard/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useChatKeyboard/index.ios.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useChatKeyboard/index.ios.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useChatKeyboard/types.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useChatKeyboard/types.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useEndVisible.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useEndVisible.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useExtraContentPadding/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useExtraContentPadding/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useFrozenPadding/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardChatScrollView/useFrozenPadding/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardEffects/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardEffects/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardStickyView/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardStickyView/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/Arrow.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/Arrow.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/Button.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/Button.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/colors.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/colors.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/colors.native.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/colors.native.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/Background.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/Background.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/Content.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/Content.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/Done.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/Done.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/Next.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/Next.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/Prev.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/Prev.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/types.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/components/types.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/context.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/compound/context.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/constants.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/constants.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/types.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/KeyboardToolbar/types.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/ScrollViewWithBottomPadding/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/ScrollViewWithBottomPadding/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/ScrollViewWithBottomPadding/styles.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/ScrollViewWithBottomPadding/styles.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/hooks/useCombinedRef.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/hooks/useCombinedRef.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/hooks/useScrollState.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/hooks/useScrollState.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/components/utils/safeScrollTo.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/components/utils/safeScrollTo.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/constants.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/constants.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/context.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/context.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/hooks/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/hooks/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/hooks/useKeyboardState/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/hooks/useKeyboardState/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/hooks/useWindowDimensions/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/hooks/useWindowDimensions/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/internal.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/internal.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/module.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/module.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/reanimated.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/reanimated.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/reanimated.native.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/reanimated.native.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/specs/ClippingScrollViewDecoratorViewNativeComponent.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/specs/ClippingScrollViewDecoratorViewNativeComponent.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/specs/KeyboardBackgroundViewNativeComponent.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/specs/KeyboardBackgroundViewNativeComponent.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/specs/KeyboardControllerViewNativeComponent.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/specs/KeyboardControllerViewNativeComponent.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/specs/KeyboardExtenderNativeComponent.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/specs/KeyboardExtenderNativeComponent.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/specs/KeyboardGestureAreaNativeComponent.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/specs/KeyboardGestureAreaNativeComponent.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/specs/KeyboardToolbarGroupViewNativeComponent.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/specs/KeyboardToolbarGroupViewNativeComponent.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/specs/NativeKeyboardController.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/specs/NativeKeyboardController.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/specs/NativeStatusBarManagerCompat.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/specs/NativeStatusBarManagerCompat.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/specs/OverKeyboardViewNativeComponent.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/specs/OverKeyboardViewNativeComponent.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/types/hooks.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/types/hooks.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/types/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/types/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/types/internal.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/types/internal.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/types/module.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/types/module.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/types/provider.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/types/provider.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/types/views.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/types/views.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/utils/findNodeHandle/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/utils/findNodeHandle/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/utils/findNodeHandle/index.native.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/utils/findNodeHandle/index.native.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/views/KeyboardExtender/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/views/KeyboardExtender/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/views/KeyboardExtender/index.ios.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/views/KeyboardExtender/index.ios.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/views/OverKeyboardView/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/views/OverKeyboardView/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/lib/typescript/views/index.d.ts b/node_modules/react-native-keyboard-controller/lib/typescript/views/index.d.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/react-native-keyboard-controller.podspec b/node_modules/react-native-keyboard-controller/react-native-keyboard-controller.podspec
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/react-native.config.js b/node_modules/react-native-keyboard-controller/react-native.config.js
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/animated.tsx b/node_modules/react-native-keyboard-controller/src/animated.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/architecture.ts b/node_modules/react-native-keyboard-controller/src/architecture.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/bindings.native.ts b/node_modules/react-native-keyboard-controller/src/bindings.native.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/bindings.ts b/node_modules/react-native-keyboard-controller/src/bindings.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/compat.ts b/node_modules/react-native-keyboard-controller/src/compat.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardAvoidingView/hooks.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardAvoidingView/hooks.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardAvoidingView/index.tsx b/node_modules/react-native-keyboard-controller/src/components/KeyboardAvoidingView/index.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardAwareScrollView/index.tsx b/node_modules/react-native-keyboard-controller/src/components/KeyboardAwareScrollView/index.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardAwareScrollView/types.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardAwareScrollView/types.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardAwareScrollView/useSmoothKeyboardHandler.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardAwareScrollView/useSmoothKeyboardHandler.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardAwareScrollView/utils.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardAwareScrollView/utils.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/hooks.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/hooks.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/index.tsx b/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/index.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/types.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/types.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useChatKeyboard/helpers.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useChatKeyboard/helpers.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useChatKeyboard/index.ios.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useChatKeyboard/index.ios.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useChatKeyboard/index.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useChatKeyboard/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useChatKeyboard/types.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useChatKeyboard/types.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useEndVisible.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useEndVisible.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useExtraContentPadding/index.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useExtraContentPadding/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useFrozenPadding/index.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardChatScrollView/useFrozenPadding/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardEffects/index.tsx b/node_modules/react-native-keyboard-controller/src/components/KeyboardEffects/index.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardStickyView/index.tsx b/node_modules/react-native-keyboard-controller/src/components/KeyboardStickyView/index.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/Arrow.tsx b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/Arrow.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/Button.tsx b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/Button.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/colors.native.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/colors.native.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/colors.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/colors.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/Background.tsx b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/Background.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/Content.tsx b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/Content.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/Done.tsx b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/Done.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/Next.tsx b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/Next.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/Prev.tsx b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/Prev.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/index.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/types.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/components/types.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/context.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/compound/context.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/constants.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/constants.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/index.tsx b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/index.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/types.ts b/node_modules/react-native-keyboard-controller/src/components/KeyboardToolbar/types.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/ScrollViewWithBottomPadding/index.tsx b/node_modules/react-native-keyboard-controller/src/components/ScrollViewWithBottomPadding/index.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/ScrollViewWithBottomPadding/styles.ts b/node_modules/react-native-keyboard-controller/src/components/ScrollViewWithBottomPadding/styles.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/hooks/useCombinedRef.ts b/node_modules/react-native-keyboard-controller/src/components/hooks/useCombinedRef.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/hooks/useScrollState.ts b/node_modules/react-native-keyboard-controller/src/components/hooks/useScrollState.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/index.ts b/node_modules/react-native-keyboard-controller/src/components/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/components/utils/safeScrollTo.ts b/node_modules/react-native-keyboard-controller/src/components/utils/safeScrollTo.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/constants.ts b/node_modules/react-native-keyboard-controller/src/constants.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/context.ts b/node_modules/react-native-keyboard-controller/src/context.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/hooks/index.ts b/node_modules/react-native-keyboard-controller/src/hooks/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/hooks/useKeyboardState/index.ts b/node_modules/react-native-keyboard-controller/src/hooks/useKeyboardState/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/hooks/useWindowDimensions/index.ts b/node_modules/react-native-keyboard-controller/src/hooks/useWindowDimensions/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/index.ts b/node_modules/react-native-keyboard-controller/src/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/internal.ts b/node_modules/react-native-keyboard-controller/src/internal.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/module.ts b/node_modules/react-native-keyboard-controller/src/module.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/reanimated.native.ts b/node_modules/react-native-keyboard-controller/src/reanimated.native.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/reanimated.ts b/node_modules/react-native-keyboard-controller/src/reanimated.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/specs/ClippingScrollViewDecoratorViewNativeComponent.ts b/node_modules/react-native-keyboard-controller/src/specs/ClippingScrollViewDecoratorViewNativeComponent.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/specs/KeyboardBackgroundViewNativeComponent.ts b/node_modules/react-native-keyboard-controller/src/specs/KeyboardBackgroundViewNativeComponent.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/specs/KeyboardControllerViewNativeComponent.ts b/node_modules/react-native-keyboard-controller/src/specs/KeyboardControllerViewNativeComponent.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/specs/KeyboardExtenderNativeComponent.ts b/node_modules/react-native-keyboard-controller/src/specs/KeyboardExtenderNativeComponent.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/specs/KeyboardGestureAreaNativeComponent.ts b/node_modules/react-native-keyboard-controller/src/specs/KeyboardGestureAreaNativeComponent.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/specs/KeyboardToolbarGroupViewNativeComponent.ts b/node_modules/react-native-keyboard-controller/src/specs/KeyboardToolbarGroupViewNativeComponent.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/specs/NativeKeyboardController.ts b/node_modules/react-native-keyboard-controller/src/specs/NativeKeyboardController.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/specs/NativeStatusBarManagerCompat.ts b/node_modules/react-native-keyboard-controller/src/specs/NativeStatusBarManagerCompat.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/specs/OverKeyboardViewNativeComponent.ts b/node_modules/react-native-keyboard-controller/src/specs/OverKeyboardViewNativeComponent.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/types/hooks.ts b/node_modules/react-native-keyboard-controller/src/types/hooks.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/types/index.ts b/node_modules/react-native-keyboard-controller/src/types/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/types/internal.ts b/node_modules/react-native-keyboard-controller/src/types/internal.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/types/module.ts b/node_modules/react-native-keyboard-controller/src/types/module.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/types/provider.ts b/node_modules/react-native-keyboard-controller/src/types/provider.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/types/views.ts b/node_modules/react-native-keyboard-controller/src/types/views.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/utils/findNodeHandle/index.native.ts b/node_modules/react-native-keyboard-controller/src/utils/findNodeHandle/index.native.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/utils/findNodeHandle/index.ts b/node_modules/react-native-keyboard-controller/src/utils/findNodeHandle/index.ts
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/views/KeyboardExtender/index.ios.tsx b/node_modules/react-native-keyboard-controller/src/views/KeyboardExtender/index.ios.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/views/KeyboardExtender/index.tsx b/node_modules/react-native-keyboard-controller/src/views/KeyboardExtender/index.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/views/OverKeyboardView/index.tsx b/node_modules/react-native-keyboard-controller/src/views/OverKeyboardView/index.tsx
+old mode 100644
+new mode 100755
+diff --git a/node_modules/react-native-keyboard-controller/src/views/index.ts b/node_modules/react-native-keyboard-controller/src/views/index.ts
+old mode 100644
+new mode 100755
