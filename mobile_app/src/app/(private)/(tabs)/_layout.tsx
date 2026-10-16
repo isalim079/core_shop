@@ -1,14 +1,6 @@
 import { Tabs } from "expo-router";
-import { Text, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/colors";
-
-const TabIcon = ({ label, focused }: { label: string; focused: boolean }) => (
-  <View className="items-center justify-center">
-    <Text className={focused ? "font-poppins-semibold text-[12px] text-primary" : "font-sans text-[12px] text-text-muted"}>
-      {label}
-    </Text>
-  </View>
-);
 
 export default function TabsLayout() {
   return (
@@ -25,21 +17,37 @@ export default function TabsLayout() {
         },
         tabBarActiveTintColor: Colors.primary,
         tabBarInactiveTintColor: Colors.textMuted,
-        tabBarShowLabel: true,
+        tabBarLabelStyle: {
+          fontFamily: "Poppins_500Medium",
+          fontSize: 11,
+          marginTop: -2,
+        },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "Home",
-          tabBarLabel: ({ focused }) => <TabIcon label="Home" focused={focused} />,
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "home" : "home-outline"}
+              size={22}
+              color={color}
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
           title: "Profile",
-          tabBarLabel: ({ focused }) => <TabIcon label="Profile" focused={focused} />,
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? "person" : "person-outline"}
+              size={22}
+              color={color}
+            />
+          ),
         }}
       />
     </Tabs>

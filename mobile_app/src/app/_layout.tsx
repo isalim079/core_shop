@@ -1,5 +1,5 @@
 import "../global.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, ActivityIndicator, Appearance } from "react-native";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -19,6 +19,7 @@ import {
 import { store } from "@/store/store";
 import { Colors } from "@/constants/colors";
 import { defaultStackScreenOptions } from "@/constants/navigation";
+import { AnimatedSplashScreen } from "@/components/layout/AnimatedSplashScreen";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { hydrateAuth, readPersistedAuth, selectIsHydrated } from "@/store/features/auth/auth.slice";
 
@@ -61,30 +62,37 @@ function RootLayoutNav() {
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    if ((fontsLoaded || fontError) && isHydrated) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded, fontError, isHydrated]);
+  const [splashAnimationDone, setSplashAnimationDone] = useState(false);
+  const isAppReady = Boolean((fontsLoaded || fontError) && isHydrated);
 
-  if ((!fontsLoaded && !fontError) || !isHydrated) {
-    return (
-      <View className="flex-1 items-center justify-center bg-surface-app" style={{ backgroundColor: "#FFFFFF" }}>
-        <ActivityIndicator color={Colors.primary} />
-      </View>
-    );
-  }
+  useEffect(() => {
+    if (isAppReady) {
+      SplashScreen.hideAsync().catch(() => {});
+    }
+  }, [isAppReady]);
 
   return (
-    <>
+    <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <StatusBar style="dark" />
-      <Stack screenOptions={defaultStackScreenOptions}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="(auth)" />
-        <Stack.Screen name="(private)" />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </>
+      {isAppReady ? (
+        <Stack screenOptions={defaultStackScreenOptions}>
+          <Stack.Screen name="index" />
+          <Stack.Screen name="(auth)" />
+          <Stack.Screen name="(private)" />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+      ) : (
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#FFFFFF" }}>
+          <ActivityIndicator color={Colors.primary} />
+        </View>
+      )}
+      {!splashAnimationDone ? (
+        <AnimatedSplashScreen
+          isAppReady={isAppReady}
+          onAnimationFinish={() => setSplashAnimationDone(true)}
+        />
+      ) : null}
+    </View>
   );
 }
 
