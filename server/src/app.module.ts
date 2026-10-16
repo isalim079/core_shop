@@ -1,16 +1,10 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { environmentFiles, validateEnvironment } from './common/config/environment';
+import { AppConfigModule } from './config/config.module';
 import { HealthModule } from './health/health.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      cache: true,
-      envFilePath: environmentFiles(),
-      validate: validateEnvironment,
-    }),
+    AppConfigModule,
     HealthModule,
   ],
 })

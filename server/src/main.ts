@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createApp } from './app';
-import { Environment } from './common/config/environment';
+import { Environment } from './config/environment';
 
 async function bootstrap() {
   const app = await createApp();

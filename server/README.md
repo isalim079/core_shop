@@ -1,55 +1,237 @@
-# Core Shop server
+# Core Shop Server
 
-NestJS + Fastify API foundation for the Core Shop web and mobile applications. Use Node.js 24 and Yarn Classic 1.22.22. Business modules, database connectivity and authentication will be implemented in subsequent reviewed phases.
+Backend setup and development guide. See the [project README](../README.md) for the platform overview and repository structure.
 
-## Development
+The backend API for **Core Shop**, a business management platform for small and medium retail businesses. Core Shop is designed to bring sales, purchasing, inventory, customers, suppliers, expenses, and operational reporting into one system, accessible from web and mobile applications.
 
-Run from this directory:
+This package provides the shared server foundation. Business capabilities are being developed in reviewed phases.
+
+## Project overview
+
+Core Shop aims to support different retail categories through a shared commerce core and configurable shop capabilities. The planned platform supports organizations with multiple branches, staff permissions, product variants, inventory tracking, and financial reporting.
+
+| Product area | Planned capabilities |
+| --- | --- |
+| Business management | Organizations, branches, memberships, and staff permissions |
+| Catalog | Products, variants, categories, brands, units, SKUs, and barcodes |
+| Inventory | Stock movements, balances, adjustments, and branch transfers |
+| Trading | Purchases, sales, invoices, payments, and returns |
+| Business relationships | Customer and supplier records, receivables, and payables |
+| Finance and reporting | Expenses, dashboards, stock valuation, and profit reports |
+| Platform services | Plans, entitlements, notifications, exports, and audit records |
+| Mobile workflows | Selected offline sales and inventory workflows with synchronization |
+
+These capabilities describe the product roadmap. See the current implementation status below for what is available today.
+
+## Current status
+
+**Phase 1: server foundation implemented and verified.**
+
+The server currently includes:
+
+- A NestJS application using the Fastify HTTP adapter.
+- Centralized environment loading and validation in `src/config/`.
+- A public process-liveness endpoint at `GET /health`.
+- Development-only Swagger UI and OpenAPI documents.
+- The `/api/v1` prefix reserved for business endpoints.
+- Configurable browser CORS origins, shutdown hooks, and a 1 MiB request body limit.
+- Strict TypeScript, linting, automated tests, and build tooling.
+
+Database integration, Prisma models and migrations, authentication, tenant authorization, and business endpoints are planned. PostgreSQL and Redis connection settings are accepted, but the application does not connect to either service yet. A readiness endpoint is also planned.
+
+## Technology stack
+
+| Component | Technology | Status |
+| --- | --- | --- |
+| Runtime | Node.js 24 | In use |
+| Language | TypeScript with strict checking | In use |
+| API framework | NestJS 12 | In use |
+| HTTP adapter | Fastify | In use |
+| Configuration validation | Zod | In use |
+| API documentation | Swagger / OpenAPI | Development only |
+| Package manager | Yarn Classic 1.22.22 | In use |
+| Testing | Node.js test runner | In use |
+| Database and ORM | PostgreSQL and Prisma | Planned integration |
+| Cache and background jobs | Redis and BullMQ | Planned integration |
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 24, matching `.nvmrc`.
+- Yarn Classic 1.22.22.
+
+PostgreSQL and Redis are optional for the current foundation. They will be required as their integrations are implemented.
+
+### Installation
+
+Run these commands from the `server/` directory:
 
 ```bash
 nvm use
 yarn install --frozen-lockfile
-cp .env.example .env.local # First setup only; preserve existing local values.
+```
+
+On first setup, create the local environment file if it does not already exist:
+
+```bash
+cp -n .env.example .env.local
+```
+
+Review `.env.local`, then start the development server:
+
+```bash
 yarn start:dev
 ```
 
+The default port is `3000`.
+
+### Verify the server
+
 ```bash
 curl http://localhost:3000/health
-# {"status":"ok","service":"core-shop-server"}
 ```
 
-The health endpoint measures process liveness only. Business routes will use `/api/v1`; none exist yet. Database readiness will be introduced with the database integration.
+Expected response:
 
-## Commands
+```json
+{"status":"ok","service":"core-shop-server"}
+```
+
+This endpoint checks that the API process responds. It does not check database connectivity, Redis, or schema readiness.
+
+## API documentation
+
+With the server running in development mode:
+
+| Resource | URL |
+| --- | --- |
+| Swagger UI | [http://localhost:3000/api-docs](http://localhost:3000/api-docs) |
+| OpenAPI JSON | [http://localhost:3000/api-docs-json](http://localhost:3000/api-docs-json) |
+| OpenAPI YAML | [http://localhost:3000/api-docs-yaml](http://localhost:3000/api-docs-yaml) |
+| Process health | [http://localhost:3000/health](http://localhost:3000/health) |
+
+Swagger routes and their assets are disabled in production and test modes. Business routes will use `/api/v1`; `/health` remains outside that prefix.
+
+## Environment configuration
+
+Configuration is loaded and validated through `src/config/`. Application code reads settings through the global NestJS `ConfigService`.
+
+| Variable | Purpose | Default when omitted |
+| --- | --- | --- |
+| `NODE_ENV` | `development`, `test`, or `production` | `development` |
+| `HOST` | HTTP listener address | `127.0.0.1` |
+| `PORT` | HTTP listener port | `3000` |
+| `CORS_ORIGINS` | Comma-separated list of exact browser origins | Empty; browser cross-origin access disabled |
+| `DATABASE_URL` | PostgreSQL connection URL for future integration | Empty |
+| `REDIS_URL` | Redis connection URL for future integration | Empty |
+
+The example environment file sets `HOST=0.0.0.0` and local browser origins for development. A physical mobile device should connect to the development computer's LAN IP address; `localhost` on the phone refers to the phone itself.
+
+### Environment files
+
+| Mode | File | Behavior |
+| --- | --- | --- |
+| Development | `.env.local` | Loaded by default |
+| Production | `.env.production` | Never falls back to `.env.local` |
+| Test | None | Tests do not load environment files |
+
+Explicit process environment variables take precedence over file values. `.env.example` is tracked; local and production environment files are ignored by Git. Keep real credentials out of documentation and committed files.
+
+When provided, database URLs must use `postgres://` or `postgresql://`; Redis URLs must use `redis://` or `rediss://`. Reserved characters in URL usernames and passwords must be percent-encoded. Both settings can remain empty until the relevant integration is implemented.
+
+CORS entries must be exact HTTP(S) origins without paths or embedded credentials. Production browser origins must use HTTPS. CORS controls browser access and does not provide authentication or authorization.
+
+## Development commands
 
 | Command | Purpose |
 | --- | --- |
-| `yarn start:dev` | Run the API with rebuild/watch |
-| `yarn start` | Build and run the development API |
-| `yarn lint` | Check source/test code without modifying files |
-| `yarn typecheck` | Strict application typecheck |
-| `yarn test` | Compile and run environment and HTTP smoke tests |
+| `yarn start:dev` | Start development mode with rebuild/watch |
+| `yarn start` | Build and start the application |
+| `yarn lint` | Check source and test files with ESLint |
+| `yarn typecheck` | Run strict TypeScript checking |
+| `yarn test` | Compile and run automated tests |
 | `yarn build` | Compile the application into `dist/` |
-| `yarn check` | Lint, typecheck, tests and build |
-| `yarn start:prod` | Run the compiled app in explicit production mode |
+| `yarn run check` | Run lint, typecheck, tests, and build |
+| `yarn start:prod` | Run compiled output in explicit production mode |
 
-Build before `start:prod`. The production entry point is provided for later deployment; infrastructure and production integrations are not configured in this phase.
+Use `yarn run check` to invoke the project script; Yarn Classic also has a built-in `yarn check` command with a different purpose.
 
-## Configuration
+To verify changes locally:
 
-- `.env.local`: development configuration, ignored by Git.
-- `.env.production`: production-only template, ignored by Git. Inject real credentials at deployment; none are provided.
-- `.env.example`: tracked, non-secret template for new developers.
-- Process environment values override file values. Production never falls back to `.env.local`; tests read neither file.
-- Validated runtime values: `NODE_ENV`, `HOST`, `PORT`, `CORS_ORIGINS`.
-- `DATABASE_URL` and `REDIS_URL` are reserved for future integration and unused today. No connection or schema is created.
-- `CORS_ORIGINS` is a comma-separated list of exact HTTP(S) origins; production requires HTTPS. Empty disables browser cross-origin access. CORS does not authorize requests.
-- A physical mobile device connects to the development computer's LAN IP, not its own `localhost`. The local template binds to `0.0.0.0` for this workflow.
+```bash
+yarn run check
+```
 
-## Structure and ownership
+Tests cover environment file selection, configuration validation, CORS rules, process health, unavailable routes, and Swagger availability across runtime modes.
 
-`src/common/` holds shared infrastructure. Each domain directory owns its controllers, DTOs, application/domain services and data access as those features are implemented. Controllers remain thin. Repository/query services enforce tenant scope; cross-module changes use explicit transactions/application commands. Avoid copying domain rules into web/mobile clients.
+## Project structure
 
-`src/health/` is implemented. `src/database/`, the domain folders, `src/jobs/`, `prisma/migrations/` and `infrastructure/` are placeholders for later phases, preserved with `.gitkeep`. There is no Prisma schema or migration yet. `test/` contains actual foundation tests and reserved integration/e2e directories. Remove placeholder files as real source is added.
+```text
+server/
+├── src/
+│   ├── main.ts             # HTTP listener and startup handling
+│   ├── app.ts              # Application factory and HTTP setup
+│   ├── app.module.ts       # Root module
+│   ├── config/             # Environment loading, validation, and Swagger
+│   ├── health/             # Process-liveness endpoint
+│   ├── common/             # Shared infrastructure placeholders
+│   ├── database/           # Future database lifecycle and access
+│   └── ...                 # Reserved domain module directories
+├── prisma/migrations/      # Reserved for future migrations
+├── test/                   # Foundation tests and reserved integration/e2e folders
+├── scripts/                # Startup and future maintenance scripts
+├── infrastructure/         # Reserved deployment configuration
+├── .env.example            # Safe configuration template
+├── package.json
+└── yarn.lock
+```
 
-The full product specification is [in the mobile project](../mobile_app/readme/project_structure.md). The local phase plan is [readme/serverProgress.md](readme/serverProgress.md); `readme/` is intentionally ignored by Git at the owner's request and is absent from fresh clones. Work proceeds one phase at a time with owner review between phases.
+Reserved directories contain placeholders until their assigned features are implemented. There is no Prisma schema or migration yet.
+
+## Architecture and engineering direction
+
+The server follows a modular monolith architecture: one API serves web and mobile clients, with domain modules owning their business rules and data access.
+
+The design baseline for upcoming phases is:
+
+- **Tenant boundaries:** organizations isolate business data; branches narrow operational scope within an organization.
+- **Authorization:** permissions are checked on the server against authenticated memberships.
+- **Inventory integrity:** immutable stock movements support transactionally maintained balances.
+- **Financial accuracy:** exact decimal values and historical cost records support reproducible totals and profit reports.
+- **Transaction safety:** related business changes commit together; retry-prone commands use idempotency.
+- **Client consistency:** web and mobile consume shared API contracts while business invariants remain on the server.
+
+These are implementation requirements for future modules. The foundation does not yet enforce tenant or business rules.
+
+## Roadmap
+
+Development proceeds one phase at a time, with owner review between phases:
+
+1. Server foundation — implemented and verified.
+2. Tenant and domain design, PostgreSQL, and Prisma foundation.
+3. Shared API infrastructure and security foundation.
+4. Authentication, organizations, permissions, and branches.
+5. Catalog, customers, suppliers, inventory, purchases, and sales.
+6. Expenses, reporting, subscriptions, and entitlements.
+7. Offline synchronization, files, exports, and background workers.
+8. Platform administration, deployment, and launch verification.
+
+The detailed local phase plan is maintained in `readme/serverProgress.md`. That directory is intentionally ignored by Git and is absent from fresh clones. The broader product specification lives in the sibling mobile project at `../mobile_app/readme/project_structure.md`.
+
+## Production entry point
+
+Build before starting the compiled application:
+
+```bash
+yarn build
+yarn start:prod
+```
+
+The startup wrapper selects production mode before loading the application. Supply production configuration through process environment variables or `.env.production`.
+
+This entry point supports local production-mode verification. Deployment infrastructure, authentication, dependency readiness, monitoring, and backup workflows are scheduled for later phases; the current foundation is not ready for production business use.
+
+## License
+
+This package is private and marked `UNLICENSED`. No open-source license is granted.

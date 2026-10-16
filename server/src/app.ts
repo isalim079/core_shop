@@ -3,7 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
-import { Environment } from './common/config/environment';
+import { Environment } from './config/environment';
+import { configureSwagger } from './config/swagger';
 
 export async function createApp() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -17,6 +18,7 @@ export async function createApp() {
   });
   const origins = config.get('CORS_ORIGINS', { infer: true });
   app.enableCors({ origin: origins.length ? origins : false, credentials: false });
+  await configureSwagger(app, config.get('NODE_ENV', { infer: true }));
   app.enableShutdownHooks();
   return app;
 }

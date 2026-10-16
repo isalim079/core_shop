@@ -1,11 +1,17 @@
 import { z } from 'zod';
 
 const runtimeMode = z.enum(['development', 'test', 'production']);
+const connectionUrl = (protocols: string[]) => z.union([
+  z.literal(''),
+  z.string().url().refine((value) => URL.canParse(value) && protocols.includes(new URL(value).protocol)),
+]).default('');
 const schema = z.object({
   NODE_ENV: runtimeMode.default('development'),
   HOST: z.string().trim().min(1).default('127.0.0.1'),
   PORT: z.coerce.number().int().min(1).max(65535).default(3000),
   CORS_ORIGINS: z.string().default(''),
+  DATABASE_URL: connectionUrl(['postgres:', 'postgresql:']),
+  REDIS_URL: connectionUrl(['redis:', 'rediss:']),
 });
 
 export function environmentFiles(mode = process.env.NODE_ENV ?? 'development'): string[] {
@@ -19,7 +25,7 @@ export function validateEnvironment(input: Record<string, unknown>) {
   const result = schema.safeParse(input);
   if (!result.success) {
     // Report field names only; configuration values may contain credentials.
-    const fields = result.error.issues.map((issue) => issue.path.join('.')).join(', ');
+    const fields = [...new Set(result.error.issues.map((issue) => issue.path.join('.')))].join(', ');
     throw new Error(`Invalid environment configuration: ${fields}`);
   }
   const config = result.data;
