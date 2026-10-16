@@ -1,9 +1,260 @@
-:root {
-  --font-display:
-    Spline Sans, Inter, ui-sans-serif, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji,
-    Segoe UI Symbol, Noto Color Emoji;
-  --font-mono:
-    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
-  --font-rounded: 'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif;
-  --font-serif: Georgia, 'Times New Roman', serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    font-family: Poppins_400Regular;
+  }
+}
+
+@layer components {
+  .text-display {
+    font-family: Poppins_700Bold;
+    font-size: 32px;
+    letter-spacing: -0.5px;
+    line-height: 38px;
+    color: #1c2d24;
+  }
+
+  .text-h1 {
+    font-family: Poppins_700Bold;
+    font-size: 26px;
+    letter-spacing: -0.3px;
+    line-height: 33px;
+    color: #1c2d24;
+  }
+
+  .text-h2 {
+    font-family: Poppins_600SemiBold;
+    font-size: 22px;
+    letter-spacing: -0.2px;
+    line-height: 29px;
+    color: #1c2d24;
+  }
+
+  .text-h3 {
+    font-family: Poppins_600SemiBold;
+    font-size: 18px;
+    line-height: 24px;
+    color: #1c2d24;
+  }
+
+  .text-h4 {
+    font-family: Poppins_600SemiBold;
+    font-size: 16px;
+    line-height: 22px;
+    color: #1c2d24;
+  }
+
+  .text-body-large {
+    font-family: Poppins_400Regular;
+    font-size: 16px;
+    line-height: 26px;
+    color: #4b5563;
+  }
+
+  .text-body {
+    font-family: Poppins_400Regular;
+    font-size: 14px;
+    line-height: 22px;
+    color: #4b5563;
+  }
+
+  .text-body-small {
+    font-family: Poppins_400Regular;
+    font-size: 13px;
+    line-height: 20px;
+    color: #4b5563;
+  }
+
+  .text-caption {
+    font-family: Poppins_400Regular;
+    font-size: 12px;
+    line-height: 18px;
+    color: #9ca3af;
+  }
+
+  .text-overline {
+    font-family: Poppins_600SemiBold;
+    font-size: 11px;
+    letter-spacing: 0.88px;
+    line-height: 15px;
+    text-transform: uppercase;
+    color: #059669;
+  }
+
+  .text-button {
+    font-family: Poppins_500Medium;
+    font-size: 15px;
+    letter-spacing: 0.15px;
+    color: #ffffff;
+  }
+
+  .text-button-small {
+    font-family: Poppins_500Medium;
+    font-size: 13px;
+    letter-spacing: 0.13px;
+  }
+
+  .btn-primary {
+    background-color: #059669;
+    border-radius: 12px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 28px;
+    padding-right: 28px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-secondary {
+    background-color: #d1fae5;
+    border-radius: 12px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 28px;
+    padding-right: 28px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-outline {
+    background-color: transparent;
+    border-width: 1.5px;
+    border-color: #059669;
+    border-radius: 12px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    padding-left: 28px;
+    padding-right: 28px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 20px;
+    padding-right: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-link {
+    background-color: transparent;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-danger {
+    background-color: transparent;
+    border-width: 1.5px;
+    border-color: #ef4444;
+    border-radius: 12px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 28px;
+    padding-right: 28px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .btn-disabled {
+    background-color: #d1fae5;
+    border-radius: 12px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 28px;
+    padding-right: 28px;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+  }
+
+  .input-label {
+    font-family: Poppins_500Medium;
+    font-size: 12px;
+    color: #1c2d24;
+    margin-bottom: 6px;
+  }
+
+  .input-field {
+    font-family: Poppins_400Regular;
+    font-size: 14px;
+    color: #1c2d24;
+    background-color: #f0fff4;
+    border-width: 1.5px;
+    border-color: #a7f3d0;
+    border-radius: 12px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .input-field-focus {
+    font-family: Poppins_400Regular;
+    font-size: 14px;
+    color: #1c2d24;
+    background-color: #ffffff;
+    border-width: 1.5px;
+    border-color: #059669;
+    border-radius: 12px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .input-field-error {
+    font-family: Poppins_400Regular;
+    font-size: 14px;
+    color: #1c2d24;
+    background-color: #fef2f2;
+    border-width: 1.5px;
+    border-color: #ef4444;
+    border-radius: 12px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .input-hint {
+    font-family: Poppins_400Regular;
+    font-size: 11px;
+    color: #6b9080;
+    margin-top: 5px;
+  }
+
+  .input-error-text {
+    font-family: Poppins_400Regular;
+    font-size: 12px;
+    color: #ef4444;
+    margin-top: 5px;
+  }
+
+  .card {
+    background-color: #ffffff;
+    border-radius: 16px;
+    border-width: 1px;
+    border-color: #d1fae5;
+    padding: 20px;
+  }
+
+  .card-tinted {
+    background-color: #f0fff4;
+    border-radius: 16px;
+    border-width: 1px;
+    border-color: #a7f3d0;
+    padding: 20px;
+  }
+
+  .card-dark {
+    background-color: #1c2d24;
+    border-radius: 16px;
+    padding: 20px;
+  }
 }

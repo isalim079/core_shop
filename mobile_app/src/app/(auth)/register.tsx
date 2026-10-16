@@ -1,0 +1,72 @@
+import { useState } from "react";
+import { Text, View } from "react-native";
+import { router } from "expo-router";
+import { APP_NAME } from "@/constants/app";
+import { Screen } from "@/components/layout/Screen";
+import { Button } from "@/components/ui/Button";
+import { TextField } from "@/components/ui/TextField";
+
+export default function RegisterScreen() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleRegister = () => {
+    if (!name.trim() || !email.trim() || !password.trim()) {
+      setError("Please fill in all fields.");
+      return;
+    }
+    setError("");
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      router.replace("/(auth)/login");
+    }, 800);
+  };
+
+  return (
+    <Screen keyboard edges={["top", "left", "right", "bottom"]}>
+      <View className="flex-1 px-xl pb-4xl pt-2xl">
+        <View className="mb-[40px]">
+          <View className="mb-xl h-[56px] w-[56px] items-center justify-center rounded-md bg-primary">
+            <Text className="font-poppins-bold text-[24px] text-text-on-primary">C</Text>
+          </View>
+          <Text className="text-h1">Create account</Text>
+          <Text className="text-body mt-[6px]">Join {APP_NAME} today</Text>
+        </View>
+
+        <TextField
+          label="Full name"
+          value={name}
+          onChangeText={setName}
+          placeholder="John Doe"
+          autoCapitalize="words"
+        />
+        <TextField
+          label="Email address"
+          value={email}
+          onChangeText={setEmail}
+          placeholder="you@example.com"
+          autoCapitalize="none"
+          keyboardType="email-address"
+          autoComplete="email"
+        />
+        <TextField
+          label="Password"
+          value={password}
+          onChangeText={setPassword}
+          placeholder="••••••••"
+          secureTextEntry
+          error={error}
+        />
+        <Button label="Create account" onPress={handleRegister} loading={loading} />
+        <View className="mt-sm flex-row items-center justify-center">
+          <Text className="text-body">Already have an account? </Text>
+          <Button label="Sign in" variant="link" onPress={() => router.replace("/(auth)/login")} />
+        </View>
+      </View>
+    </Screen>
+  );
+}
