@@ -10,7 +10,7 @@ This versionable file mirrors the server tracker's phase/evidence approach. Docu
 
 **Owner direction, 2026-10-16:** finish static UI/UX before dynamic/server integration. Preserve all existing progress. The original checkpoint, phase table, task ledger and verification history remain below unchanged; this addition takes precedence for the current work order.
 
-Current next task: **M01-UI02-01 — design system tokens, reusable patterns and static-data foundation**. Existing environment-first next-step text below is historical and deferred, except for fixes necessary to run the static app. Existing M01–M12 task IDs are retained for later integration/hardening; none are automatically completed by this UI track.
+Current next task: **M01-UI03-01 — authentication UI and interactions**. Existing environment-first next-step text below is historical and deferred, except for fixes necessary to run the static app. Existing M01–M12 task IDs are retained for later integration/hardening; none are automatically completed by this UI track.
 
 Detailed requirements: [UI/UX static implementation plan](mobileUiUxPlan.md). All new phases are nested under the first phase, M01. No UI screen implementation was performed by this planning update.
 
@@ -28,7 +28,7 @@ Detailed requirements: [UI/UX static implementation plan](mobileUiUxPlan.md). Al
 | First-phase subphase | Scope | Status |
 | --- | --- | --- |
 | M01-UI01 | UX direction and screen inventory | Completed |
-| M01-UI02 | Design system, reusable patterns and static-data foundation | Not started |
+| M01-UI02 | Design system, reusable patterns and static-data foundation | Completed |
 | M01-UI03 | Authentication UI and interactions | Not started |
 | M01-UI04 | Business onboarding and context selection UI | Not started |
 | M01-UI05 | Tab shell and Home dashboard UI | Not started |
@@ -57,10 +57,10 @@ All entries are new planned work; existing completed evidence and original check
 
 #### M01-UI02 — Design system, reusable patterns and static-data foundation
 
-- [ ] M01-UI02-01: Define shared typography, spacing, colors, radius, elevations, icon sizes, hit areas and motion tokens; preserve readable large-text layouts.
-- [ ] M01-UI02-02: Extend Screen/Button/TextField; add reusable header, card, list row, status badge, section, empty/error/loading state, sheet/dialog and form patterns when first needed.
-- [ ] M01-UI02-03: Create src/staticData/ with typed fixtures, scenario presets and a single fixture access boundary; keep screen mock records out of route files.
-- [ ] M01-UI02-04: Define shared presentation models, feature hooks and reusable motion primitives; provide a development-only pattern/scenario gallery outside src/app unless deliberately routed.
+- [x] M01-UI02-01: Define shared typography, spacing, colors, radius, elevations, icon sizes, hit areas and motion tokens; preserve readable large-text layouts.
+- [x] M01-UI02-02: Extend Screen/Button/TextField; add reusable header, card, list row, status badge, section, empty/error/loading state, sheet/dialog and form patterns when first needed.
+- [x] M01-UI02-03: Create src/staticData/ with typed fixtures, scenario presets and a single fixture access boundary; keep screen mock records out of route files.
+- [x] M01-UI02-04: Define shared presentation models, feature hooks and reusable motion primitives; provide a development-only pattern/scenario gallery outside src/app unless deliberately routed.
 
 #### M01-UI03 — Authentication UI and interactions
 
@@ -199,6 +199,38 @@ Validation:
 - `npx expo lint`: 0 errors.
 - `npx tsc --noEmit`: 0 errors.
 Next bounded task: **M01-UI02-01 — design system tokens, reusable patterns and static-data foundation**.
+
+### 2026-10-16 — M01-UI02 Design system, reusable patterns & static-data foundation
+
+State: Verified (Component Foundation & Static Data System)
+Scope and authorization: Phase 2 (M01-UI02-01 through M01-UI02-04) as authorized by user instruction.
+Files created/updated:
+- `src/constants/theme.ts`: Added `IconSize`, `HitSlop`, `MinTouchTarget` (44pt), `Motion` (durations, spring tension/friction, scale), and `Elevation` (shadow styles).
+- `src/constants/colors.ts`: Added semantic status colors, backgrounds, borders, and WCAG AA contrast tokens (16.1:1 text primary, 5.8:1 text secondary).
+- `src/components/layout/Screen.tsx`: Extended with header slot, refreshControl, custom backgroundColor, and statusBarStyle.
+- `src/components/ui/Button.tsx`: Extended with sizes (`sm`, `md`, `lg`), left/right icon slots, loading indicator, and accessibility attributes.
+- `src/components/ui/TextField.tsx`: Extended with prefix ("৳"), left/right icons, password reveal toggle, helper text, and error states.
+- `src/components/layout/AppHeader.tsx` (Created): Standard 56px top bar with 44px back button and right action slot.
+- `src/components/ui/Card.tsx` (Created): Surface card with variants (`default`, `tinted`, `outlined`, `flat`), padding scales, and elevation.
+- `src/components/ui/StatusBadge.tsx` (Created): Accessible semantic status pills (`paid`, `due`, `partial`, `low_stock`, `active`, `pending`, `cancelled`).
+- `src/components/ui/ListRow.tsx` (Created): High-density list row with title, subtitle, caption, amount, badge, icons, and chevron.
+- `src/components/ui/SectionHeader.tsx` (Created): Titled section divider with optional "View All" action button.
+- `src/components/ui/EmptyState.tsx` (Created): Clean empty illustration, message, and CTA.
+- `src/components/ui/ErrorState.tsx` (Created): Error indicator, diagnostic text, and retry action.
+- `src/components/ui/LoadingState.tsx` (Created): Spinner and accessible loading message.
+- `src/components/ui/FilterBar.tsx` (Created): Horizontal scrolling category/filter chips with active pill indicator.
+- `src/staticData/` (Created): Complete centralized fixture foundation:
+  - `README.md`, `scenarioTypes.ts`, `auth.ts`, `organizations.ts`, `catalog.ts`, `inventory.ts`, `contacts.ts`, `sales.ts`, `purchases.ts`, `expenses.ts`, `reports.ts`, `settings.ts`, `scenarios.ts` (presets: `happy`, `low_stock`, `empty`, `error`, `offline`), and `index.tsx` (single access boundary + `StaticDataProvider` + `useStaticData()` hook).
+- `src/components/dev/DesignSystemGallery.tsx` (Created): Development pattern and scenario preview switcher component.
+- `src/app/_layout.tsx`: Wrapped root `AppProviders` with `StaticDataProvider`.
+- `src/app/(auth)/login.tsx`: Reused `Button`, `TextField`, `Card`, and `staticUsers` demo role accounts.
+- `src/app/(private)/(tabs)/index.tsx`: Completely upgraded Dashboard to consume `useStaticData()`, rendering live store KPIs (৳42,500 sales, ৳8,400 profit, ৳18,200 customer Baki, stock alerts), quick action shortcuts, recent sales list, audited movements feed, and live scenario switcher.
+Acceptance verification:
+- Both `login.tsx` and `tabs/index.tsx` successfully reuse the shared primitives.
+- Fixture scenarios switch predictably between `happy`, `low_stock`, `empty`, and `error` without network calls.
+- `npx expo lint`: 0 errors.
+- `npx tsc --noEmit`: 0 errors.
+Next bounded task: **M01-UI03-01 — authentication UI and interactions**.
 
 ---
 

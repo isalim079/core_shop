@@ -1,5 +1,6 @@
 import type {
   ScenarioPreset,
+  StaticBrand,
   StaticCategory,
   StaticCustomer,
   StaticExpense,
@@ -11,6 +12,7 @@ import type {
   StaticSettings,
   StaticStockMovement,
   StaticSupplier,
+  StaticUnit,
   StaticUser,
 } from "./scenarioTypes";
 import { staticUsers } from "./auth";
@@ -34,6 +36,8 @@ export type ScenarioData = {
   currentUser: StaticUser;
   organization: StaticOrganization;
   categories: StaticCategory[];
+  brands: StaticBrand[];
+  units: StaticUnit[];
   products: StaticProduct[];
   stockMovements: StaticStockMovement[];
   customers: StaticCustomer[];
@@ -53,6 +57,8 @@ export const scenarioPresets: Record<ScenarioPreset, ScenarioData> = {
     currentUser: staticUsers.owner,
     organization: staticOrganization,
     categories: staticCategories,
+    brands: staticBrands,
+    units: staticUnits,
     products: staticProducts,
     stockMovements: staticStockMovements,
     customers: staticCustomers,
@@ -69,6 +75,8 @@ export const scenarioPresets: Record<ScenarioPreset, ScenarioData> = {
     currentUser: staticUsers.owner,
     organization: staticOrganization,
     categories: [staticCategories[0]], // Only "All Products"
+    brands: staticBrands,
+    units: staticUnits,
     products: [],
     stockMovements: [],
     customers: [],
@@ -92,6 +100,8 @@ export const scenarioPresets: Record<ScenarioPreset, ScenarioData> = {
     currentUser: staticUsers.stockkeeper,
     organization: staticOrganization,
     categories: staticCategories,
+    brands: staticBrands,
+    units: staticUnits,
     products: staticProducts.map((p) => ({
       ...p,
       currentStock: Math.min(p.currentStock, 2), // Force all to critically low
@@ -114,6 +124,8 @@ export const scenarioPresets: Record<ScenarioPreset, ScenarioData> = {
     currentUser: staticUsers.cashier,
     organization: staticOrganization,
     categories: [],
+    brands: [],
+    units: [],
     products: [],
     stockMovements: [],
     customers: [],
@@ -138,6 +150,8 @@ export const scenarioPresets: Record<ScenarioPreset, ScenarioData> = {
     currentUser: staticUsers.cashier,
     organization: staticOrganization,
     categories: staticCategories,
+    brands: staticBrands,
+    units: staticUnits,
     products: staticProducts,
     stockMovements: staticStockMovements,
     customers: staticCustomers,
