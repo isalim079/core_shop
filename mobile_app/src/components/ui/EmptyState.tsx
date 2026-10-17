@@ -11,6 +11,7 @@ type EmptyStateProps = {
   customIcon?: ReactNode;
   actionLabel?: string;
   onActionPress?: () => void;
+  onAction?: () => void;
   className?: string;
 };
 
@@ -21,8 +22,10 @@ export function EmptyState({
   customIcon,
   actionLabel,
   onActionPress,
+  onAction,
   className = "",
 }: EmptyStateProps) {
+  const handleAction = onActionPress || onAction;
   return (
     <View
       className={`items-center justify-center p-8 text-center ${className}`}
@@ -38,10 +41,10 @@ export function EmptyState({
       <Text className="font-poppins-regular text-[13px] text-text-secondary text-center leading-[20px] max-w-[280px] mb-6">
         {description}
       </Text>
-      {actionLabel && onActionPress ? (
+      {actionLabel && handleAction ? (
         <Button
           label={actionLabel}
-          onPress={onActionPress}
+          onPress={handleAction}
           size="sm"
           variant="primary"
           className="px-6"

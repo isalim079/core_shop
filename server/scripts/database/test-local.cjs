@@ -20,7 +20,7 @@ const runtimeUrl = new URL(`postgresql://127.0.0.1:5432/${databaseName}`);
 runtimeUrl.username = runtimeRole;
 runtimeUrl.password = password;
 const testEnv = {
-  ...process.env, NODE_ENV: 'test', DATABASE_URL: runtimeUrl.href,
+  ...process.env, LOG_LEVEL: 'silent', AUTH_SECRET: randomBytes(32).toString('base64url'), GOOGLE_CLIENT_IDS: 'core-shop-test.apps.googleusercontent.com', CORS_ORIGINS: 'http://localhost:5173', RATE_LIMIT_MAX: '10000', NODE_ENV: 'test', DATABASE_URL: runtimeUrl.href,
   MIGRATION_DATABASE_URL: migrationUrl.href, TEST_DATABASE_URL: runtimeUrl.href,
   TEST_MIGRATION_DATABASE_URL: migrationUrl.href,
 };
@@ -54,7 +54,7 @@ async function main() {
     } finally { await owner.end(); }
     run(['yarn', 'db:seed']);
     run(['yarn', 'db:seed']);
-    run(['node_modules/.bin/tsx', '--test', 'test/integration/database.test.ts']);
+    run(['node_modules/.bin/tsx', '--test', '--test-concurrency=1', 'test/integration/database.test.ts', 'test/integration/auth.test.ts', 'test/integration/organizations.test.ts']);
   } finally {
     // Names are generated internally; cleanup is confined to resources created above.
     try {

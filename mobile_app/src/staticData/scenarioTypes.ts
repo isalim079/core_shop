@@ -31,7 +31,19 @@ export type StaticOrganization = {
   currency: "BDT" | "USD";
   currencySymbol: string;
   timezone: string;
+  role: UserRole;
   branches: StaticBranch[];
+};
+
+export type StaticInvitation = {
+  id: string;
+  organizationName: string;
+  inviterName: string;
+  role: UserRole;
+  branchName: string;
+  inviteCode: string;
+  status: "PENDING" | "ACCEPTED" | "EXPIRED" | "DECLINED";
+  expiresAt: string;
 };
 
 export type StaticCategory = {

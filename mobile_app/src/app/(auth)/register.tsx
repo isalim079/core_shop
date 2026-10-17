@@ -2,88 +2,160 @@ import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { APP_NAME } from "@/constants/app";
 import { Colors } from "@/constants/colors";
 import { Screen } from "@/components/layout/Screen";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/TextField";
+import { AuthHeader } from "@/components/auth/AuthHeader";
 
 export default function RegisterScreen() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [agreeTerms, setAgreeTerms] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleGoToLogin = () => {
-    if (router.canGoBack()) {
-      router.back();
-    } else {
-      router.replace("/(auth)/login");
-    }
-  };
-
   const handleRegister = () => {
-    if (!name.trim() || !email.trim() || !password.trim()) {
-      setError("Please fill in all fields.");
+    if (!name.trim()) {
+      setError("Please enter your full name.");
       return;
     }
+    if (!email.trim() || !email.includes("@")) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+    if (!agreeTerms) {
+      setError("Please agree to the Terms of Service to continue.");
+      return;
+    }
+
     setError("");
     setLoading(true);
+
     setTimeout(() => {
       setLoading(false);
-      handleGoToLogin();
-    }, 800);
+      // Navigate to email verification with the registered email
+      router.push({
+        pathname: "/(auth)/verify-email",
+        params: { email: email.trim() },
+      });
+    }, 700);
   };
 
   return (
     <Screen keyboard edges={["top", "left", "right", "bottom"]}>
-      <View className="flex-1 px-xl pb-4xl pt-2xl">
-        <View className="mb-[32px]">
-          <TouchableOpacity
-            onPress={handleGoToLogin}
-            activeOpacity={0.7}
-            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
-            className="mb-lg h-11 w-11 items-center justify-center rounded-full border border-border-default bg-surface-card shadow-sm"
-            accessibilityLabel="Back to sign in"
-          >
-            <Ionicons name="arrow-back" size={20} color={Colors.textPrimary} />
-          </TouchableOpacity>
-          <View className="mb-xl h-[56px] w-[56px] items-center justify-center rounded-md bg-primary">
-            <Text className="font-poppins-bold text-[24px] text-text-on-primary">C</Text>
-          </View>
-          <Text className="text-h1">Create account</Text>
-          <Text className="text-body mt-[6px]">Join {APP_NAME} today</Text>
-        </View>
+      <View className="flex-1 px-6 pb-8 pt-4">
+        <AuthHeader
+          title="Create account"
+          subtitle="Join Core Shop to manage your store inventory and sales"
+          canGoBack
+          onBackPress={() => router.back()}
+        />
 
-        <TextField
-          label="Full name"
-          value={name}
-          onChangeText={setName}
-          placeholder="John Doe"
-          autoCapitalize="words"
-        />
-        <TextField
-          label="Email address"
-          value={email}
-          onChangeText={setEmail}
-          placeholder="you@example.com"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          autoComplete="email"
-        />
-        <TextField
-          label="Password"
-          value={password}
-          onChangeText={setPassword}
-          placeholder="••••••••"
-          secureTextEntry
-          error={error}
-        />
-        <Button label="Create account" onPress={handleRegister} loading={loading} />
-        <View className="mt-sm flex-row items-center justify-center">
-          <Text className="text-body">Already have an account? </Text>
-          <Button label="Sign in" variant="link" onPress={handleGoToLogin} />
+        <View className="flex-1">
+          <TextField
+            label="Full name"
+            value={name}
+            onChangeText={(text) => {
+              setName(text);
+              if (error) setError("");
+            }}
+            placeholder="Salim Reza"
+            autoCapitalize="words"
+            leftIcon={<Ionicons name="person-outline" size={18} color={Colors.textMuted} />}
+          />
+
+          <TextField
+            label="Email address"
+            value={email}
+            onChangeText={(text) => {
+              setEmail(text);
+              if (error) setError("");
+            }}
+            placeholder="salim@coreshop.dev"
+            autoCapitalize="none"
+            keyboardType="email-address"
+            autoComplete="email"
+            leftIcon={<Ionicons name="mail-outline" size={18} color={Colors.textMuted} />}
+          />
+
+          <TextField
+            label="Password"
+            value={password}
+            onChangeText={(text) => {
+              setPassword(text);
+              if (error) setError("");
+            }}
+            placeholder="At least 8 characters"
+            secureTextEntry
+            helperText="Must be at least 8 characters"
+          />
+
+          <TextField
+            label="Confirm password"
+            value={confirmPassword}
+            onChangeText={(text) => {
+              setConfirmPassword(text);
+              if (error) setError("");
+            }}
+            placeholder="Repeat your password"
+            secureTextEntry
+            error={error}
+          />
+
+          {/* Terms Agreement Checkbox */}
+          <TouchableOpacity
+            onPress={() => setAgreeTerms(!agreeTerms)}
+            activeOpacity={0.8}
+            className="flex-row items-center my-3"
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: agreeTerms }}
+            accessibilityLabel="Agree to Terms of Service and Privacy Policy"
+          >
+            <View
+              className={`w-5 h-5 rounded-md border items-center justify-center mr-2.5 ${
+                agreeTerms ? "bg-primary border-primary" : "border-[#CBD5E1] bg-white"
+              }`}
+            >
+              {agreeTerms ? (
+                <Ionicons name="checkmark" size={14} color="#FFFFFF" />
+              ) : null}
+            </View>
+            <Text className="flex-1 font-poppins-regular text-[12px] text-text-secondary leading-[18px]">
+              I agree to the{" "}
+              <Text className="font-poppins-medium text-primary">Terms of Service</Text>{" "}
+              and <Text className="font-poppins-medium text-primary">Privacy Policy</Text>
+            </Text>
+          </TouchableOpacity>
+
+          <Button
+            label="Create account"
+            onPress={handleRegister}
+            loading={loading}
+            size="lg"
+            className="mt-2"
+          />
+
+          <View className="mt-5 flex-row items-center justify-center">
+            <Text className="font-poppins-regular text-[13px] text-text-secondary">
+              Already have an account?{" "}
+            </Text>
+            <Button
+              label="Sign in"
+              variant="link"
+              onPress={() => router.replace("/(auth)/login")}
+            />
+          </View>
         </View>
       </View>
     </Screen>

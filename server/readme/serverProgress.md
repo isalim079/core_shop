@@ -11,8 +11,10 @@ Created: 2026-10-16. This document records the server phase plan and implementat
 4. A phase is accepted only after review, even when automated checks pass.
 5. Update this file whenever scope or decisions change. Never describe a planned capability as implemented.
 
-Current checkpoint: **Phase 3 implemented and verified. Owner review pending.**
-Next phase: **Phase 4 — identity, authentication and session lifecycle**, only after Phase 3 acceptance.
+Current checkpoint: **Phase 5 implemented and verified; owner review pending.**
+Next phase: **Phase 6 — catalog and trading parties**, only after Phase 5 acceptance.
+Phase 4 accepted when the owner requested the next phase. Live SMTP/Google settings and SMS selection remain pending operational configuration.
+Phase 3 accepted by the owner when requesting the next phase. Phase 4 resumed on 2026-10-17 with Google/email/phone, passwords after initial verification, SMTP email, and SMS provider selection pending.
 Phase 2 accepted by the owner when authorizing Phase 3 and selecting Cloudflare R2 on 2026-10-16.
 Phase 1 accepted by the owner when authorizing Phase 2 on 2026-10-16.
 
@@ -20,7 +22,7 @@ Phase 1 accepted by the owner when authorizing Phase 2 on 2026-10-16.
 
 - One NestJS API serves web and mobile. Start with a modular monolith, using Fastify.
 - Node.js 24 LTS, strict TypeScript, Yarn Classic to match the existing mobile workflow. The server has its own package manifest and lockfile; no repository restructuring is needed now.
-- PostgreSQL/Prisma are integrated. Cloudflare R2 is the selected private object store; cloud API calls remain in the files phase. Redis/BullMQ and distributed rate limits come with their assigned integrations.
+- PostgreSQL/Prisma are integrated. Cloudflare R2 is the selected private object store; cloud API calls remain in the files phase. Redis/BullMQ remain scheduled integrations; Phase 4 authentication uses shared PostgreSQL rate buckets.
 - Organization is the tenant boundary; branches narrow access within an organization. Never authorize from a client-supplied organization identifier alone.
 - Inventory is an immutable movement ledger plus transactionally maintained balances. Weighted-average costing is the proposed default, and historical sale costs must remain reproducible.
 - Money uses exact decimals. Timestamps are UTC, public IDs are opaque, lists are bounded, and errors expose stable codes plus a request ID.
@@ -35,9 +37,9 @@ Phase 1 accepted by the owner when authorizing Phase 2 on 2026-10-16.
 | --- | --- | --- |
 | 1 | Runnable server foundation, environment files, folder structure and tooling | Accepted |
 | 2 | Tenant/permission/domain design and PostgreSQL/Prisma foundation | Accepted |
-| 3 | Shared API infrastructure and security foundation | Verified; owner review pending |
-| 4 | Identity, authentication and session lifecycle | Not started |
-| 5 | Organizations, memberships, permissions and branches | Not started |
+| 3 | Shared API infrastructure and security foundation | Accepted |
+| 4 | Identity, authentication and session lifecycle | Accepted; live provider setup pending |
+| 5 | Organizations, memberships, permissions and branches | Verified; owner review pending |
 | 6 | Catalog and customer/supplier records | Not started |
 | 7 | Inventory ledger and weighted-average costing | Not started |
 | 8 | Purchasing and supplier payables | Not started |
@@ -252,16 +254,47 @@ Acceptance: malformed input is rejected; unknown errors reveal no internals; sec
 - `yarn test:integration` passed 13 PostgreSQL tests on a fresh disposable database after applying both migrations and seeding twice. Includes real HTTP tenant-guard checks, cross-tenant audit/role/branch boundaries, authorization revocation before replay, concurrent duplicate command serialization, rollback, evidence restrictions and R2 metadata without version IDs. Disposable resources cleaned by the runner.
 - Applied the tested additive migration to the local `core_shop` database, refreshed restricted grants and seeded permissions. Real HTTP `/health`, `/ready`, `/api-docs`, `/api-docs-json` returned 200; Bangla errors/correlation IDs/security headers/OpenAPI schemas verified. Verification server stopped. No production or R2 resources touched.
 - Updated project/server READMEs, canonical R2 provider selection, `.env.example`, local non-secret defaults and tracked guides: `docs/api-security.md`, `docs/credit-ledger-design.md`, `docs/uploads.md`.
-- Remaining boundaries: real credentials/session verification, registration/preferences and tenant business routes await Phases 4/5; finance models/posting await their domain phases; RLS read policies, distributed/account-specific limiting, storage verification and worker delivery require their assigned integration and negative tests. Phase 4 has not started.
-- Owner review pending for Phase 3 contracts, security boundaries and R2 design.
+- Remaining boundaries: real credentials/session verification, registration/preferences and tenant business routes await Phases 4/5; finance models/posting await their domain phases; RLS read policies, distributed/account-specific limiting, storage verification and worker delivery require their assigned integration and negative tests. At this historical checkpoint, Phase 4 had not started; see its implementation record below.
+- Phase 3 accepted when the owner requested the next phase.
 
 ## Phase 4 — identity and authentication
+
+Implemented 2026-10-17. Owner decisions: email and phone use passwords after initial contact verification; Google sign-in is supported; email delivery uses SMTP; SMS vendor and Google client IDs remain to be supplied.
+
+- Added registration/contact verification, password login/reset, authenticated contact/provider linking, safe profile/preferences, and session listing/revocation/logout.
+- Passwords use bounded Argon2id; short-lived codes use keyed hashes with single-use/purpose/attempt checks. Passwords are selected after contact proof. Unknown/existing verification requests share a delivery path and generic response.
+- Added opaque access/refresh sessions, fixed expiry, refresh rotation with retained history and family revocation on replay. User locks serialize reset/link/refresh, with recent-session checks inside linking transactions.
+- Defined mobile bearer/secure-storage transport and browser HttpOnly cookies with production Secure prefixes, exact Origin, CSRF, origin-protected CSRF restoration and credentialed CORS.
+- Added Google public-key ID-token verification against allowed audiences and single-use nonces. Matching email never merges accounts automatically; Gmail/Workspace can onboard directly, other addresses first verify locally and explicitly link.
+- Added additive third migration, restrictive runtime grants, irreversible revocation/consumption triggers, shared IP/contact/challenge rate buckets, append-only auth audit evidence, readiness probes and owner-only expiry cleanup SQL.
+- Added SMTP delivery with TLS/timeouts. SMS defaults to unavailable pending vendor choice; missing provider settings fail closed. No cloud accounts, real messages or default users were created.
+- Generated a private local AUTH_SECRET and added blank provider settings without replacing existing credentials. Updated root/server READMEs and tracked auth/security/database guides.
+- Validation: `yarn run check` passed (Prisma validation/generation, lint, source/tool typechecks, 21 isolated/HTTP tests and build); `yarn test:integration` passed 25 disposable PostgreSQL tests. Applied the additive migration and runtime grants to local core_shop; schema is current, `/health` and `/ready` return 200, unauthenticated `/api/v1/auth/me` returns 401, and development Swagger exposes 17 auth paths. Live SMTP/SMS/Google client smoke tests require provider configuration.
+
+Review boundary: identity APIs are implemented; Phase 5 tenant business APIs, image uploads/R2 operations, UI API wiring and deployed delivery infrastructure remain outside this phase. Registration/profile images continue to use the established private-file metadata design until Phase 13.
+
 
 Deliverables: user lifecycle, registration, Argon2id password hashing, login, verification, password reset, refresh-token rotation, session revocation and abuse controls. Decide email/phone onboarding and verification provider before integrating a provider. Define token/session transport for web and mobile separately where needed. Authentication events are audited; credentials and tokens are never logged or stored in plaintext.
 
 Acceptance: valid flows work; expired tokens, replayed refresh tokens, revoked sessions and brute-force attempts are handled; reset/verification responses avoid account enumeration; auth integration tests pass.
 
 ## Phase 5 — organizations, access and branches
+
+Implemented 2026-10-17; owner accepted Phase 4 by authorizing this phase. Provider credentials/SMS vendor remain explicit pending setup, not fabricated integration claims.
+
+- Added atomic organization + owner + MAIN branch + five permission-backed role bundles, user-scoped creation idempotency, valid currency/timezone/precision, safe organization settings and bounded personal organization lists.
+- Added current organization/branch context with required path/header agreement, explicit permission metadata and branch-filtered reads. No client-selected tenant or role name grants authority.
+- Added owner-only custom role creation/edit/archive, administrative delegation limits, safe staff listings, membership suspension/revocation/reinstatement and immediate current-state access checks.
+- Added contact-bound seven-day invitations, verified-recipient incoming/accept flows, pending uniqueness, creator-right revalidation, replay-safe acceptance and revocation. In-app invitations work without outbound providers; outbox contains scoped IDs for future delivery workers. Automatic invitation emails/SMS are not implemented in this phase.
+- Added branch create/update/archive, stable codes, concurrent last-branch retention and verified-file shop logo/cover binding. R2 upload/scan/signed-URL endpoints remain Phase 13.
+- Added recent-authenticated owner transfer with explicit former-owner roles, ALL-branch target ownership, no implicit admin promotion, and atomic audited changes retaining an active owner.
+- Added a fourth additive migration, invitation identity/terminal/reference constraints, retained-branch and financial-setting protections, scoped runtime grants and readiness probes. Runtime cannot delete invitations or modify onboarding command evidence.
+- Standardized organization-first lock order for authorization and metadata commands, using serializable retries and existing command/audit/outbox infrastructure. Read revalidation prevents stale scopes from authorizing changes.
+- Fixed an adapter UTC-session mismatch discovered by SQL expiry tests: pool sessions now force UTC and readiness checks it. Added regression coverage against real database epoch/timestamps. The local application database had zero users, sessions, organizations and files; no data rewrite or deletion was required.
+- Updated root/server README, API/security/database operations, and the [organization/access guide](../docs/organizations-and-access.md). No mobile files, external messages, cloud accounts or business example data were changed.
+
+Validation and local upgrade: `yarn run check` passed Prisma validation/generation, lint, source/tool typechecks, 21 isolated/HTTP tests and build. `yarn test:integration` passed 44 disposable PostgreSQL tests, including 19 organization/access/UTC scenarios. Applied the fourth migration and restricted runtime grants locally, repeated the 38-permission seed without creating users/business examples, and confirmed the schema is current. Local `/health` and `/ready` return 200; unauthenticated organization/incoming-offer routes return 401. Development Swagger exposes 18 organization paths and documents required tenant/idempotency headers. Review covers organization onboarding/settings, role/delegation policy, invitation semantics, branch/owner retention and client context contracts. Phase 6 is not started.
+
 
 Deliverables: organization creation, ownership, memberships/invitations, role presets backed by permissions, branch management, branch access, organization settings and active-tenant selection verified against current memberships. Prevent privilege escalation and unsafe owner removal. Validate foreign keys and identifiers within the authorized tenant.
 
@@ -400,7 +433,9 @@ Proposed defaults from the source: weighted-average costing, branch-aware stock,
 | --- | --- | --- | --- |
 | 2026-10-16 | 1 | Lint, typecheck, 8 tests and build passed after config centralization and development Swagger; earlier dev/prod HTTP smoke checks passed. Owner reports `/health` working. | Accepted; owner authorized Phase 2 |
 | 2026-10-16 | 2 | Prisma, lint, typecheck, 11 isolated tests, 9 PostgreSQL integration tests, build, local migration/seed, real HTTP health/readiness/Swagger passed | Accepted; owner authorized Phase 3 |
-| 2026-10-16 | 3 | Prisma, lint, typechecks, 20 isolated/HTTP tests, 13 PostgreSQL tests, build, local additive migration/seed and real HTTP verification passed | Awaiting owner review |
+| 2026-10-16 | 3 | Prisma, lint, typechecks, 20 isolated/HTTP tests, 13 PostgreSQL tests, build, local additive migration/seed and real HTTP verification passed | Accepted; owner requested the next phase |
+| 2026-10-17 | 4 | Prisma, lint, typechecks, 21 isolated/HTTP tests, 25 PostgreSQL tests, build, local additive migration/grants, health/readiness/Swagger passed | Accepted; owner requested Phase 5; live provider setup pending |
+| 2026-10-17 | 5 | Prisma, lint, typechecks, 21 isolated/HTTP tests, 44 PostgreSQL tests, build, local additive migration/grants/seed, readiness and Swagger passed | Owner review pending |
 
 ## Technical references
 

@@ -59,7 +59,7 @@ curl http://localhost:3000/health
 curl -i http://localhost:3000/ready
 ```
 
-Expected readiness response after both committed migrations on a migrated database with the restricted login:
+Expected readiness response after all four committed migrations on a migrated database with the restricted login:
 
 ```json
 {"status":"ready","service":"core-shop-server"}
@@ -67,7 +67,7 @@ Expected readiness response after both committed migrations on a migrated databa
 
 Database downtime, incompatible migration history, missing representative schema, or privileged runtime credentials produce a generic 503 in the shared error envelope, with code `SERVICE_UNAVAILABLE` and request ID. `/health` continues to report process liveness.
 
-The runtime login has no DDL, role-management, or platform-elevation write privileges. It can still read tenant tables because authenticated RLS context has not been implemented; no business-data routes are exposed. See [database design](database-design.md) for the isolation boundary and next-phase obligations.
+The runtime login has no DDL, role-management, or platform-elevation write privileges. It can still read tenant tables because PostgreSQL RLS is not implemented. Organization/staff/branch endpoints apply current, explicit tenant/branch authorization in their services; no automatic database row-filtering guarantee is made. See [database design](database-design.md) for the isolation boundary and next-phase obligations.
 
 ## Automated verification
 
@@ -80,8 +80,17 @@ yarn test:integration
 
 `test:integration` builds and then creates an empty `core_shop_test_*` database and a random restricted test login. It applies the migration, applies current runtime grants, runs the reference seed twice, and executes real PostgreSQL tests. The runner removes only the database and login it generated, even after a test failure. It does not read `.env.local` or reuse application data.
 
-The local runner requires the current OS account to have PostgreSQL administrator access through peer authentication on `/var/run/postgresql`, plus PostgreSQL TCP access on `127.0.0.1:5432`. It is a local development tool, not a production or remote-database command. For CI or another installation, provision a disposable local database with equivalent migration/runtime roles and run the integration test file with `TEST_DATABASE_URL` and `TEST_MIGRATION_DATABASE_URL`; tests reject non-local hosts and database names outside `core_shop_test_*`.
+The local runner requires the current OS account to have PostgreSQL administrator access through peer authentication on `/var/run/postgresql`, plus PostgreSQL TCP access on `127.0.0.1:5432`. It is a local development tool, not a production or remote-database command. For CI or another installation, provision a disposable local database with equivalent migration/runtime roles and run the integration test files with `TEST_DATABASE_URL` and `TEST_MIGRATION_DATABASE_URL`; tests reject non-local hosts and database names outside `core_shop_test_*`.
 
 ## Deployment boundary
 
 No production database is provisioned by this phase. Before deployment, use secret injection, verified TLS, private networking, a controlled migration job, separate logins, encrypted backups, and restore verification. Local credentials must never become production credentials. Runtime pool limits apply per process, so size the total against PostgreSQL connection capacity.
+
+Authentication tables use separate grants and irreversible consumption/revocation constraints. Configure providers and schedule expired auth-record cleanup as described in the [authentication guide](authentication.md).
+
+
+## UTC adapter sessions
+
+`createDatabaseClient` pins `options=-c timezone=UTC` on every runtime/seed connection, and readiness verifies that session setting. The pinned Prisma pg adapter otherwise interprets timestamp text incorrectly when a PostgreSQL server defaults to a non-UTC zone. OS/database defaults and each business timezone can remain local; timestamp instants in persistence/API remain UTC. The Phase 5 regression verifies database epoch time, ORM-created timestamps and database-side expiry comparisons. This correction does not rewrite existing timestamps automatically; the local application database had no identity/business/file records when upgraded.
+
+Phase 5 adds `organization_creations` (insert/read only) and `membership_invitations` (insert/update/read; identity/terminal state protected). Reapply runtime grants after migration. Invitations contain verified-contact selectors and scoped grants, with no bearer secrets. No seed business or staff data is created.

@@ -2,6 +2,7 @@ import { CanActivate, ExecutionContext, Injectable, SetMetadata } from '@nestjs/
 import { Reflector } from '@nestjs/core';
 import { FastifyRequest } from 'fastify';
 import { z } from 'zod';
+import { Sessions } from '../../auth/sessions.service';
 import { DomainError } from '../errors/domain-error';
 import { TenantAuthorization, TenantScope } from './tenant-authorization';
 
@@ -14,12 +15,10 @@ export const RequireBranch = () => SetMetadata(BRANCH_REQUIRED, true);
 
 export interface Principal { readonly userId: string; readonly credentialId: string }
 
-// Phase 4 supplies a verified implementation. Headers/body are never identities.
 @Injectable()
 export class IdentityVerifier {
-  async verify(_request: FastifyRequest): Promise<Principal | null> { // eslint-disable-line @typescript-eslint/no-unused-vars
-    return null;
-  }
+  constructor(private readonly sessions: Sessions) {}
+  verify(request: FastifyRequest): Promise<Principal | null> { return this.sessions.verify(request); }
 }
 
 @Injectable()
@@ -66,7 +65,7 @@ export class TenantGuard implements CanActivate {
     if (!organizationId.success || (branchId !== undefined && !z.uuid().safeParse(branchId).success) || (branchRequired && !branchId)) {
       throw new DomainError('BAD_REQUEST', 400);
     }
-    const scope = await this.authorization.resolve(principal.userId, organizationId.data, branchId as string | undefined, permissions || []);
+    const scope = await this.authorization.resolve(principal.userId, organizationId.data.toLowerCase(), typeof branchId === 'string' ? branchId.toLowerCase() : undefined, permissions || []);
     this.access.setTenant(request, scope);
     return true;
   }

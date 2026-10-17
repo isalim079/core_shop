@@ -21,6 +21,8 @@ export class DatabaseService implements OnModuleDestroy {
   async isReady(): Promise<boolean> {
     if (!this.client) return false;
     try {
+      const [timezone] = await this.client.$queryRaw<Array<{ zone: string }>>`SELECT current_setting('TimeZone') AS zone`;
+      if (timezone?.zone !== 'UTC') return false;
       const [role] = await this.client.$queryRaw<Array<{ safe: boolean }>>`
         SELECT NOT r.rolsuper AND NOT r.rolbypassrls AND NOT r.rolcreatedb AND NOT r.rolcreaterole
           AND NOT has_schema_privilege(current_user, 'public', 'CREATE')
@@ -37,11 +39,20 @@ export class DatabaseService implements OnModuleDestroy {
       if (applied.map((row) => row.migration_name).join(',') !== REQUIRED_MIGRATIONS.join(',')) return false;
       // Probe actual columns so a migration record alone cannot mask missing tables.
       await this.client.user.findFirst({ select: { id: true, status: true, preferredLanguage: true } });
-      await this.client.organization.findFirst({ select: { id: true, currency: true } });
+      await this.client.organization.findFirst({ select: { id: true, currency: true, documentLanguage: true, address: true } });
       await this.client.storedFile.findFirst({ select: { id: true, purpose: true, status: true, finalObjectKey: true } });
       await this.client.commandRecord.findFirst({ select: { id: true, payloadHash: true } });
       await this.client.auditEvent.findFirst({ select: { id: true, requestId: true } });
       await this.client.outboxEvent.findFirst({ select: { id: true, status: true } });
+      await this.client.authSession.findFirst({ select: { id: true, accessHash: true } });
+      await this.client.authChallenge.findFirst({ select: { id: true, secretHash: true } });
+      await this.client.googleIdentity.findFirst({ select: { id: true, subject: true } });
+      await this.client.authRefreshToken.findFirst({ select: { id: true, usedAt: true } });
+      await this.client.authRateBucket.findFirst({ select: { key: true, hits: true } });
+      await this.client.membershipInvitation.findFirst({ select: { id: true, roleIds: true } });
+      await this.client.organizationCreation.findFirst({ select: { organizationId: true, payloadHash: true } });
+      await this.client.role.findFirst({ select: { id: true, archivedAt: true } });
+      await this.client.branch.findFirst({ select: { id: true, address: true } });
       return true;
     } catch {
       return false;

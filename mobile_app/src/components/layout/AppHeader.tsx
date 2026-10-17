@@ -8,7 +8,9 @@ type AppHeaderProps = {
   title: string;
   subtitle?: string;
   canGoBack?: boolean;
+  showBack?: boolean;
   onBackPress?: () => void;
+  leftElement?: ReactNode;
   rightElement?: ReactNode;
   className?: string;
 };
@@ -17,10 +19,14 @@ export function AppHeader({
   title,
   subtitle,
   canGoBack = false,
+  showBack = false,
   onBackPress,
+  leftElement,
   rightElement,
   className = "",
 }: AppHeaderProps) {
+  const isBack = canGoBack || showBack;
+
   const handleBack = () => {
     if (onBackPress) {
       onBackPress();
@@ -34,7 +40,9 @@ export function AppHeader({
       className={`h-[56px] px-4 bg-white border-b border-[#E2E8F0] flex-row items-center justify-between ${className}`}
     >
       <View className="flex-row items-center flex-1 pr-2">
-        {canGoBack ? (
+        {leftElement ? (
+          <View className="mr-2">{leftElement}</View>
+        ) : isBack ? (
           <TouchableOpacity
             onPress={handleBack}
             activeOpacity={0.7}

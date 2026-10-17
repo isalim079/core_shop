@@ -2,9 +2,9 @@
 
 ## Scope
 
-This phase implements the shared request boundary and authorization/transaction interfaces. Registration/login/session management belong to Phase 4; organization APIs and role administration belong to Phase 5. No test-only routes or fake authentication are registered by the production application.
+This phase implements the shared request boundary and authorization/transaction interfaces. Phase 4 now implements registration/login/session management (see [authentication](authentication.md)); Phase 5 implements [organization/staff/branch APIs](organizations-and-access.md) with current scoped authorization. No test-only routes or fake authentication are registered by the production application.
 
-Existing public routes are `/health` and `/ready`. Swagger and its assets remain development-only at `/api-docs`. All future Nest controller routes require authentication unless explicitly marked `@Public()`.
+Public routes include `/health`, `/ready`, and explicitly marked authentication entry points. Swagger and its assets remain development-only at `/api-docs`. All Nest controller routes require authentication unless explicitly marked `@Public()`.
 
 ## API contract and validation
 
@@ -50,19 +50,19 @@ Nest/Fastify security headers apply to success, error and 404 responses. Product
 
 `TRUST_PROXY_CIDRS` defaults to empty (forwarded headers ignored). It accepts only explicit IP addresses/CIDRs. Configure the actual trusted ingress addresses and ensure that ingress replaces untrusted forwarding headers. Do not use broad public networks as proxy ranges. Cloudflare headers do not authenticate application users.
 
-CORS uses exact configured origins, an explicit method/header set, no credentialed browser requests, and exposed request/retry headers. A disallowed origin receives no allow-origin header. CORS is not authentication. Cookie sessions, CSRF protection and credentialed CORS must be reviewed together when Phase 4 selects the web session transport.
+CORS uses exact configured origins, an explicit method/header set, credentialed browser requests for web sessions, and exposed request/retry headers. A disallowed origin receives no allow-origin header. CORS is not authentication. Web session writes require exact Origin and CSRF proof; see the authentication guide for the web/mobile transport contract.
 
-The current limiter uses a bounded, per-process IP counter, including 404s. Defaults: 120 requests per 60 seconds; 429 includes `Retry-After`. IPv6 normalization is supplied by the plugin. Shared Redis-backed limits, account/destination-specific login/OTP rules and write-heavy tenant/user quotas must be added before multiple API replicas or authentication endpoints are deployed. The present limiter is not distributed and does not replace upstream DDoS controls.
+The current limiter uses a bounded, per-process IP counter, including 404s. Defaults: 120 requests per 60 seconds; 429 includes `Retry-After`. IPv6 normalization is supplied by the plugin. Phase 4 adds shared PostgreSQL IP/contact/challenge limits and durable OTP attempt counters for authentication. General request limiting remains per process; future write-heavy tenant/user quotas and edge controls have their own deployment scope.
 
 ## Authentication and tenant authorization
 
-`IdentityVerifier` is the Phase 4 integration seam and currently returns no identity. `AuthenticationGuard` denies protected routes by default; it does not accept `X-User-Id`, a claimed tenant ID, arbitrary bearer strings, or body fields as proof of identity.
+`IdentityVerifier` now delegates to current, database-backed session verification. `AuthenticationGuard` denies protected routes by default; it does not accept `X-User-Id`, a claimed tenant ID, arbitrary bearer strings, or body fields as proof of identity.
 
 A verified principal provides only the actor and credential identifiers. `@RequirePermissions(...)` resolves organization selection from `X-Organization-Id`; `@RequireBranch()` also requires `X-Branch-Id`. These headers select a context, then the server validates current user, organization and membership status, known permissions, role grants and branch access in PostgreSQL. Owners remain within their own organization. A selected-branches membership with no grants has no branch access.
 
 Request access context is stored in server-owned weak maps. Tenant scopes are immutable and issued by the authorization service. Protected writes must receive those scopes, not reconstructed objects from a DTO. `tenantWhere` intersects the tenant with feature filters; `branchWhere` adds selected/permitted branch restrictions. Use both for branch-owned data. These are repository conventions, not an automatic Prisma row filter: unscoped infrastructure queries still exist, and RLS remains deferred until the authenticated context is implemented and tested.
 
-Before exposing business routes, replace the deny-all identity verifier with real credential/session verification, require appropriate permission metadata on every tenant operation, scope every repository query, and add negative tests. Do not put business routes behind `@Public()` to work around missing authentication.
+Organization routes now carry explicit permission metadata and scoped repositories. Every later business module must require appropriate permission metadata on tenant operations, scope every repository query, and add negative tests. Do not put business routes behind `@Public()` to work around missing authentication.
 
 ## Atomic commands, audit and outbox
 
@@ -89,3 +89,6 @@ The seed now contains 38 permission definitions, including customer/supplier led
 ## Verification
 
 `yarn run check` covers schema validation/generation, lint, source/tool typechecks, isolated request/policy tests and build. `yarn test:integration` applies both migrations to a newly generated disposable PostgreSQL database, seeds twice, and tests ownership, permission revocation, concurrent commands, rollback, audit/outbox restrictions, R2 finalized metadata and real HTTP readiness. No test data is written to the application's local database.
+
+
+Phase 5 control-plane commands opt into `serializeOrganization`, acquiring the organization UPDATE lock before normal authorization revalidation. Read and normal-command revalidation use the same organization-first lock order with SHARE mode; user/membership/role/grant locks follow. This serializes access changes against in-flight authorized commands. Role archival is excluded from effective permissions. See the organizations guide for explicit delegation and owner-only boundaries.

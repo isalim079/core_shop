@@ -7,6 +7,7 @@ import { Environment } from './config/environment';
 import { loadToolEnvironment } from './config/tool-environment';
 import { configureSwagger } from './config/swagger';
 import { randomUUID } from 'node:crypto';
+import cookie from '@fastify/cookie';
 import rateLimit from '@fastify/rate-limit';
 import { createLogger } from './common/logging/logger';
 import { ApiExceptionFilter } from './common/errors/api-exception.filter';
@@ -44,6 +45,7 @@ export async function createApp(rootModule: Type<unknown> = AppModule) {
     logger.info({ event: 'request_completed', requestId: request.id, method: request.method,
       statusCode: reply.statusCode, durationMs: Math.round(reply.elapsedTime) });
   });
+  await app.register(cookie);
   await app.register(rateLimit, { global: false, max: settings.RATE_LIMIT_MAX, timeWindow: settings.RATE_LIMIT_WINDOW_MS, cache: 10_000, skipOnError: false });
   let limiter: ReturnType<FastifyInstance['rateLimit']> | undefined;
   fastify.addHook('onReady', async () => { limiter = fastify.rateLimit(); });
@@ -62,9 +64,9 @@ export async function createApp(rootModule: Type<unknown> = AppModule) {
   });
   const origins = config.get('CORS_ORIGINS', { infer: true });
   app.enableCors({
-    origin: origins.length ? origins : false, credentials: false,
+    origin: origins.length ? origins : false, credentials: true,
     methods: ['GET', 'HEAD', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Authorization', 'Content-Type', 'Accept-Language', 'Idempotency-Key', 'X-Organization-Id', 'X-Branch-Id'],
+    allowedHeaders: ['Authorization', 'Content-Type', 'Accept-Language', 'Idempotency-Key', 'X-Organization-Id', 'X-Branch-Id', 'X-CSRF-Token'],
     exposedHeaders: ['X-Request-Id', 'Retry-After'],
   });
   await configureSwagger(app, config.get('NODE_ENV', { infer: true }));

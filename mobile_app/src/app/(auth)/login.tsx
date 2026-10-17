@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useAppDispatch } from "@/store/hooks";
@@ -10,6 +10,7 @@ import { Screen } from "@/components/layout/Screen";
 import { Button } from "@/components/ui/Button";
 import { TextField } from "@/components/ui/TextField";
 import { Card } from "@/components/ui/Card";
+import { AuthHeader } from "@/components/auth/AuthHeader";
 import { staticUsers } from "@/staticData";
 
 export default function LoginScreen() {
@@ -22,8 +23,12 @@ export default function LoginScreen() {
 
   const handleLogin = (userEmail = email, userName = "Store Staff") => {
     const finalEmail = userEmail.trim();
-    if (!finalEmail || !password.trim()) {
-      setError("Please enter your email and password.");
+    if (!finalEmail) {
+      setError("Please enter your email address.");
+      return;
+    }
+    if (!password.trim()) {
+      setError("Please enter your account password.");
       return;
     }
     setError("");
@@ -41,7 +46,7 @@ export default function LoginScreen() {
     }, 600);
   };
 
-  const handleFillDemo = (role: "owner" | "cashier") => {
+  const handleFillDemo = (role: "owner" | "cashier" | "manager") => {
     const user = staticUsers[role];
     setEmail(user.email);
     setPassword("coreshop2026");
@@ -50,24 +55,20 @@ export default function LoginScreen() {
 
   return (
     <Screen keyboard edges={["top", "left", "right", "bottom"]}>
-      <View className="flex-1 justify-between px-xl pb-4xl pt-2xl">
-        <View className="mb-[32px]">
-          <View className="mb-xl h-[56px] w-[56px] items-center justify-center rounded-2xl bg-primary">
-            <Text className="font-poppins-bold text-[24px] text-white">C</Text>
-          </View>
-          <Text className="font-poppins-bold text-[26px] text-text-primary leading-[32px]">
-            {APP_NAME}
-          </Text>
-          <Text className="font-poppins-regular text-[14px] text-text-secondary mt-1">
-            Sign in to manage your retail store
-          </Text>
-        </View>
+      <View className="flex-1 justify-between px-6 pb-8 pt-4">
+        <AuthHeader
+          title={APP_NAME}
+          subtitle="Sign in to manage your retail store"
+        />
 
         <View className="flex-1">
           <TextField
             label="Email address"
             value={email}
-            onChangeText={setEmail}
+            onChangeText={(text) => {
+              setEmail(text);
+              if (error) setError("");
+            }}
             placeholder="name@coreshop.dev"
             autoCapitalize="none"
             keyboardType="email-address"
@@ -77,21 +78,39 @@ export default function LoginScreen() {
           <TextField
             label="Password"
             value={password}
-            onChangeText={setPassword}
+            onChangeText={(text) => {
+              setPassword(text);
+              if (error) setError("");
+            }}
             placeholder="••••••••"
             secureTextEntry
             autoComplete="password"
             error={error}
           />
+
+          <View className="flex-row justify-end mb-4">
+            <TouchableOpacity
+              onPress={() => router.push("/(auth)/forgot-password")}
+              activeOpacity={0.7}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+              accessibilityRole="button"
+              accessibilityLabel="Forgot password"
+            >
+              <Text className="font-poppins-medium text-[13px] text-primary">
+                Forgot password?
+              </Text>
+            </TouchableOpacity>
+          </View>
+
           <Button
             label="Sign in"
             onPress={() => handleLogin()}
             loading={loading}
             size="lg"
-            className="mt-2"
+            className="mt-1"
           />
 
-          <View className="mt-4 flex-row items-center justify-center">
+          <View className="mt-5 flex-row items-center justify-center">
             <Text className="font-poppins-regular text-[13px] text-text-secondary">
               Don&apos;t have an account?{" "}
             </Text>
@@ -102,25 +121,32 @@ export default function LoginScreen() {
             />
           </View>
 
-          {/* Static Demo Role Presets (M01-UI02 DRY Demonstration) */}
+          {/* Quick Demo Role Autofill (Static Prototype Showcase) */}
           <Card variant="flat" padding="sm" className="mt-8 border border-[#E2E8F0]">
-            <Text className="font-poppins-medium text-[11px] text-text-muted mb-2 uppercase tracking-wider">
+            <Text className="font-poppins-medium text-[11px] text-text-muted mb-2.5 uppercase tracking-wider">
               Quick Fill Demo Accounts:
             </Text>
             <View className="flex-row gap-2">
               <Button
-                label="Owner (Salim)"
+                label="Owner"
                 size="sm"
                 variant="outline"
                 className="flex-1 py-1.5"
                 onPress={() => handleFillDemo("owner")}
               />
               <Button
-                label="Cashier (Sadia)"
+                label="Cashier"
                 size="sm"
                 variant="outline"
                 className="flex-1 py-1.5"
                 onPress={() => handleFillDemo("cashier")}
+              />
+              <Button
+                label="Manager"
+                size="sm"
+                variant="outline"
+                className="flex-1 py-1.5"
+                onPress={() => handleFillDemo("manager")}
               />
             </View>
           </Card>

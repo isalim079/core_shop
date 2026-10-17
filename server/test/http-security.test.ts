@@ -65,7 +65,7 @@ test('security headers and explicit CORS apply to successes and errors', () => s
     assert.equal(response.headers['x-content-type-options'],'nosniff');
     assert.ok(response.headers['content-security-policy']);assert.equal(response.headers['referrer-policy'],'no-referrer');
     assert.equal(response.headers['access-control-allow-origin'],'http://localhost:5173');
-    assert.equal(response.headers['access-control-allow-credentials'],undefined);
+    assert.equal(response.headers['access-control-allow-credentials'],'true');
     assert.match(response.headers.vary,/Accept-Language/i);assert.match(response.headers.vary,/Origin/i);
   }
   const disallowed=await app.inject({method:'GET',url:'/health',headers:{origin:'https://untrusted.example'}});

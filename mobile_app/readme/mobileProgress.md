@@ -10,7 +10,7 @@ This versionable file mirrors the server tracker's phase/evidence approach. Docu
 
 **Owner direction, 2026-10-16:** finish static UI/UX before dynamic/server integration. Preserve all existing progress. The original checkpoint, phase table, task ledger and verification history remain below unchanged; this addition takes precedence for the current work order.
 
-Current next task: **M01-UI03-01 — authentication UI and interactions**. Existing environment-first next-step text below is historical and deferred, except for fixes necessary to run the static app. Existing M01–M12 task IDs are retained for later integration/hardening; none are automatically completed by this UI track.
+Current next task: **M01-UI07-01 — Sell tab, cart, checkout and receipt UI**. Existing environment-first next-step text below is historical and deferred, except for fixes necessary to run the static app. Existing M01–M12 task IDs are retained for later integration/hardening; none are automatically completed by this UI track.
 
 Detailed requirements: [UI/UX static implementation plan](mobileUiUxPlan.md). All new phases are nested under the first phase, M01. No UI screen implementation was performed by this planning update.
 
@@ -29,10 +29,10 @@ Detailed requirements: [UI/UX static implementation plan](mobileUiUxPlan.md). Al
 | --- | --- | --- |
 | M01-UI01 | UX direction and screen inventory | Completed |
 | M01-UI02 | Design system, reusable patterns and static-data foundation | Completed |
-| M01-UI03 | Authentication UI and interactions | Not started |
-| M01-UI04 | Business onboarding and context selection UI | Not started |
-| M01-UI05 | Tab shell and Home dashboard UI | Not started |
-| M01-UI06 | Catalog, products and reusable browsing UI | Not started |
+| M01-UI03 | Authentication UI and interactions | Completed |
+| M01-UI04 | Business onboarding and context selection UI | Completed |
+| M01-UI05 | Tab shell and Home dashboard UI | Completed |
+| M01-UI06 | Catalog, products and reusable browsing UI | Completed |
 | M01-UI07 | Sell tab, cart, checkout and receipt UI | Not started |
 | M01-UI08 | Inventory tab and stock workflows UI | Not started |
 | M01-UI09 | Activity tab and purchase workflows UI | Not started |
@@ -64,31 +64,31 @@ All entries are new planned work; existing completed evidence and original check
 
 #### M01-UI03 — Authentication UI and interactions
 
-- [ ] M01-UI03-01: Design login and registration with CS branding, clear field hierarchy, password visibility, keyboard/focus/autofill behavior and accessible errors.
-- [ ] M01-UI03-02: Build forgot/reset password, verification/resend, expired link and success screens using explicit fixture states.
-- [ ] M01-UI03-03: Implement reusable auth layout/form actions and local validation; support busy, invalid input, retry, disabled and completed states.
-- [ ] M01-UI03-04: Add restrained screen entry/exit and button feedback, reduced-motion alternatives and safe Back navigation; local demo entry must not create or imply a real credential.
+- [x] M01-UI03-01: Design login and registration with CS branding, clear field hierarchy, password visibility, keyboard/focus/autofill behavior and accessible errors.
+- [x] M01-UI03-02: Build forgot/reset password, verification/resend, expired link and success screens using explicit fixture states.
+- [x] M01-UI03-03: Implement reusable auth layout/form actions and local validation; support busy, invalid input, retry, disabled and completed states.
+- [x] M01-UI03-04: Add restrained screen entry/exit and button feedback, reduced-motion alternatives and safe Back navigation; local demo entry must not create or imply a real credential.
 
 #### M01-UI04 — Business onboarding and context selection UI
 
-- [ ] M01-UI04-01: Build organization chooser/create/join/invitation views and branch selection using typed business/member fixtures.
-- [ ] M01-UI04-02: Design no-business, no-branch, multiple-business, expired-invite and revoked-access scenarios with clear recovery destinations.
-- [ ] M01-UI04-03: Reuse chooser rows, form sections and selection hooks; keep selected demo business/branch in a scoped presentation state.
-- [ ] M01-UI04-04: Add onboarding steps/progress, draft/Back behavior and any helpful swipeable introduction with accessible next/skip controls.
+- [x] M01-UI04-01: Build organization chooser/create/join/invitation views and branch selection using typed business/member fixtures.
+- [x] M01-UI04-02: Design no-business, no-branch, multiple-business, expired-invite and revoked-access scenarios with clear recovery destinations.
+- [x] M01-UI04-03: Reuse chooser rows, form sections and selection hooks; keep selected demo business/branch in a scoped presentation state.
+- [x] M01-UI04-04: Add onboarding steps/progress, draft/Back behavior and any helpful swipeable introduction with accessible next/skip controls.
 
 #### M01-UI05 — Tab shell and Home dashboard UI
 
-- [ ] M01-UI05-01: Build Home, Sell, Inventory, Activity and More tabs; migrate Profile entry and resolve public route collisions.
-- [ ] M01-UI05-02: Design Home business/branch header, daily summaries, quick actions, recent activity, stock alerts and chart/summary cards with coherent fixtures.
-- [ ] M01-UI05-03: Build a reusable horizontal insight/action slider only where it serves a user goal; show position and explicit access without requiring a swipe.
-- [ ] M01-UI05-04: Wire every tab/dashboard action to its intended static screen; retain tab state, safe areas and accessible selected/focus states.
+- [x] M01-UI05-01: Build Home, Sell, Inventory, Activity and More tabs; migrate Profile entry and resolve public route collisions.
+- [x] M01-UI05-02: Design Home business/branch header, daily summaries, quick actions, recent activity, stock alerts and chart/summary cards with coherent fixtures.
+- [x] M01-UI05-03: Build a reusable horizontal insight/action slider only where it serves a user goal; show position and explicit access without requiring a swipe.
+- [x] M01-UI05-04: Wire every tab/dashboard action to its intended static screen; retain tab state, safe areas and accessible selected/focus states.
 
 #### M01-UI06 — Catalog, products and reusable browsing UI
 
-- [ ] M01-UI06-01: Build search, filter chips, category selection, sort/filter sheet and paginated-looking local list through a real reusable list pattern.
-- [ ] M01-UI06-02: Build product/variant details, image fallback/gallery slider, price/stock sections and create/edit/archive confirmation screens.
-- [ ] M01-UI06-03: Build category/brand/unit management from the shared row/form/sheet patterns; keep data definitions in staticData.
-- [ ] M01-UI06-04: Handle empty catalog, no results, long names, missing images, unavailable variant and limited-permission scenarios; preserve scroll/filters on return.
+- [x] M01-UI06-01: Build search, filter chips, category selection, sort/filter sheet and paginated-looking local list through a real reusable list pattern.
+- [x] M01-UI06-02: Build product/variant details, image fallback/gallery slider, price/stock sections and create/edit/archive confirmation screens.
+- [x] M01-UI06-03: Build category/brand/unit management from the shared row/form/sheet patterns; keep data definitions in staticData.
+- [x] M01-UI06-04: Handle empty catalog, no results, long names, missing images, unavailable variant and limited-permission scenarios; preserve scroll/filters on return.
 
 #### M01-UI07 — Sell tab, cart, checkout and receipt UI
 
@@ -231,6 +231,26 @@ Acceptance verification:
 - `npx expo lint`: 0 errors.
 - `npx tsc --noEmit`: 0 errors.
 Next bounded task: **M01-UI03-01 — authentication UI and interactions**.
+
+### 2026-10-17 — M01-UI03 Authentication UI & interactions
+
+State: Verified (Complete Public Auth Stack)
+Scope and authorization: Phase 3 (M01-UI03-01 through M01-UI03-04) as authorized by user instruction.
+Files created/updated:
+- `src/components/auth/AuthHeader.tsx` (Created): Reusable header section featuring brand emblem ("C"), title, subtitle, and accessible 44pt circular back button.
+- `src/app/(auth)/login.tsx` (Updated): AuthHeader integration, password visibility toggle, "Forgot password?" link, demo account quick-fill presets (`owner`, `cashier`, `manager`), and local validation.
+- `src/app/(auth)/register.tsx` (Updated): AuthHeader, name, email, password, confirm password, terms & privacy checkbox with visual check indicator, input validation, and transition to email verification.
+- `src/app/(auth)/forgot-password.tsx` (Created): Recovery email request, cooldown countdown timer (60s), instructions card, resend action, and static demo shortcut to test reset link.
+- `src/app/(auth)/reset-password.tsx` (Created): Real-time password criteria checklist (8+ chars, number, uppercase), confirm password validation, success confirmation card, and interactive toggle to test expired token scenario.
+- `src/app/(auth)/verify-email.tsx` (Created): 6-digit OTP code entry, email target preview, 45s resend timer cooldown, success screen, and static test triggers for valid code (`123456`) and expired code (`000000`).
+- `src/app/(auth)/_layout.tsx`: Registered `login`, `register`, `forgot-password`, `reset-password`, and `verify-email` with smooth slide transitions and light scheme.
+- `.expo/types/router.d.ts`: Updated route typings for all new auth routes.
+Validation:
+- TypeScript (`npx tsc --noEmit`): 0 errors.
+- Linter (`npx expo lint`): 0 errors.
+- All auth screens locally navigable with back and forward transitions.
+- Strict no-commit policy preserved.
+Next bounded task: **M01-UI04-01 — business onboarding and context selection UI**.
 
 ---
 
@@ -485,6 +505,57 @@ Decisions made, with source:
 Review items / owner acceptance if explicitly given:
 Next bounded task:
 ```
+
+### 2026-10-17 — M01-UI04 and M01-UI05 Static Verification
+
+State: UI only / Verified static foundation
+Scope and authorization: User request "next phase" continuing the static-first track under M01.
+Files changed:
+- `src/app/(onboarding)/_layout.tsx`, `organizations.tsx`, `create-business.tsx`, `join-business.tsx`, `select-branch.tsx`
+- `src/app/(private)/(tabs)/_layout.tsx` (5 operational tabs: Home, Sell, Inventory, Activity, More)
+- `src/app/(private)/(tabs)/index.tsx` (Home Dashboard with Store Header, InsightSlider, KPIs, Recent Sales, Stock Watchlist, Movements Feed)
+- `src/app/(private)/(tabs)/sell.tsx` (POS register, catalog browse, category filter, quantity controls, floating cart, checkout review modal)
+- `src/app/(private)/(tabs)/inventory.tsx` (Stock list, stock health badges, threshold filters, simulated adjustment modal)
+- `src/app/(private)/(tabs)/activity.tsx` (Multi-source unified transaction feed: sales, baki dues, purchases, expenses; receipt detail modal)
+- `src/app/(private)/(tabs)/more.tsx` (Account banner, branch switcher, Commerce & Parties directory, Store Administration, App preferences)
+- `src/app/(private)/profile.tsx` (Migrated account profile screen with user identity, store context, security rows, sign-out confirmation)
+- `src/components/ui/InsightSlider.tsx` (Reusable horizontal insight/action carousel with explicit next/prev buttons and position indicators)
+- `src/components/ui/StatusBadge.tsx` (Added warning and danger badge variants)
+- `src/components/ui/EmptyState.tsx` (Added onAction fallback support)
+- `src/components/layout/AppHeader.tsx` (Added showBack and leftElement support)
+- `.expo/types/router.d.ts` (Registered onboarding, tabs, and private profile routes)
+- `readme/mobileProgress.md` (Marked M01-UI04 and M01-UI05 complete)
+
+Commands and exact results:
+- `npx tsc --noEmit` -> Passed, 0 errors
+- `npx expo lint` -> Passed, 0 errors (2 existing warnings in `useInfiniteScroll.ts`)
+- `git status -s` -> Uncommitted in working tree; no commits made without user permission
+
+Known limitations and dependencies: Static-first UI with local fixtures in `src/staticData/`. No live backend API requests.
+Next bounded task: M01-UI06-01 — Catalog, products and reusable browsing UI.
+
+### 2026-10-17 — M01-UI06 Static Verification
+
+State: UI only / Verified static foundation
+Scope and authorization: User request "next phase" continuing the static-first track under M01.
+Files changed:
+- `src/app/(private)/products/index.tsx` (Catalog browse screen with bilingual search, category filter bar, sort/filter sheet, and item cards)
+- `src/app/(private)/products/[productId].tsx` (Product & variant detail view with pricing/margin matrix, stock health badges, spec card, and variant breakdown)
+- `src/app/(private)/products/new.tsx` (Add product form with live profit margin calculator, category/brand/unit pickers, barcode scan action, and pure state initializers)
+- `src/app/(private)/products/[productId]/edit.tsx` (Edit product form with prefilled values, field validations, and danger zone archive safeguards)
+- `src/app/(private)/settings/catalog.tsx` (Catalog taxonomy management with segmented Category, Brand, and Unit of Measure tabs and quick add modals)
+- `src/app/(private)/(tabs)/inventory.tsx` (Linked catalog button and full product details navigation)
+- `src/app/(private)/(tabs)/more.tsx` (Linked Product Catalog and Catalog Taxonomy rows in Store Administration)
+- `.expo/types/router.d.ts` (Registered new product catalog and taxonomy routes)
+- `readme/mobileProgress.md` (Marked M01-UI06 complete, next task set to M01-UI07-01)
+
+Commands and exact results:
+- `npx tsc --noEmit` -> Passed, 0 errors
+- `npx expo lint` -> Passed, 0 errors (2 existing warnings in `useInfiniteScroll.ts`)
+- `git status -s` -> Uncommitted in working tree; no commits made without user permission
+
+Known limitations and dependencies: Static-first UI with local fixtures in `src/staticData/`. No live backend API requests.
+Next bounded task: M01-UI07-01 — Sell tab, cart, checkout and receipt UI.
 
 ## Release gate
 

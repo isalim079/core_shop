@@ -49,3 +49,13 @@ test('CORS accepts exact origins and requires HTTPS in production', () => {
   }
   assert.throws(() => validateEnvironment({ NODE_ENV: 'production', CORS_ORIGINS: 'http://localhost:5173' }));
 });
+
+
+test('authentication configuration rejects weak secrets, invalid audiences and partial SMTP credentials safely', () => {
+  for (const settings of [{ AUTH_SECRET: 'DO_NOT_DISCLOSE' }, { GOOGLE_CLIENT_IDS: 'not-a-client-id' }, { SMTP_HOST: 'smtp.example.test' }, { SMTP_USER: 'secret-user' }]) {
+    assert.throws(() => validateEnvironment(settings), (error: unknown) => error instanceof Error && !error.message.includes('DO_NOT_DISCLOSE') && !error.message.includes('secret-user'));
+  }
+  const config = validateEnvironment({ AUTH_SECRET: 'x'.repeat(43), GOOGLE_CLIENT_IDS: 'web.apps.googleusercontent.com,mobile.apps.googleusercontent.com', SMTP_HOST: 'smtp.example.test', SMTP_FROM: 'service@example.test' });
+  assert.equal(config.SMTP_PORT, 587);
+  assert.equal(config.SMTP_SECURE, 'false');
+});

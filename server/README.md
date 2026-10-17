@@ -25,7 +25,7 @@ These capabilities describe the product roadmap. See the current implementation 
 
 ## Current status
 
-**Phase 3: shared API and security foundation implemented; owner review pending.**
+**Phase 5: organizations, staff access and branches implemented; owner review pending.**
 
 The server currently includes:
 
@@ -35,14 +35,18 @@ The server currently includes:
 - PostgreSQL/Prisma lifecycle, a versioned migration, and repeatable permission seeding.
 - Identity, tenant, membership, role, branch, and private-file metadata models with database constraints.
 - Development-only Swagger UI and OpenAPI documents.
-- The `/api/v1` prefix reserved for business endpoints.
+- Authentication and organization APIs under `/api/v1`.
 - Configurable browser CORS origins, shutdown hooks, and a 1 MiB request body limit.
 - Strict DTO validation, bounded pagination, safe English/Bangla errors, request IDs, and structured diagnostics.
-- Default-deny authentication/permission interfaces, database-backed tenant scopes, security headers and IP rate limiting.
+- Verified email/phone password flows, Google sign-in, protected sessions and database-backed tenant authorization.
+- Atomic business onboarding, current tenant/branch context, staff invitations, role presets/custom roles, membership lifecycle and ownership transfer.
+- Scoped branch management and verified-file shop branding, with replay-safe audited mutations.
+- Argon2id passwords, SMTP delivery, verification/recovery, contact/provider linking, refresh rotation/replay detection and CSRF-protected browser cookies.
+- Shared PostgreSQL authentication rate limits, security headers and general IP rate limiting.
 - Durable idempotent command transactions, append-only audit evidence, and an outbox for future post-commit workers.
 - Strict TypeScript, linting, automated tests, and build tooling.
 
-Authentication, registration, tenant-authorized business endpoints, Cloudflare R2 API integration, and upload APIs remain future work. File metadata supports profile photos, shop branding, and future images/attachments; it does not upload or serve file bytes. Cloudflare R2 is selected; verified objects use separate immutable keys rather than S3 version IDs. Redis integration is planned. See [database design](docs/database-design.md) and [private-file design](docs/uploads.md) for implemented boundaries and future business rules. The [API/security guide](docs/api-security.md) describes the current request and transaction contracts; the [credit ledger baseline](docs/credit-ledger-design.md) carries the latest Baki requirements.
+Authentication APIs are implemented; live SMTP settings and Google client IDs still need configuration, and the SMS adapter awaits provider selection. See the [authentication guide](docs/authentication.md) for flows and client contracts. Organization/staff/branch APIs are now available; see [organizations and access](docs/organizations-and-access.md). Commerce endpoints, Cloudflare R2 API integration, and upload APIs remain future work. File metadata supports profile photos, shop branding, and future images/attachments; it does not upload or serve file bytes. Cloudflare R2 is selected; verified objects use separate immutable keys rather than S3 version IDs. Redis integration is planned. See [database design](docs/database-design.md) and [private-file design](docs/uploads.md) for implemented boundaries and future business rules. The [API/security guide](docs/api-security.md) describes the current request and transaction contracts; the [credit ledger baseline](docs/credit-ledger-design.md) carries the latest Baki requirements.
 
 ## Technology stack
 
@@ -67,7 +71,7 @@ Authentication, registration, tenant-authorized business endpoints, Cloudflare R
 - Node.js 24, matching `.nvmrc`.
 - Yarn Classic 1.22.22.
 
-PostgreSQL is required for application readiness. Follow the [database setup guide](docs/database-operations.md) to provision separate migration/runtime logins, configure `.env.local`, apply migrations, and seed permissions before starting. Redis is not used yet.
+PostgreSQL is required for application readiness. Runtime/seed pool connections pin their session timezone to UTC; business timezone is separate. Follow the [database setup guide](docs/database-operations.md) to provision separate migration/runtime logins, configure `.env.local`, apply migrations, and seed permissions before starting. Redis is not used yet.
 
 ### Installation
 
@@ -118,7 +122,7 @@ With the server running in development mode:
 | Process health | [http://localhost:3000/health](http://localhost:3000/health) |
 | Database readiness | [http://localhost:3000/ready](http://localhost:3000/ready) |
 
-Swagger routes and their assets are disabled in production and test modes. Business routes will use `/api/v1`; `/health` remains outside that prefix.
+Swagger routes and their assets are disabled in production and test modes. Business routes use `/api/v1`; `/health` remains outside that prefix.
 
 ## Environment configuration
 
@@ -140,6 +144,10 @@ Configuration is loaded and validated through `src/config/`. Application code re
 | `TRUST_PROXY_CIDRS` | Exact trusted ingress IP addresses/CIDRs | Empty; forwarded headers ignored |
 | `RATE_LIMIT_MAX` | Requests per IP per process/window | `120` |
 | `RATE_LIMIT_WINDOW_MS` | Rate-limit window in milliseconds | `60000` |
+| `AUTH_SECRET` | Stable random secret for verification-code and rate-key HMACs | Empty; credential endpoints fail closed |
+| `GOOGLE_CLIENT_IDS` | Allowed Google OAuth client IDs, comma-separated | Empty; Google sign-in unavailable |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_SECURE` | TLS-required email delivery connection | Empty, `587`, `false` |
+| `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM` | SMTP credentials and sender address | Empty |
 | `STORAGE_PROVIDER` | Selected object store | `cloudflare-r2` |
 | `R2_ACCOUNT_ID`, `R2_BUCKET_NAME` | Private R2 account/bucket selection | Empty |
 | `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY` | Server-only R2 credentials | Empty |
@@ -158,7 +166,7 @@ Explicit process environment variables take precedence over file values. `.env.e
 
 When provided, database URLs must use `postgres://` or `postgresql://`; Redis URLs must use `redis://` or `rediss://`. Reserved characters in URL usernames and passwords must be percent-encoded. `DATABASE_URL` is required when running the application outside tests. Redis can remain empty until its integration is implemented. CLI generation/validation do not require a database connection.
 
-Leave R2 settings empty until bucket integration is configured; if any R2 setting is supplied, supply all four together. These values do not currently make cloud requests. Never enable public bucket access for private attachments. Rate limits are currently per process; distributed and account-specific limits belong to the authentication/deployment work.
+Leave R2 settings empty until bucket integration is configured; if any R2 setting is supplied, supply all four together. These values do not currently make cloud requests. Never enable public bucket access for private attachments. General rate limits are per process; authentication also enforces shared IP/contact/challenge counters in PostgreSQL.
 
 CORS entries must be exact HTTP(S) origins without paths or embedded credentials. Production browser origins must use HTTPS. CORS controls browser access and does not provide authentication or authorization.
 
@@ -189,7 +197,7 @@ To verify changes locally:
 yarn run check
 ```
 
-Tests cover environment file selection, configuration validation, CORS rules, process health, unavailable routes, and Swagger availability across runtime modes.
+Isolated tests cover configuration, validation, safe diagnostics, request security and development-only Swagger. `yarn test:integration` also verifies real PostgreSQL constraints, tenant boundaries, authentication, concurrent refresh/replay, recovery and CSRF.
 
 ## Project structure
 
@@ -200,9 +208,11 @@ server/
 │   ├── app.ts              # Application factory and HTTP setup
 │   ├── app.module.ts       # Root module
 │   ├── config/             # Environment loading, validation, and Swagger
+│   ├── organizations/      # Onboarding, staff, invitations, roles and branches
+│   ├── auth/               # Verification, passwords, Google identities and sessions
 │   ├── health/             # Process liveness and database readiness
 │   ├── files/              # Upload reservation metadata policies
-│   ├── common/             # Shared infrastructure placeholders
+│   ├── common/             # Guards, validation, diagnostics and durable commands
 │   ├── database/           # Prisma lifecycle and readiness checks
 │   └── ...                 # Reserved domain module directories
 ├── prisma/                 # Schema, committed migration, and permission seed
@@ -230,7 +240,7 @@ The design baseline for upcoming phases is:
 - **Transaction safety:** related business changes commit together; retry-prone commands use idempotency.
 - **Client consistency:** web and mobile consume shared API contracts while business invariants remain on the server.
 
-These are implementation requirements for future modules. The foundation enforces scoped relationships, owner retention, and file metadata invariants in PostgreSQL. Authenticated read authorization and full commerce workflows are not implemented yet.
+These are implementation requirements for future modules. The foundation enforces scoped relationships, owner retention, and file metadata invariants in PostgreSQL. Current credential and tenant authorization are implemented; full commerce workflows and PostgreSQL RLS remain future work.
 
 ## Roadmap
 
@@ -238,12 +248,13 @@ Development proceeds one phase at a time, with owner review between phases:
 
 1. Server foundation — implemented and verified.
 2. Tenant and domain design, PostgreSQL, and Prisma foundation — accepted.
-3. Shared API infrastructure and security foundation — implemented; owner review pending.
-4. Authentication, organizations, permissions, and branches.
-5. Catalog, customers, suppliers, inventory, purchases, and sales.
-6. Expenses, reporting, subscriptions, and entitlements.
-7. Offline synchronization, files, exports, and background workers.
-8. Platform administration, deployment, and launch verification.
+3. Shared API infrastructure and security foundation — accepted.
+4. Identity/authentication — accepted; live provider setup pending.
+5. Organizations, memberships, access and branches — implemented; owner review pending.
+6. Catalog, customers, suppliers, inventory, purchases, and sales.
+7. Expenses, reporting, subscriptions, and entitlements.
+8. Offline synchronization, files, exports, and background workers.
+9. Platform administration, deployment, and launch verification.
 
 The detailed phase plan is maintained in `readme/serverProgress.md`. The canonical product specification lives at `../readme/project_structure.md`. Include these documents when sharing the full project plan.
 
@@ -258,7 +269,7 @@ yarn start:prod
 
 The startup wrapper selects production mode before loading the application. Supply production configuration through process environment variables or `.env.production`.
 
-This entry point supports local production-mode verification. Deployment infrastructure, authentication, storage integration, monitoring, and backup workflows are scheduled for later phases; the current foundation is not ready for production business use.
+This entry point supports local production-mode verification. Deployment infrastructure, storage integration, monitoring, and backup workflows are scheduled for later phases; the current foundation is not ready for production business use.
 
 ## License
 

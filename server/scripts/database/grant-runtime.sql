@@ -14,3 +14,12 @@ GRANT UPDATE ON command_records TO core_shop_runtime;
 REVOKE UPDATE, DELETE, TRUNCATE ON audit_events, outbox_events FROM core_shop_runtime;
 REVOKE DELETE, TRUNCATE ON command_records FROM core_shop_runtime;
 -- Outbox dispatch state will be writable only by a separately scoped worker role.
+
+GRANT INSERT, UPDATE ON auth_sessions, auth_refresh_tokens, auth_challenges, auth_rate_buckets TO core_shop_runtime;
+GRANT INSERT ON google_identities TO core_shop_runtime;
+REVOKE DELETE, TRUNCATE ON auth_sessions, auth_refresh_tokens, auth_challenges, google_identities, auth_rate_buckets FROM core_shop_runtime;
+
+GRANT INSERT ON organization_creations TO core_shop_runtime;
+REVOKE UPDATE, DELETE, TRUNCATE ON organization_creations FROM core_shop_runtime;
+GRANT INSERT, UPDATE ON membership_invitations TO core_shop_runtime;
+REVOKE DELETE, TRUNCATE ON membership_invitations FROM core_shop_runtime;

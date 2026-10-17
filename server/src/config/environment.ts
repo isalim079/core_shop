@@ -21,6 +21,14 @@ const schema = z.object({
   TRUST_PROXY_CIDRS: z.string().default(''),
   RATE_LIMIT_MAX: z.coerce.number().int().min(1).max(10_000).default(120),
   RATE_LIMIT_WINDOW_MS: z.coerce.number().int().min(1000).max(3_600_000).default(60_000),
+  AUTH_SECRET: z.union([z.literal(''), z.string().min(43).max(256)]).default(''),
+  GOOGLE_CLIENT_IDS: z.string().max(4096).default(''),
+  SMTP_HOST: z.string().max(253).default(''),
+  SMTP_PORT: z.coerce.number().int().min(1).max(65535).default(587),
+  SMTP_SECURE: z.enum(['true', 'false']).default('false'),
+  SMTP_USER: z.string().max(254).default(''),
+  SMTP_PASSWORD: z.string().max(512).default(''),
+  SMTP_FROM: z.union([z.literal(''), z.email()]).default(''),
   STORAGE_PROVIDER: z.literal('cloudflare-r2').default('cloudflare-r2'),
   R2_ACCOUNT_ID: z.union([z.literal(''), z.string().regex(/^[a-f0-9]{32}$/)]).default(''),
   R2_BUCKET_NAME: z.union([z.literal(''), z.string().regex(/^[a-z0-9][a-z0-9.-]{1,61}[a-z0-9]$/)]).default(''),
@@ -43,6 +51,9 @@ export function validateEnvironment(input: Record<string, unknown>) {
     throw new Error(`Invalid environment configuration: ${fields}`);
   }
   const config = result.data;
+  if (config.SMTP_HOST && !config.SMTP_FROM) throw new Error('Invalid environment configuration: SMTP_FROM');
+  if (Boolean(config.SMTP_USER) !== Boolean(config.SMTP_PASSWORD)) throw new Error('Invalid environment configuration: SMTP credentials');
+  if (config.GOOGLE_CLIENT_IDS && !config.GOOGLE_CLIENT_IDS.split(',').every((id) => /^[a-zA-Z0-9_-]+\.apps\.googleusercontent\.com$/.test(id.trim()))) throw new Error('Invalid environment configuration: GOOGLE_CLIENT_IDS');
   const proxies = config.TRUST_PROXY_CIDRS.split(',').map((value) => value.trim()).filter(Boolean);
   for (const proxy of proxies) {
     const [address, prefix, extra] = proxy.split('/');

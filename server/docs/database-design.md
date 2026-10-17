@@ -33,7 +33,7 @@ erDiagram
 
 ### Identity and tenancy
 
-- `User` is a global identity with normalized email and/or E.164 phone, optional password hash, verification timestamps, and lifecycle status. No plaintext credential or default account is seeded. The future authentication service must validate contact syntax and ownership, hash passwords with Argon2id, and control account transitions.
+- `User` is a global identity with normalized email and/or E.164 phone, optional password hash, verification timestamps, and lifecycle status. No plaintext credential or default account is seeded. The Phase 4 authentication service validates contact syntax and ownership, hashes passwords with Argon2id, and controls account transitions; see [authentication](authentication.md).
 - `Organization` is the business tenant. Its initial currency and named timezone must be explicitly chosen. Currency scale is 0–4; quantity scale is 0–6. PostgreSQL validates timezone names. The future settings API must also validate actual supported ISO currency codes and freeze currency changes once financial records exist.
 - `Membership` uniquely joins a user to an organization. Multiple owner memberships are allowed. Every non-archived organization must retain an active owner membership at transaction commit. Owner membership changes lock the organization row to serialize concurrent changes. Ownership transfer adds the replacement before removing the prior owner, in one transaction.
 - Owner membership is a distinct business invariant, not a role name. The future permission resolver must explicitly recognize ownership and check current user/organization/membership status. Suspending a global user does not silently transfer ownership.
@@ -138,3 +138,14 @@ Owner review should cover tenant/owner semantics, numerical precision, currency/
 - [Prisma generator configuration](https://www.prisma.io/docs/orm/v7/prisma-schema/overview/generators)
 - [Prisma CLI configuration](https://docs.prisma.io/docs/orm/reference/prisma-config-reference)
 - [PostgreSQL row security and bypass behavior](https://www.postgresql.org/docs/current/ddl-rowsecurity.html)
+
+## Phase 4 authentication records
+
+`AuthSession`, `AuthRefreshToken`, `AuthChallenge`, `GoogleIdentity` and `AuthRateBucket` separate credential/session state from tenant membership. The third migration adds hash checks and irreversible consumption/revocation triggers; runtime cannot delete authentication evidence or edit Google identity mappings. Expired records are removed by an owner maintenance job, preserving refresh history throughout every active family lifetime. See [authentication](authentication.md) for transport, verification, replay and provider boundaries.
+
+
+## Phase 5 organizations and access
+
+`OrganizationCreation` binds authenticated user + idempotency UUID + payload hash to a single atomic onboarding result. `MembershipInvitation` binds an immutable verified-contact offer to one organization, creator membership, role IDs and branch grants; expiry and acceptance/terminal constraints apply below the service layer. Role/branch identifiers stay in their original tenant, and live branches cannot all be archived. Document locale/address are controlled organization settings; financial currency/precision/timezone are immutable after creation. The shared permission catalog provisions five initial bundles, while actual authorization remains permission-based. See [organizations and access](organizations-and-access.md) for delegation, membership and ownership rules.
+
+Runtime/seed adapter sessions are explicitly UTC, independently of the PostgreSQL/OS/business zone. The adapter timezone regression and correction are documented in [database operations](database-operations.md).

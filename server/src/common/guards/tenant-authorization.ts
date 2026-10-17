@@ -23,18 +23,18 @@ export class TenantAuthorization {
     const membership = await client.membership.findUnique({
       where: { organizationId_userId: { organizationId, userId: actorId } },
       include: {
-        user: { select: { status: true } }, organization: { select: { status: true } },
+        user: { select: { status: true, deletedAt: true } }, organization: { select: { status: true } },
         branches: { include: { branch: { select: { archivedAt: true } } } },
         roles: { include: { role: { include: { permissions: true } } } },
       },
     });
-    if (!membership || membership.status !== 'ACTIVE' || membership.user.status !== 'ACTIVE' || membership.organization.status !== 'ACTIVE') {
+    if (!membership || membership.status !== 'ACTIVE' || membership.user.status !== 'ACTIVE' || membership.user.deletedAt || membership.organization.status !== 'ACTIVE') {
       throw new DomainError('FORBIDDEN', 403);
     }
     // Owners still require recognized permission codes; no arbitrary capability names.
     const known = await client.permission.count({ where: { code: { in: [...required] } } });
     if (known !== new Set(required).size) throw new DomainError('FORBIDDEN', 403);
-    const granted = new Set(membership.roles.flatMap(({ role }) => role.permissions.map((p) => p.permissionCode)));
+    const granted = new Set(membership.roles.filter(({ role }) => !role.archivedAt).flatMap(({ role }) => role.permissions.map((p) => p.permissionCode)));
     if (!membership.isOwner && required.some((code) => !granted.has(code))) throw new DomainError('FORBIDDEN', 403);
     const branchIds = membership.branchAccess === 'ALL' ? null : Object.freeze(membership.branches.filter((g) => !g.branch.archivedAt).map((g) => g.branchId));
     if (branchId) {
@@ -54,9 +54,9 @@ export class TenantAuthorization {
   async revalidate(scope: TenantScope, tx: Prisma.TransactionClient) {
     this.assertIssued(scope);
     // Lock authorization rows for the duration of a sensitive command.
-    await tx.$queryRaw`SELECT id FROM memberships WHERE id = ${scope.membershipId}::uuid FOR SHARE`;
-    await tx.$queryRaw`SELECT id FROM users WHERE id = ${scope.actorId}::uuid FOR SHARE`;
     await tx.$queryRaw`SELECT id FROM organizations WHERE id = ${scope.organizationId}::uuid FOR SHARE`;
+    await tx.$queryRaw`SELECT id FROM users WHERE id = ${scope.actorId}::uuid FOR SHARE`;
+    await tx.$queryRaw`SELECT id FROM memberships WHERE id = ${scope.membershipId}::uuid FOR SHARE`;
     await tx.$queryRaw`SELECT "membershipId" FROM membership_roles WHERE "membershipId" = ${scope.membershipId}::uuid FOR SHARE`;
     await tx.$queryRaw`SELECT rp."roleId" FROM role_permissions rp JOIN membership_roles mr ON mr."roleId"=rp."roleId"
       WHERE mr."membershipId"=${scope.membershipId}::uuid FOR SHARE OF rp`;

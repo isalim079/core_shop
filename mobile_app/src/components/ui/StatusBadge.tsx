@@ -6,6 +6,8 @@ export type BadgeStatus =
   | "due"
   | "partial"
   | "low_stock"
+  | "warning"
+  | "danger"
   | "active"
   | "pending"
   | "cancelled";
@@ -58,6 +60,22 @@ const statusConfigs: Record<BadgeStatus, StatusConfig> = {
     textClass: "text-[#B45309]",
     iconName: "warning",
     iconColor: "#D97706",
+  },
+  warning: {
+    defaultLabel: "Warning",
+    bgClass: "bg-[#FFFBEB]",
+    borderClass: "border-[#FDE68A]",
+    textClass: "text-[#B45309]",
+    iconName: "warning",
+    iconColor: "#D97706",
+  },
+  danger: {
+    defaultLabel: "Danger",
+    bgClass: "bg-[#FEF2F2]",
+    borderClass: "border-[#FECACA]",
+    textClass: "text-[#B91C1C]",
+    iconName: "alert-circle",
+    iconColor: "#DC2626",
   },
   active: {
     defaultLabel: "Active",

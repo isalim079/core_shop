@@ -10,7 +10,7 @@ import { TenantAuthorization, TenantScope } from '../guards/tenant-authorization
 import { canonicalPayload, payloadHash } from './canonical-payload';
 
 export interface CommandResult { statusCode: number; body: Prisma.InputJsonObject }
-interface CommandInput { operation: string; key: string; payload: unknown; requestId: string }
+interface CommandInput { operation: string; key: string; payload: unknown; requestId: string; serializeOrganization?: boolean }
 
 function record(value: unknown): Record<string, unknown> {
   return value !== null && typeof value === 'object' ? value as Record<string, unknown> : {};
@@ -45,6 +45,7 @@ export class CommandService {
     for (let attempt = 0; attempt < 3; attempt++) {
       try {
         return await client.$transaction(async (tx) => {
+          if (input.serializeOrganization) await tx.$queryRaw`SELECT id FROM organizations WHERE id = ${scope.organizationId}::uuid FOR UPDATE`;
           const current = await this.authorization.revalidate(scope, tx);
           const commandId = randomUUID();
           const inserted = await tx.$queryRaw<Array<{ id: string }>>`

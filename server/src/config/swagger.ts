@@ -10,6 +10,7 @@ export async function configureSwagger(app: NestFastifyApplication, mode: Enviro
     .setTitle('Core Shop API')
     .setDescription('Core Shop server API documentation')
     .setVersion('0.1.0')
+    .addBearerAuth({ type: 'http', scheme: 'bearer', description: 'Mobile opaque access token.' })
     .addGlobalParameters({ name: 'Accept-Language', in: 'header', required: false, schema: { type: 'string', enum: ['en', 'bn'], default: 'en' } })
     .addGlobalResponse({ status: 400, type: ErrorResponseDto }, { status: 429, type: ErrorResponseDto }, { status: 500, type: ErrorResponseDto })
     .build();

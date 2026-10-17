@@ -6,17 +6,17 @@ Core Shop is being developed as a multi-tenant SaaS platform. One shared backend
 
 ## Project status
 
-**In active development. Server Phase 3 is implemented and verified; owner review is pending.**
+**In active development. Server Phase 5 organizations, staff access and branches is implemented; owner review is pending.**
 
 | Component | Current state |
 | --- | --- |
-| Server | NestJS/Fastify API with database foundation, validation, bilingual errors, authorization interfaces, rate limits, audit and durable command/outbox transactions |
+| Server | NestJS/Fastify API with database foundation, verified contact/password and Google authentication, rotating sessions, bilingual errors, tenant onboarding, staff/branch management, audit and durable commands |
 | Mobile | React Native / Expo application workspace; see its source and setup guide for current functionality |
 | Web | Reserved directory; implementation has not started |
-| Database | PostgreSQL/Prisma identity, tenant, permission, branch, and private-file metadata foundation |
+| Database | PostgreSQL/Prisma identities, authentication sessions/challenges, tenants, permissions, branches and private-file metadata |
 | Background services | Redis and BullMQ integration is planned |
 
-The server has no registration, authentication, tenant-authorized business endpoints, or file upload/download APIs yet. Product capabilities below describe the intended platform rather than completed functionality. Profile images and shop branding have ownership and verification metadata in the database; storage and upload workflows remain future work.
+The server supports registration/verification, password login/recovery, Google identity verification/linking, and separate web/mobile sessions. SMTP credentials and Google client IDs need configuration; SMS delivery awaits provider selection. See the [authentication guide](server/docs/authentication.md). Organization onboarding, invitations, roles, staff lifecycle and branch APIs are implemented; see the [organizations/access guide](server/docs/organizations-and-access.md). Commerce and file upload/download APIs remain future work. Product capabilities below describe the intended platform rather than completed functionality. Profile images and shop branding have ownership and verification metadata in the database; storage and upload workflows remain future work.
 
 ## Product vision
 
@@ -98,7 +98,7 @@ Expected response:
 | Process health | [http://localhost:3000/health](http://localhost:3000/health) |
 | Database readiness | [http://localhost:3000/ready](http://localhost:3000/ready) |
 
-Swagger is disabled in production and test modes. `/health` checks process liveness. `/ready` checks database connectivity, restricted runtime privileges, and schema compatibility. Future business endpoints will use `/api/v1`.
+Swagger is disabled in production and test modes. `/health` checks process liveness. `/ready` checks database connectivity, restricted runtime privileges, and schema compatibility. Authentication uses `/api/v1/auth`; organization and staff APIs use `/api/v1/organizations`.
 
 For configuration, commands, folder structure, and production-mode startup, see the [server README](server/README.md).
 
@@ -133,15 +133,17 @@ Run the backend quality checks from `server/` (database generation/validation is
 yarn run check
 ```
 
-This validates/generates Prisma, then runs lint, TypeScript checking, automated tests, and the build. Run `yarn test:integration` for migration, seed, ownership, file lifecycle, and readiness tests on a disposable local database. Current tests cover environment selection and validation, CORS, health responses, unavailable routes, and Swagger access across runtime modes.
+This validates/generates Prisma, then runs lint, TypeScript checking, automated tests, and the build. Run `yarn test:integration` for migration, seed, ownership, file lifecycle, readiness and authentication tests on a disposable local database. Current tests also cover verification/recovery, rotation/replay, linking, CSRF, onboarding, staff delegation, ownership, concurrent archival and UTC timestamps.
 
-Keep credentials in ignored environment files or deployment secret configuration. Commit safe examples only. Production deployment, authentication, storage integration, monitoring, and backups remain future work.
+Keep credentials in ignored environment files or deployment secret configuration. Commit safe examples only. Production deployment, live authentication-provider configuration, storage integration, monitoring, and backups remain future work.
 
 ## Design documentation
 
 - [Tenant and database design](server/docs/database-design.md)
 - [Private files and onboarding with R2](server/docs/uploads.md)
 - [API and security foundation](server/docs/api-security.md)
+- [Authentication, providers and client contracts](server/docs/authentication.md)
+- [Organizations, staff, branches and ownership](server/docs/organizations-and-access.md)
 - [Baki / credit ledger design](server/docs/credit-ledger-design.md)
 - [Database setup and verification](server/docs/database-operations.md)
 
@@ -151,8 +153,8 @@ Development proceeds in reviewed phases:
 
 1. **Server foundation** — implemented and verified.
 2. **Database and tenant design** — accepted. Includes PostgreSQL, Prisma, scoped relationships, private-file metadata, and readiness checks.
-3. **API and security foundation** — implemented and verified; owner review pending. Includes bilingual errors, safe logging, default-deny authorization interfaces, audit and durable command transactions.
-4. **Identity and business access** — authentication, organizations, memberships, and branches.
+3. **API and security foundation** — accepted. Includes bilingual errors, safe logging, default-deny authorization interfaces, audit and durable command transactions.
+4. **Identity and business access** — authentication accepted; organization, membership, role and branch APIs implemented in server Phase 5, awaiting owner review. Live authentication-provider setup remains pending.
 5. **Commerce workflows** — catalog, customers, suppliers, inventory, purchasing, sales, and payments.
 6. **Business insights and platform features** — expenses, reports, plans, and entitlements.
 7. **Extended services** — mobile synchronization, files, exports, workers, and platform administration.

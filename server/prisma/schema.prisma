@@ -96,6 +96,11 @@ model User {
   updatedAt       DateTime   @updatedAt @db.Timestamptz(3)
   deletedAt       DateTime?  @db.Timestamptz(3)
 
+  authSessions AuthSession[]
+  authChallenges AuthChallenge[]
+  googleIdentity GoogleIdentity?
+  organizationCreations OrganizationCreation[]
+  acceptedInvitations MembershipInvitation[] @relation("AcceptedInvitations")
   memberships Membership[]
   ownedFiles  StoredFile[]     @relation("PersonalFileOwner")
   uploads     StoredFile[]     @relation("FileUploader")
@@ -115,10 +120,14 @@ model Organization {
   timezone           String             @db.VarChar(80)
   quantityScale      Int                @default(3) @db.SmallInt
   allowNegativeStock Boolean            @default(false)
+  address            String?            @db.VarChar(500)
+  documentLanguage   String             @default("en") @db.VarChar(5)
   createdAt          DateTime           @default(now()) @db.Timestamptz(3)
   updatedAt          DateTime           @updatedAt @db.Timestamptz(3)
   archivedAt         DateTime?          @db.Timestamptz(3)
 
+  creation OrganizationCreation?
+  invitations MembershipInvitation[]
   memberships Membership[]
   branches    Branch[]
   roles       Role[]
@@ -147,6 +156,7 @@ model Membership {
   branches     BranchGrant[]
   commands     CommandRecord[]
   auditEvents  AuditEvent[]
+  sentInvitations MembershipInvitation[] @relation("InvitationSender")
 
   @@unique([organizationId, userId])
   @@unique([organizationId, id])
@@ -158,6 +168,7 @@ model Branch {
   id             String   @id @default(uuid()) @db.Uuid
   organizationId String   @db.Uuid
   code           String   @db.VarChar(32)
+  address        String?  @db.VarChar(500)
   name           String   @db.VarChar(160)
   archivedAt     DateTime? @db.Timestamptz(3)
   createdAt      DateTime  @default(now()) @db.Timestamptz(3)
@@ -185,6 +196,7 @@ model Role {
   organizationId String   @db.Uuid
   code           String   @db.VarChar(40)
   name           String   @db.VarChar(80)
+  archivedAt     DateTime? @db.Timestamptz(3)
   createdAt      DateTime @default(now()) @db.Timestamptz(3)
   updatedAt      DateTime @updatedAt @db.Timestamptz(3)
 
@@ -386,4 +398,103 @@ model OutboxEvent {
   @@index([status, availableAt, id])
   @@index([organizationId, createdAt])
   @@map("outbox_events")
+}
+
+
+model AuthSession {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  clientKind String @db.VarChar(10)
+  deviceName String @db.VarChar(80)
+  accessHash String @unique @db.Char(64)
+  accessExpiresAt DateTime @db.Timestamptz(3)
+  csrfHash String @db.Char(64)
+  expiresAt DateTime @db.Timestamptz(3)
+  revokedAt DateTime? @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  refreshTokens AuthRefreshToken[]
+  @@index([userId, createdAt])
+  @@map("auth_sessions")
+}
+
+model AuthRefreshToken {
+  id String @id @default(uuid()) @db.Uuid
+  sessionId String @db.Uuid
+  tokenHash String @unique @db.Char(64)
+  usedAt DateTime? @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  session AuthSession @relation(fields: [sessionId], references: [id], onDelete: Restrict)
+  @@index([sessionId])
+  @@map("auth_refresh_tokens")
+}
+
+model AuthChallenge {
+  id String @id @default(uuid()) @db.Uuid
+  userId String? @db.Uuid
+  channel String @db.VarChar(10)
+  purpose String @db.VarChar(12)
+  destination String @db.VarChar(254)
+  secretHash String @db.Char(64)
+  attempts Int @default(0) @db.SmallInt
+  expiresAt DateTime @db.Timestamptz(3)
+  consumedAt DateTime? @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  user User? @relation(fields: [userId], references: [id], onDelete: Restrict)
+  @@index([expiresAt])
+  @@index([userId, purpose])
+  @@map("auth_challenges")
+}
+
+model GoogleIdentity {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+  subject String @unique @db.VarChar(255)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  @@map("google_identities")
+}
+
+model AuthRateBucket {
+  key String @id @db.Char(64)
+  hits Int
+  expiresAt DateTime @db.Timestamptz(3)
+  @@index([expiresAt])
+  @@map("auth_rate_buckets")
+}
+
+
+model OrganizationCreation {
+  userId String @db.Uuid
+  key String @db.Uuid
+  payloadHash String @db.Char(64)
+  organizationId String @unique @db.Uuid
+  result Json
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  @@id([userId, key])
+  @@map("organization_creations")
+}
+
+model MembershipInvitation {
+  id String @id @default(uuid()) @db.Uuid
+  organizationId String @db.Uuid
+  invitedByUserId String @db.Uuid
+  channel String @db.VarChar(5)
+  destination String @db.VarChar(254)
+  status String @default("PENDING") @db.VarChar(8)
+  branchAccess BranchAccess
+  roleIds String[] @db.Uuid
+  branchIds String[] @db.Uuid
+  expiresAt DateTime @db.Timestamptz(3)
+  acceptedByUserId String? @db.Uuid
+  acceptedAt DateTime? @db.Timestamptz(3)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Restrict)
+  sender Membership @relation("InvitationSender", fields: [organizationId, invitedByUserId], references: [organizationId, userId], onDelete: Restrict)
+  acceptedBy User? @relation("AcceptedInvitations", fields: [acceptedByUserId], references: [id], onDelete: Restrict)
+  @@index([channel, destination, status, expiresAt])
+  @@index([organizationId, createdAt, id])
+  @@map("membership_invitations")
 }
